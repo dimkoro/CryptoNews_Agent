@@ -1,17 +1,35 @@
 import asyncio
 import sys
+from datetime import datetime, timezone
 from app.core.logger import setup_logger
 from app.core.config import load_config
+from app.core.database import Database
 from app.services.telegram_service import TelegramSpy
 from app.services.ai_service import AIService
 from app.services.image_service import ImageService
 
 logger = setup_logger()
 
+def calculate_hype_score(post):
+    try:
+        views = post['views'] or 0
+        comments = post['comments'] or 0
+        subs = post['subscribers'] or 100000
+        post_date = datetime.fromisoformat(str(post['date_posted'])).replace(tzinfo=timezone.utc)
+        age_hours = (datetime.now(timezone.utc) - post_date).total_seconds() / 3600
+        if age_hours < 0: age_hours = 0
+        raw_score = (views + (comments * 10)) / subs
+        final_score = raw_score / (age_hours + 2)
+        return final_score * 10000
+    except Exception:
+        return 0
+
 async def main():
     try:
-        logger.info('--- ЗАПУСК УМНОГО ЦИКЛА v2 ---')
+        logger.info('--- ЗАПУСК УМНОГО АНАЛИЗАТОРА (v2: Safe Mode) ---')
         config = load_config()
+        db = Database()
+        await db.init_db()
         
         spy = TelegramSpy(config)
         ai = AIService(config['gemini_key'], config['proxy'])
@@ -19,55 +37,67 @@ async def main():
         
         await spy.start_spy()
         
-        # Берем первый канал
+        # 1. СБОР
+        logger.info('🚜 Сбор данных...')
         with open('channels.txt', 'r') as f:
-            target_channel = f.readline().strip()
-        
-        logger.info(f'📡 Сканируем: {target_channel}')
-        entity = await spy.client.get_entity(target_channel)
-        messages = await spy.client.get_messages(entity, limit=3)
-        
-        news_text = None
-        for msg in messages:
-            if msg.text and len(msg.text) > 150:
-                news_text = msg.text
-                break
-        
-        if not news_text:
-            logger.error('Нет подходящих новостей.')
-            return
-
-        # ОБРАБОТКА AI
-        logger.info('🧠 Gemini думает над текстом и картинкой...')
-        ai_response = await ai.rewrite_news(news_text)
-        
-        if not ai_response:
-            return
-
-        # РАЗДЕЛЯЕМ ОТВЕТ (Текст отдельно, Запрос отдельно)
-        if '|||' in ai_response:
-            final_text, image_query = ai_response.split('|||')
-            final_text = final_text.strip()
-            image_query = image_query.strip()
-            logger.info(f'🔎 AI придумал запрос для фото: "{image_query}"')
-        else:
-            # Если AI забыл разделитель (бывает), берем просто текст
-            final_text = ai_response
-            image_query = 'crypto news'
+            channels = [l.strip() for l in f if l.strip()]
+        for ch in channels:
+            await spy.harvest_channel(ch, db, hours=4)
+            await asyncio.sleep(2)
             
-        # ПОИСК КАРТИНКИ
-        image_url = await img.get_image(image_query)
+        # 2. УМНЫЙ ОТБОР
+        candidates = await db.get_raw_candidates()
+        if not candidates:
+            logger.info('Нет новостей.')
+            return
+            
+        ranked_news = sorted(candidates, key=calculate_hype_score, reverse=True)
+        top_3 = ranked_news[:3]
         
-        # ОТПРАВКА
+        logger.info(f'🏆 Проанализировано {len(candidates)} новостей. Отобрано Топ-3.')
+        
+        # 3. ПУБЛИКАЦИЯ
         mod_channel = int(config['mod_channel'])
-        caption = final_text + '\n\n🤖 #CryptoAgent #Moderation'
-        
-        if image_url:
-            await spy.client.send_message(mod_channel, caption, file=image_url)
-        else:
-            await spy.client.send_message(mod_channel, caption)
+        for news in top_3:
+            score = calculate_hype_score(news)
+            logger.info(f'Processing: {news["channel"]} (Score: {score:.2f})')
             
-        logger.info('✅ Готово! Проверяй канал модерации.')
+            ai_response = await ai.rewrite_news(news['text'])
+            if not ai_response: continue
+            
+            if '|||' in ai_response:
+                text, query = ai_response.split('|||')
+            else:
+                text, query = ai_response, 'crypto chart'
+                
+            img_url = await img.get_image(query.strip())
+            
+            stats = f'📊 HypeScore: {score:.1f} | 👀 {news["views"]} | 💬 {news["comments"]}'
+            caption = f'{text.strip()}\n\n{stats}\n🤖 #SmartCryptoAgent'
+            
+            try:
+                # ЛОГИКА "SPLIT & SAFE"
+                # Если текст слишком длинный (>1000) или нет картинки
+                if len(caption) > 1000:
+                    logger.warning('⚠️ Текст слишком длинный для подписи! Отправляем раздельно.')
+                    if img_url:
+                        await spy.client.send_message(mod_channel, file=img_url) # Только фото
+                    await spy.client.send_message(mod_channel, caption) # Текст отдельно (до 4096 символов)
+                else:
+                    # Стандартный режим (фото + подпись)
+                    if img_url:
+                        await spy.client.send_message(mod_channel, caption, file=img_url)
+                    else:
+                        await spy.client.send_message(mod_channel, caption)
+                
+                await db.mark_as_published(news['id'])
+                logger.info(f'✅ Опубликовано!')
+                await asyncio.sleep(5)
+                
+            except Exception as e:
+                logger.error(f'Ошибка отправки: {e}')
+        
+        logger.info('🏁 Готово.')
 
     except Exception as e:
         logger.critical(f'Сбой: {e}')

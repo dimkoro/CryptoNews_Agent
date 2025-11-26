@@ -1,28 +1,56 @@
-from telethon import TelegramClient, functions
+from telethon import TelegramClient
+from datetime import datetime, timedelta, timezone
 import logging
-import os
+import asyncio
 
 logger = logging.getLogger('CryptoBot')
 
 class TelegramSpy:
     def __init__(self, config):
-        # Сессия сохранится в файл anon_session.session
         self.client = TelegramClient('anon_session', config['api_id'], config['api_hash'])
         self.phone = config['phone']
-        self.config = config
 
     async def start_spy(self):
-        logger.info('Попытка подключения к Telegram...')
         await self.client.start(phone=self.phone)
-        me = await self.client.get_me()
-        logger.info(f'Успешный вход как: {me.first_name} (@{me.username})')
-        return True
+        logger.info('🕵️ Шпион в сети.')
 
-    async def get_channel_info(self, channel_username):
+    async def harvest_channel(self, channel_username, db, hours=4):
         try:
             entity = await self.client.get_entity(channel_username)
-            logger.info(f'Канал найден: {entity.title} (ID: {entity.id})')
-            return entity
+            
+            # БЕЗОПАСНОЕ ПОЛУЧЕНИЕ ПОДПИСЧИКОВ
+            # Если атрибута нет, берем дефолтное значение
+            subs_count = getattr(entity, 'participants_count', 100000)
+            if not subs_count:
+                subs_count = 100000
+                
+            cutoff_date = datetime.now(timezone.utc) - timedelta(hours=hours)
+            count = 0
+            
+            async for msg in self.client.iter_messages(entity, limit=20):
+                if msg.date < cutoff_date: break
+                
+                if msg.text and len(msg.text) > 50:
+                    views = msg.views if msg.views else 0
+                    comments = 0
+                    if msg.replies and msg.replies.replies:
+                        comments = msg.replies.replies
+                        
+                    saved = await db.add_post(
+                        channel=channel_username,
+                        msg_id=msg.id,
+                        text=msg.text,
+                        views=views,
+                        comments=comments,
+                        subscribers=subs_count,
+                        date_posted=msg.date
+                    )
+                    if saved: count += 1
+            
+            if count > 0:
+                logger.info(f'✅ {channel_username}: +{count} (Subs: {subs_count})')
+            else:
+                logger.info(f'💤 {channel_username}: Пусто.')
+                
         except Exception as e:
-            logger.error(f'Ошибка при поиске {channel_username}: {e}')
-            return None
+            logger.error(f'Skip {channel_username}: {e}')
