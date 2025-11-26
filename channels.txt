@@ -1,0 +1,5 @@
+coindesk
+cointelegraph
+bloombergcrypto
+watcher_guru
+bitcoinmagazine

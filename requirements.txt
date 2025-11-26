@@ -1,0 +1,6 @@
+telethon==1.34.0
+aiogram==3.4.1
+google-generativeai
+aiohttp
+python-dotenv
+aiofiles
