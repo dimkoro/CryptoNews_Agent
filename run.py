@@ -11,68 +11,66 @@ from app.services.bot_service import BotManager
 
 logger = setup_logger()
 
+# ГЛОБАЛЬНЫЕ СЧЕТЧИКИ
+CYCLE_START_TIME = datetime.now(timezone.utc)
+CYCLE_PUBLISHED_COUNT = 0
+CYCLE_ATTEMPTS_COUNT = 0
+
+# СИНХРОНИЗАЦИЯ
+startup_event = asyncio.Event()
+
 def calculate_hype_score(post):
     try:
-        # ФОРМУЛА ПОПУЛЯРНОСТИ
         views = post['views'] or 0
         comments = post['comments'] or 0
         subs = post['subscribers'] or 100000
-        
-        post_date = datetime.fromisoformat(str(post['date_posted'])).replace(tzinfo=timezone.utc)
+        dt_str = str(post['date_posted']).split('+')[0]
+        post_date = datetime.fromisoformat(dt_str).replace(tzinfo=timezone.utc)
         age_hours = (datetime.now(timezone.utc) - post_date).total_seconds() / 3600
         if age_hours < 0: age_hours = 0
-        
-        # (Просмотры + Комменты*10) / Подписчики
         raw_score = (views + (comments * 10)) / subs
-        # Штраф за старость
         final_score = raw_score / (age_hours + 2)
         return final_score * 10000
     except Exception:
         return 0
 
-async def processing_cycle(spy, db, ai, channels):
+async def scheduler(spy, db, ai, channels):
+    global CYCLE_START_TIME, CYCLE_PUBLISHED_COUNT, CYCLE_ATTEMPTS_COUNT
     while True:
-        logger.info('🔄 ЦИКЛ (4 часа): Старт сбора...')
+        logger.info('🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...')
+        CYCLE_START_TIME = datetime.now(timezone.utc)
+        CYCLE_PUBLISHED_COUNT = 0
+        CYCLE_ATTEMPTS_COUNT = 0
+        
         for ch in channels:
             await spy.harvest_channel(ch, db, hours=4)
             await asyncio.sleep(2)
             
-        # ЛОГИКА ОТБОРА ЛУЧШЕГО
         candidates = await db.get_raw_candidates()
         if candidates:
-            # 1. Сортируем: Самые хайповые ВВЕРХУ
             ranked = sorted(candidates, key=calculate_hype_score, reverse=True)
-            logger.info(f'📊 Кандидатов: {len(ranked)}. Начинаем отбор (Король Горы)...')
-            
-            selected_count = 0
+            logger.info(f'📊 Анализ {len(ranked)} новостей. Чистка дублей...')
             history = await db.get_recent_history(limit=25)
-            
             for news in ranked:
-                if selected_count >= 3:
-                    break
-                
-                # Так как мы идем от ТОП-1 вниз, если это дубль - значит более крутая версия
-                # УЖЕ была обработана (в прошлом цикле или только что добавлена в history)
                 is_dupe = await ai.check_duplicate(news['text'], history)
-                
                 if is_dupe:
-                    # Если это дубль, то он слабее того, что уже в истории. В мусорку.
-                    logger.info(f'❌ Отсев (Score {calculate_hype_score(news):.2f}): Дубль.')
                     await db.set_status(news["id"], 'rejected')
                 else:
-                    logger.info(f'✅ Принято (Score {calculate_hype_score(news):.2f}): Уникально.')
+                    # ВОТ ЭТОЙ СТРОКИ НЕ ХВАТАЛО:
                     await db.set_status(news["id"], 'queued')
-                    history.append(news['text']) # Добавляем в историю, чтобы отсечь слабые копии ниже
-                    selected_count += 1
+                    history.append(news['text'])
+                    logger.info(f'✅ ID {news["id"]} добавлен в очередь.')
         else:
-            logger.info('💤 Нет новостей.')
-            
-        logger.info('💤 Ждем 4 часа...')
+            logger.info('💤 Свежих новостей нет.')
+
+        logger.info('✅ Сбор завершен.')
+        if not startup_event.is_set(): startup_event.set()
         await asyncio.sleep(4 * 3600)
 
 async def main_loop():
+    global CYCLE_PUBLISHED_COUNT, CYCLE_ATTEMPTS_COUNT
     try:
-        logger.info('--- CRYPTONEWS AGENT 5.1 (SMART FILTER) ---')
+        logger.info('--- CRYPTONEWS AGENT v7.2 (CRITICAL FIX) ---')
         config = load_config()
         db = Database()
         await db.init_db()
@@ -88,20 +86,36 @@ async def main_loop():
         
         with open('channels.txt', 'r') as f:
             channels = [l.strip() for l in f if l.strip()]
-        asyncio.create_task(processing_cycle(spy, db, ai, channels))
+        asyncio.create_task(scheduler(spy, db, ai, channels))
         
-        logger.info('🚀 ГОТОВО. Очередь активна.')
+        logger.info('⏳ Жду завершения первого сбора...')
+        await startup_event.wait()
+        logger.info('🚀 МЕНЕДЖЕР АКТИВЕН.')
         
+        log_timer = 0
         while True:
-            # Проверка очереди на отправку
             if await db.is_busy():
+                if log_timer % 12 == 0: logger.info('⏳ Жду решения админа...')
+                log_timer += 1
                 await asyncio.sleep(5)
                 continue
+            
+            if CYCLE_PUBLISHED_COUNT >= 3:
+                if log_timer % 360 == 0: logger.info(f'🎉 План выполнен ({CYCLE_PUBLISHED_COUNT}/3). Жду новый цикл...')
+                log_timer += 1
+                await asyncio.sleep(10)
+                continue
+                
+            if CYCLE_ATTEMPTS_COUNT >= 5:
+                if log_timer % 360 == 0: logger.info(f'🛑 Лимит попыток ({CYCLE_ATTEMPTS_COUNT}/5). Жду новый цикл...')
+                log_timer += 1
+                await asyncio.sleep(10)
+                continue
 
-            queued_news = await db.get_queued_news()
-            if queued_news:
-                target = queued_news[0]
-                logger.info(f'📨 Обработка очереди: ID {target["id"]}')
+            candidates = await db.get_queued_news()
+            if candidates:
+                target = candidates[0]
+                logger.info(f'📢 В работе ID {target["id"]} (Pub: {CYCLE_PUBLISHED_COUNT}/3)')
                 
                 ai_response = await ai.rewrite_news(target['text'])
                 if not ai_response: 
@@ -112,16 +126,38 @@ async def main_loop():
                     text, query = ai_response.split('|||')
                 else:
                     text, query = ai_response, 'crypto'
-                    
-                img_url = await img.get_image(query.strip())
+                
+                query = query.strip()
+                logger.info(f'🔍 Фото (AI): "{query}"')
+                img_url = await img.get_image(query)
+                if not img_url:
+                    fallback = f"crypto {target['channel']} market"
+                    logger.warning(f'⚠️ Fallback фото: "{fallback}"')
+                    img_url = await img.get_image(fallback)
+                
                 stats = f'📊 Views: {target["views"]}'
                 caption = f'{text.strip()}\n\n{stats}\n🤖 #Draft'
                 
                 await bot_mgr.send_moderation(caption, img_url, target['id'])
-                logger.info('📨 Жду кнопку...')
-            
-            await asyncio.sleep(10)
-            
+                CYCLE_ATTEMPTS_COUNT += 1
+                logger.info(f'📨 Отправлено (Попытка {CYCLE_ATTEMPTS_COUNT}).')
+                
+                while True:
+                    post_status = (await db.get_post(target['id']))['status']
+                    if post_status == 'published':
+                        CYCLE_PUBLISHED_COUNT += 1
+                        logger.info(f'✅ ОПУБЛИКОВАНО. (Всего: {CYCLE_PUBLISHED_COUNT}/3)')
+                        break
+                    elif post_status == 'rejected':
+                        logger.info('❌ ОТКЛОНЕНО. Ищу замену...')
+                        break
+                    await asyncio.sleep(2)
+            else:
+                if log_timer % 360 == 0: 
+                    logger.info('💤 Очередь пуста. Жду планировщик...')
+                log_timer += 1
+                await asyncio.sleep(10)
+
     except Exception as e:
         logger.critical(f'Fatal Error: {e}')
 
