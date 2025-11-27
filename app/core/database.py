@@ -10,6 +10,7 @@ class Database:
 
     async def init_db(self):
         async with aiosqlite.connect(self.db_path) as db:
+            # Таблица v4 (счетчики + статусы)
             await db.execute('''
                 CREATE TABLE IF NOT EXISTS news_posts (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,13 +21,16 @@ class Database:
                     comments INTEGER,
                     subscribers INTEGER,
                     date_posted TIMESTAMP,
-                    status TEXT DEFAULT 'raw' 
+                    status TEXT DEFAULT 'raw',
+                    txt_attempts INTEGER DEFAULT 0,
+                    img_attempts INTEGER DEFAULT 0,
+                    last_query TEXT
                 )
             ''')
-            # Сброс зависших статусов при перезапуске (если бот упал, возвращаем в очередь)
-            await db.execute("UPDATE news_posts SET status='raw' WHERE status='moderation'")
+            # Сброс зависших статусов при рестарте
+            await db.execute("UPDATE news_posts SET status='queued' WHERE status='moderation'")
             await db.commit()
-            logger.info('📂 База данных: Очередь сброшена (moderation -> raw).')
+            logger.info('📂 База данных: Полная версия (All Methods).')
 
     async def add_post(self, channel, msg_id, text, views, comments, subscribers, date_posted):
         try:
@@ -47,15 +51,46 @@ class Database:
             cursor = await db.execute("SELECT * FROM news_posts WHERE status='raw'")
             return await cursor.fetchall()
 
+    async def get_queued_news(self):
+        # МЕТОД, КОТОРОГО НЕ ХВАТАЛО
+        async with aiosqlite.connect(self.db_path) as db:
+            db.row_factory = aiosqlite.Row
+            cursor = await db.execute("SELECT * FROM news_posts WHERE status='queued' ORDER BY views DESC")
+            return await cursor.fetchall()
+            
+    async def get_recent_history(self, limit=20):
+        # ДЛЯ AI ПРОВЕРКИ ДУБЛЕЙ
+        async with aiosqlite.connect(self.db_path) as db:
+            db.row_factory = aiosqlite.Row
+            cursor = await db.execute("SELECT text FROM news_posts WHERE status IN ('published', 'rejected') ORDER BY id DESC LIMIT ?", (limit,))
+            return [row['text'] for row in await cursor.fetchall()]
+
     async def set_status(self, post_id, status):
-        # Установка статуса: 'moderation', 'published', 'rejected'
         async with aiosqlite.connect(self.db_path) as db:
             await db.execute("UPDATE news_posts SET status=? WHERE id=?", (status, post_id))
             await db.commit()
             
     async def is_busy(self):
-        # Проверяем, есть ли что-то, что сейчас висит на модерации
         async with aiosqlite.connect(self.db_path) as db:
             cursor = await db.execute("SELECT count(*) FROM news_posts WHERE status='moderation'")
-            count = (await cursor.fetchone())[0]
-            return count > 0
+            return (await cursor.fetchone())[0] > 0
+            
+    async def get_post(self, post_id):
+        # ДЛЯ КНОПОК
+        async with aiosqlite.connect(self.db_path) as db:
+            db.row_factory = aiosqlite.Row
+            cursor = await db.execute("SELECT * FROM news_posts WHERE id=?", (post_id,))
+            return await cursor.fetchone()
+            
+    async def increment_attempt(self, post_id, type_attempt, new_query=None):
+        # ДЛЯ СЧЕТЧИКОВ
+        async with aiosqlite.connect(self.db_path) as db:
+            if type_attempt == 'txt':
+                await db.execute("UPDATE news_posts SET txt_attempts = txt_attempts + 1 WHERE id=?", (post_id,))
+            elif type_attempt == 'img':
+                sql = "UPDATE news_posts SET img_attempts = img_attempts + 1"
+                if new_query: sql += ", last_query=?"
+                sql += " WHERE id=?"
+                params = (new_query, post_id) if new_query else (post_id,)
+                await db.execute(sql, params)
+            await db.commit()
