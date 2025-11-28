@@ -781,3 +781,590 @@
 2025-11-27 13:59:16,532 - INFO - 🔘 ACTION: [DEL] ID 1
 2025-11-27 13:59:17,878 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
 2025-11-27 13:59:17,885 - INFO - 🛑 Лимит попыток (5/5). Жду новый цикл...
+2025-11-27 14:32:45,710 - INFO - --- CRYPTONEWS AGENT v8.0 (HYBRID ART) ---
+2025-11-27 14:32:45,710 - CRITICAL - Нет переменных: GEMINI_KEY
+2025-11-27 14:32:45,710 - CRITICAL - Fatal Error: Ошибка конфигурации .env
+2025-11-27 14:42:30,704 - INFO - --- CRYPTONEWS AGENT v8.0 (HYBRID ART) ---
+2025-11-27 14:42:30,721 - CRITICAL - Нет переменных: GEMINI_KEY
+2025-11-27 14:42:30,721 - CRITICAL - Fatal Error: Ошибка конфигурации .env
+2025-11-27 14:45:15,748 - INFO - --- CRYPTONEWS AGENT v8.0 (HYBRID ART) ---
+2025-11-27 14:45:15,760 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 14:45:15,770 - CRITICAL - Fatal Error: 'phone'
+2025-11-27 14:46:51,341 - INFO - --- CRYPTONEWS AGENT v8.0 (HYBRID ART) ---
+2025-11-27 14:46:51,350 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 14:46:53,115 - INFO - 🕵️ Шпион в сети.
+2025-11-27 14:46:53,117 - CRITICAL - Fatal Error: 'gemini_key'
+2025-11-27 14:48:45,703 - INFO - --- CRYPTONEWS AGENT v8.0 (HYBRID ART) ---
+2025-11-27 14:48:45,719 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 14:48:48,288 - INFO - 🕵️ Шпион в сети.
+2025-11-27 14:48:48,288 - INFO - 🎨 ImageService запущен. Режим: AI
+2025-11-27 14:48:50,189 - INFO - 🤖 Бот-Редактор запущен (v7.3 UX Delay).
+2025-11-27 14:48:50,202 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-27 14:48:50,202 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-27 14:48:51,065 - INFO - ✅ coindesk: +4 (Subs: 100000)
+2025-11-27 14:48:53,810 - INFO - ✅ cointelegraph: +2 (Subs: 100000)
+2025-11-27 14:48:56,427 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-27 14:48:58,522 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-27 14:49:00,725 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-27 14:49:02,728 - INFO - 📊 Анализ 6 новостей. Чистка дублей...
+2025-11-27 14:49:24,911 - INFO - ✅ Сбор завершен.
+2025-11-27 14:49:24,911 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-27 14:49:24,936 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-27 14:49:31,248 - INFO - 🔍 Фото запрос: "A cartoon whale wearing a top hat and holding a large dollar sign, floating above a Bitcoin logo."
+2025-11-27 14:49:31,248 - INFO - 🎨 AI рисует: "A cartoon whale wearing a top hat and holding a large dollar sign, floating above a Bitcoin logo., ink drawing, black and white, cross-hatching, graphic novel style, no text, highly detailed, 8k"
+2025-11-27 14:50:01,551 - ERROR - Err mod send: Failure while fetching the webpage with cURL (caused by SendMediaRequest)
+2025-11-27 14:50:01,551 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-27 14:53:46,952 - INFO - --- CRYPTONEWS AGENT v8.1 (FILE UPLOAD FIX) ---
+2025-11-27 14:53:46,970 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 14:53:48,911 - INFO - 🕵️ Шпион в сети.
+2025-11-27 14:53:48,911 - INFO - 🎨 ImageService: AI
+2025-11-27 14:53:50,615 - INFO - 🤖 Бот-Редактор запущен (v8.1 File Upload).
+2025-11-27 14:53:50,615 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-27 14:53:50,628 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-27 14:53:51,391 - INFO - ✅ coindesk: +4 (Subs: 100000)
+2025-11-27 14:53:54,246 - INFO - ✅ cointelegraph: +2 (Subs: 100000)
+2025-11-27 14:53:56,555 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-27 14:53:58,958 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-27 14:54:01,338 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-27 14:54:03,344 - INFO - 📊 Анализ 6 новостей. Чистка дублей...
+2025-11-27 14:54:23,258 - INFO - ✅ Сбор завершен.
+2025-11-27 14:54:23,258 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-27 14:54:23,281 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-27 14:54:40,303 - INFO - 🎨 Генерация арта: "A large whale swimming in digital ocean with cryptocurrency symbols and a chart showing a profit spike."
+2025-11-27 14:54:40,303 - INFO - 📥 Скачиваю арт...
+2025-11-27 14:55:10,623 - ERROR - Download Error: 
+2025-11-27 14:55:10,624 - INFO - 📥 Скачиваю арт...
+2025-11-27 14:55:40,610 - ERROR - Download Error: 
+2025-11-27 14:55:40,817 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-27 14:56:18,257 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-27 14:56:18,504 - INFO - 📥 Скачиваю арт...
+2025-11-27 14:56:48,614 - ERROR - Download Error: 
+2025-11-27 14:59:24,193 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-27 14:59:24,667 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:01:13,850 - INFO - 🔘 ACTION: [TXT] ID 6
+2025-11-27 15:01:37,351 - INFO - 🔘 ACTION: [PUB] ID 6
+2025-11-27 15:01:38,790 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 1/3)
+2025-11-27 15:01:38,797 - INFO - 📢 В работе ID 5 (Pub: 1/3)
+2025-11-27 15:01:50,616 - INFO - 🎨 Генерация арта: "Digital illustration showing Upbit's logo with a down arrow, money bags, and a magnifying glass, representing financial losses and an ongoing regulatory inspection."
+2025-11-27 15:01:50,616 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:02:20,632 - ERROR - Download Error: 
+2025-11-27 15:02:20,632 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:02:51,627 - ERROR - Download Error: 
+2025-11-27 15:02:51,847 - INFO - 📨 Отправлено (Попытка 2).
+2025-11-27 15:07:48,469 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-27 15:07:48,575 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:10:28,580 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-27 15:10:28,700 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:11:41,333 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-27 15:11:41,496 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:13:46,854 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-27 15:13:50,799 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 2/3)
+2025-11-27 15:13:50,808 - INFO - 📢 В работе ID 4 (Pub: 2/3)
+2025-11-27 15:14:00,969 - INFO - 🎨 Генерация арта: "image of a green upward arrow next to a Bitcoin logo, with XRP logo and charts in the background"
+2025-11-27 15:14:00,970 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:14:31,639 - ERROR - Download Error: 
+2025-11-27 15:14:31,640 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:15:02,627 - ERROR - Download Error: 
+2025-11-27 15:15:02,909 - INFO - 📨 Отправлено (Попытка 3).
+2025-11-27 15:15:22,455 - INFO - 🔘 ACTION: [DEL] ID 4
+2025-11-27 15:15:23,078 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-27 15:15:23,090 - INFO - 📢 В работе ID 3 (Pub: 2/3)
+2025-11-27 15:15:31,601 - INFO - 🎨 Генерация арта: "Illustration of digital tokens flowing into a map outline of the Philippines, surrounded by currency symbols and blockchain lines, signifying a large financial opportunity."
+2025-11-27 15:15:31,607 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:16:01,620 - ERROR - Download Error: 
+2025-11-27 15:16:01,620 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:16:31,614 - ERROR - Download Error: 
+2025-11-27 15:16:31,865 - INFO - 📨 Отправлено (Попытка 4).
+2025-11-27 15:16:55,720 - INFO - 🔘 ACTION: [DEL] ID 3
+2025-11-27 15:16:56,028 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-27 15:16:56,036 - INFO - 📢 В работе ID 2 (Pub: 2/3)
+2025-11-27 15:17:00,960 - INFO - 🎨 Генерация арта: "A digital ripple effect spreading across a map of the UAE, with a stylized USD symbol integrated into a stablecoin icon."
+2025-11-27 15:17:00,962 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:17:31,622 - ERROR - Download Error: 
+2025-11-27 15:17:31,622 - INFO - 📥 Скачиваю арт...
+2025-11-27 15:18:01,625 - ERROR - Download Error: 
+2025-11-27 15:18:01,814 - INFO - 📨 Отправлено (Попытка 5).
+2025-11-27 15:18:43,503 - INFO - 🔘 ACTION: [DEL] ID 2
+2025-11-27 15:18:44,033 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-27 15:18:44,036 - INFO - 🛑 Лимит попыток (5/5). Жду новый цикл...
+2025-11-27 16:08:44,029 - INFO - --- CRYPTONEWS AGENT v8.2 (HUGGINGFACE) ---
+2025-11-27 16:08:44,052 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 16:08:44,690 - INFO - 🕵️ Шпион в сети.
+2025-11-27 16:08:44,691 - INFO - 🎨 ImageService: HUGGINGFACE
+2025-11-27 16:08:45,667 - INFO - 🤖 Бот-Редактор запущен (v8.1 File Upload).
+2025-11-27 16:08:45,667 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-27 16:08:45,667 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-27 16:08:46,327 - INFO - ✅ coindesk: +5 (Subs: 100000)
+2025-11-27 16:08:48,897 - INFO - ✅ cointelegraph: +2 (Subs: 100000)
+2025-11-27 16:08:51,300 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-27 16:08:53,394 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-27 16:08:55,882 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-27 16:08:57,896 - INFO - 📊 Анализ 7 новостей. Чистка дублей...
+2025-11-27 16:09:33,366 - INFO - ✅ Сбор завершен.
+2025-11-27 16:09:33,367 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-27 16:09:33,381 - INFO - 📢 В работе ID 7 (Pub: 0/3)
+2025-11-27 16:09:33,687 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 25.746118107s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 25
+}
+]
+2025-11-27 16:09:33,721 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-27 16:09:34,162 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 25.405934974s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 25
+}
+]
+2025-11-27 16:09:34,192 - INFO - 📢 В работе ID 5 (Pub: 0/3)
+2025-11-27 16:09:34,457 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 24.911684652s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 24
+}
+]
+2025-11-27 16:09:34,457 - INFO - 📢 В работе ID 4 (Pub: 0/3)
+2025-11-27 16:09:34,882 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 24.660145837s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 24
+}
+]
+2025-11-27 16:09:34,919 - INFO - 📢 В работе ID 3 (Pub: 0/3)
+2025-11-27 16:09:35,352 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 24.210192782s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 24
+}
+]
+2025-11-27 16:09:35,386 - INFO - 📢 В работе ID 1 (Pub: 0/3)
+2025-11-27 16:09:35,834 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 23.729002509s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 23
+}
+]
+2025-11-27 16:09:35,868 - INFO - 📢 В работе ID 2 (Pub: 0/3)
+2025-11-27 16:09:36,278 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 23.263305914s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 23
+}
+]
+2025-11-27 16:09:36,319 - INFO - 💤 Очередь пуста. Жду планировщик...
+2025-11-27 17:09:39,431 - INFO - 💤 Очередь пуста. Жду планировщик...
+2025-11-27 17:43:06,688 - INFO - --- CRYPTONEWS AGENT v8.3.1 (SYNTAX FIX) ---
+2025-11-27 17:43:06,703 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 17:43:07,982 - INFO - 🕵️ Шпион в сети.
+2025-11-27 17:43:07,982 - INFO - 🎨 ImageService: HUGGINGFACE
+2025-11-27 17:43:08,484 - INFO - 🤖 Бот-Редактор запущен (v8.1 File Upload).
+2025-11-27 17:43:08,502 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-27 17:43:08,502 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-27 17:43:10,440 - INFO - ✅ coindesk: +4 (Subs: 100000)
+2025-11-27 17:43:13,034 - INFO - ✅ cointelegraph: +2 (Subs: 100000)
+2025-11-27 17:43:15,886 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-27 17:43:17,994 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-27 17:43:20,537 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-27 17:43:22,558 - INFO - 📊 Анализ 6 новостей. Чистка дублей...
+2025-11-27 17:43:48,275 - INFO - ✅ Сбор завершен.
+2025-11-27 17:43:48,275 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-27 17:43:48,275 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-27 17:43:55,992 - INFO - 🎨 Генерация арта: "An alert symbol next to the Upbit logo, with a magnifying glass over a chart showing financial losses. A Solana logo is subtly visible in the background."
+2025-11-27 17:43:55,993 - INFO - 🎨 HF Flux рисует: "An alert symbol next to the Upbit logo, with a magnifying glass over a chart showing financial losses. A Solana logo is subtly visible in the background."...
+2025-11-27 17:43:57,026 - ERROR - HF Error 410: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}
+2025-11-27 17:43:57,044 - WARNING - ⚠️ Fallback фото: "crypto cointelegraph market"
+2025-11-27 17:43:57,044 - INFO - 🎨 HF Flux рисует: "crypto cointelegraph market"...
+2025-11-27 17:43:58,075 - ERROR - HF Error 410: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}
+2025-11-27 17:43:58,612 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-27 17:44:28,719 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-27 17:44:28,828 - INFO - 🎨 HF Flux рисует: "crypto cointelegraph tech"...
+2025-11-27 17:44:29,839 - ERROR - HF Error 410: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}
+2025-11-27 17:44:54,366 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-27 17:44:54,467 - INFO - 🎨 HF Flux рисует: "crypto cointelegraph chart"...
+2025-11-27 17:44:55,407 - ERROR - HF Error 410: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}
+2025-11-27 17:48:02,088 - INFO - --- CRYPTONEWS AGENT v8.3.1 (SYNTAX FIX) ---
+2025-11-27 17:48:02,104 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 17:48:04,444 - INFO - 🕵️ Шпион в сети.
+2025-11-27 17:48:04,444 - INFO - 🎨 ImageService: HUGGINGFACE
+2025-11-27 17:48:05,331 - INFO - 🤖 Бот-Редактор запущен (v8.1 File Upload).
+2025-11-27 17:48:05,331 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-27 17:48:05,343 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-27 17:48:05,642 - INFO - 💤 coindesk: Пусто.
+2025-11-27 17:48:08,637 - INFO - ✅ cointelegraph: +1 (Subs: 100000)
+2025-11-27 17:48:10,961 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-27 17:48:13,391 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-27 17:48:15,893 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-27 17:48:17,910 - INFO - 📊 Анализ 1 новостей. Чистка дублей...
+2025-11-27 17:48:17,937 - INFO - ✅ Сбор завершен.
+2025-11-27 17:48:17,937 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-27 17:48:17,958 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-27 17:48:27,799 - INFO - 🎨 Генерация арта: "A digital illustration of a smartphone screen displaying the Upbit crypto exchange interface with a red "ALERT" banner. A magnifying glass hovers over a chart showing a financial downturn. In the background, a subtle silhouette of a regulatory agency building or a calendar icon highlighting "Dec 5." The overall tone is urgent and investigative."
+2025-11-27 17:48:27,799 - INFO - 🎨 HF Flux рисует: "A digital illustration of a smartphone screen displaying the Upbit crypto exchange interface with a red "ALERT" banner. A magnifying glass hovers over a chart showing a financial downturn. In the background, a subtle silhouette of a regulatory agency building or a calendar icon highlighting "Dec 5." The overall tone is urgent and investigative."...
+2025-11-27 17:48:28,816 - ERROR - HF Error 404: Not Found
+2025-11-27 17:48:28,816 - WARNING - ⚠️ Fallback фото: "crypto cointelegraph market"
+2025-11-27 17:48:28,829 - INFO - 🎨 HF Flux рисует: "crypto cointelegraph market"...
+2025-11-27 17:48:29,786 - ERROR - HF Error 404: Not Found
+2025-11-27 17:48:30,006 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-27 17:54:21,660 - INFO - --- CRYPTONEWS AGENT v8.5 (SDXL STABLE) ---
+2025-11-27 17:54:21,662 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 17:54:22,681 - INFO - 🕵️ Шпион в сети.
+2025-11-27 17:54:22,681 - INFO - 🎨 ImageService: HUGGINGFACE (SDXL)
+2025-11-27 17:54:24,638 - INFO - 🤖 Бот-Редактор запущен (v8.1 File Upload).
+2025-11-27 17:54:24,638 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-27 17:54:24,638 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-27 17:54:25,122 - INFO - ✅ coindesk: +4 (Subs: 100000)
+2025-11-27 17:54:27,598 - INFO - ✅ cointelegraph: +3 (Subs: 100000)
+2025-11-27 17:54:29,983 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-27 17:54:32,101 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-27 17:54:34,456 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-27 17:54:36,477 - INFO - 📊 Анализ 7 новостей. Чистка дублей...
+2025-11-27 17:55:21,375 - INFO - ✅ Сбор завершен.
+2025-11-27 17:55:21,375 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-27 17:55:21,375 - INFO - 📢 В работе ID 7 (Pub: 0/3)
+2025-11-27 17:55:33,809 - INFO - 🎨 Генерация арта (SDXL): "a diagram showing a downward trend with a crypto exchange logo and a magnifying glass over it"
+2025-11-27 17:55:37,959 - ERROR - HF Error 410: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}
+2025-11-27 17:55:37,959 - WARNING - ⚠️ Fallback фото: "crypto cointelegraph market"
+2025-11-27 17:55:38,853 - ERROR - HF Error 410: {"error":"https://api-inference.huggingface.co is no longer supported. Please use https://router.huggingface.co instead."}
+2025-11-27 17:55:39,471 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-27 17:57:52,463 - INFO - --- CRYPTONEWS AGENT v8.5 (SDXL STABLE) ---
+2025-11-27 17:57:52,479 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 17:57:53,447 - INFO - 🕵️ Шпион в сети.
+2025-11-27 17:57:53,447 - INFO - 🎨 ImageService: HUGGINGFACE (SDXL Router)
+2025-11-27 17:57:54,011 - INFO - 🤖 Бот-Редактор запущен (v8.1 File Upload).
+2025-11-27 17:57:54,011 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-27 17:57:54,011 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-27 17:57:54,354 - INFO - ✅ coindesk: +4 (Subs: 100000)
+2025-11-27 17:57:56,689 - INFO - ✅ cointelegraph: +3 (Subs: 100000)
+2025-11-27 17:57:59,157 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-27 17:58:01,392 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-27 17:58:03,620 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-27 17:58:05,624 - INFO - 📊 Анализ 7 новостей. Чистка дублей...
+2025-11-27 17:58:54,559 - INFO - ✅ Сбор завершен.
+2025-11-27 17:58:54,560 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-27 17:58:54,567 - INFO - 📢 В работе ID 7 (Pub: 0/3)
+2025-11-27 17:59:27,016 - INFO - 🎨 Генерация арта (SDXL): "A digital render of the Upbit logo on a dark background, with a subtle red emergency light flashing in the corner."
+2025-11-27 17:59:30,019 - INFO - 🎨 HF SDXL рисует: "A digital render of the Upbit logo on a dark background, with a subtle red emergency light flashing in the corner."...
+2025-11-27 17:59:31,158 - ERROR - HF Error 404: Not Found
+2025-11-27 17:59:31,158 - WARNING - ⚠️ Fallback фото: "crypto cointelegraph market"
+2025-11-27 17:59:31,158 - INFO - 🎨 HF SDXL рисует: "crypto cointelegraph market"...
+2025-11-27 17:59:32,183 - ERROR - HF Error 404: Not Found
+2025-11-27 17:59:32,421 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-27 18:18:18,427 - INFO - --- CRYPTONEWS AGENT v8.5 (SDXL STABLE) ---
+2025-11-27 18:18:18,447 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-27 18:18:22,926 - INFO - 🕵️ Шпион в сети.
+2025-11-27 18:18:22,928 - INFO - 🎨 ImageService: CASCADE MODE (HF -> Pollinations)
+2025-11-27 18:18:23,627 - INFO - 🤖 Бот-Редактор запущен (v8.1 File Upload).
+2025-11-27 18:18:23,629 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-27 18:18:23,630 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-27 18:18:24,254 - INFO - ✅ coindesk: +4 (Subs: 100000)
+2025-11-27 18:18:26,625 - INFO - ✅ cointelegraph: +2 (Subs: 100000)
+2025-11-27 18:18:29,424 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-27 18:18:31,527 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-27 18:18:33,726 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-27 18:18:35,733 - INFO - 📊 Анализ 6 новостей. Чистка дублей...
+2025-11-27 18:19:25,227 - INFO - ✅ Сбор завершен.
+2025-11-27 18:19:25,227 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-27 18:19:25,251 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-27 18:19:36,147 - INFO - 🎨 Генерация арта (SDXL): "Illustration of a traditional Bhutanese building with a subtle Ethereum logo overlay, symbolizing royal government's ETH staking."
+2025-11-27 18:19:39,163 - INFO - 🎨 HF SDXL рисует: "Illustration of a traditional Bhutanese building with a subtle Ethereum logo overlay, symbolizing royal government's ETH staking."...
+2025-11-27 18:19:40,277 - ERROR - HF Error 410
+2025-11-27 18:19:40,277 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:19:40,277 - INFO - 🎨 Pollinations (Flux) рисует: "Illustration of a traditional Bhutanese building with a subtle Ethereum logo overlay, symbolizing royal government's ETH staking."...
+2025-11-27 18:20:39,926 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-27 18:21:31,766 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-27 18:21:31,917 - INFO - 🎨 HF SDXL рисует: "crypto cointelegraph analysis"...
+2025-11-27 18:21:32,969 - ERROR - HF Error 410
+2025-11-27 18:21:32,972 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:21:32,973 - INFO - 🎨 Pollinations (Flux) рисует: "crypto cointelegraph analysis"...
+2025-11-27 18:22:43,665 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-27 18:22:43,819 - INFO - 🎨 HF SDXL рисует: "crypto cointelegraph future"...
+2025-11-27 18:22:44,931 - ERROR - HF Error 410
+2025-11-27 18:22:44,932 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:22:44,934 - INFO - 🎨 Pollinations (Flux) рисует: "crypto cointelegraph future"...
+2025-11-27 18:24:03,965 - INFO - 🔘 ACTION: [PUB] ID 6
+2025-11-27 18:24:05,182 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 1/3)
+2025-11-27 18:24:05,188 - INFO - 📢 В работе ID 5 (Pub: 1/3)
+2025-11-27 18:24:16,070 - INFO - 🎨 Генерация арта (SDXL): "Professional portrait of Nina Rong, Executive Director of Growth for BNB Chain."
+2025-11-27 18:24:19,083 - INFO - 🎨 HF SDXL рисует: "Professional portrait of Nina Rong, Executive Director of Growth for BNB Chain."...
+2025-11-27 18:24:20,008 - ERROR - HF Error 410
+2025-11-27 18:24:20,016 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:24:20,035 - INFO - 🎨 Pollinations (Flux) рисует: "Professional portrait of Nina Rong, Executive Director of Growth for BNB Chain."...
+2025-11-27 18:24:34,479 - INFO - 📨 Отправлено (Попытка 2).
+2025-11-27 18:25:03,350 - INFO - 🔘 ACTION: [TXT] ID 5
+2025-11-27 18:25:35,936 - INFO - 🔘 ACTION: [PUB] ID 5
+2025-11-27 18:25:36,788 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 2/3)
+2025-11-27 18:25:36,797 - INFO - 📢 В работе ID 4 (Pub: 2/3)
+2025-11-27 18:25:52,559 - INFO - 🎨 Генерация арта (SDXL): "Cathie Wood, CEO of Ark Invest, looking thoughtfully at a digital screen displaying stock charts, with the Coinbase logo subtly visible in the background and an upward trend arrow."
+2025-11-27 18:25:55,561 - INFO - 🎨 HF SDXL рисует: "Cathie Wood, CEO of Ark Invest, looking thoughtfully at a digital screen displaying stock charts, with the Coinbase logo subtly visible in the background and an upward trend arrow."...
+2025-11-27 18:25:56,698 - ERROR - HF Error 410
+2025-11-27 18:25:56,698 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:25:56,698 - INFO - 🎨 Pollinations (Flux) рисует: "Cathie Wood, CEO of Ark Invest, looking thoughtfully at a digital screen displaying stock charts, with the Coinbase logo subtly visible in the background and an upward trend arrow."...
+2025-11-27 18:26:57,632 - WARNING - ⚠️ Fallback фото: "crypto coindesk market"
+2025-11-27 18:26:57,632 - INFO - 🎨 HF SDXL рисует: "crypto coindesk market"...
+2025-11-27 18:26:58,604 - ERROR - HF Error 410
+2025-11-27 18:26:58,604 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:26:58,604 - INFO - 🎨 Pollinations (Flux) рисует: "crypto coindesk market"...
+2025-11-27 18:27:33,825 - INFO - 📨 Отправлено (Попытка 3).
+2025-11-27 18:28:07,551 - INFO - 🔘 ACTION: [IMG] ID 4
+2025-11-27 18:28:07,666 - INFO - 🎨 HF SDXL рисует: "crypto coindesk analysis"...
+2025-11-27 18:28:08,589 - ERROR - HF Error 410
+2025-11-27 18:28:08,589 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:28:08,589 - INFO - 🎨 Pollinations (Flux) рисует: "crypto coindesk analysis"...
+2025-11-27 18:29:25,273 - INFO - 🔘 ACTION: [TXT] ID 4
+2025-11-27 18:29:55,267 - INFO - 🔘 ACTION: [TXT] ID 4
+2025-11-27 18:30:10,667 - INFO - 🔘 ACTION: [TXT] ID 4
+2025-11-27 18:30:28,729 - INFO - 🔘 ACTION: [TXT] ID 4
+2025-11-27 18:30:30,674 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-27 18:30:30,694 - INFO - 📢 В работе ID 2 (Pub: 2/3)
+2025-11-27 18:30:40,934 - INFO - 🎨 Генерация арта (SDXL): "A stylized image combining the Australian flag with digital currency symbols and a protective shield, set against a backdrop of modern financial infrastructure."
+2025-11-27 18:30:43,934 - INFO - 🎨 HF SDXL рисует: "A stylized image combining the Australian flag with digital currency symbols and a protective shield, set against a backdrop of modern financial infrastructure."...
+2025-11-27 18:30:44,940 - ERROR - HF Error 410
+2025-11-27 18:30:44,940 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:30:44,940 - INFO - 🎨 Pollinations (Flux) рисует: "A stylized image combining the Australian flag with digital currency symbols and a protective shield, set against a backdrop of modern financial infrastructure."...
+2025-11-27 18:31:30,220 - INFO - 📨 Отправлено (Попытка 4).
+2025-11-27 18:32:57,814 - INFO - 🔘 ACTION: [DEL] ID 2
+2025-11-27 18:32:58,708 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-27 18:32:58,720 - INFO - 📢 В работе ID 3 (Pub: 2/3)
+2025-11-27 18:33:08,986 - INFO - 🎨 Генерация арта (SDXL): "Stylized charts showing Bitcoin and Ethereum prices rising, with a subtle festive background hinting at a 'Santa Rally'."
+2025-11-27 18:33:11,997 - INFO - 🎨 HF SDXL рисует: "Stylized charts showing Bitcoin and Ethereum prices rising, with a subtle festive background hinting at a 'Santa Rally'."...
+2025-11-27 18:33:12,915 - ERROR - HF Error 410
+2025-11-27 18:33:12,917 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:33:12,918 - INFO - 🎨 Pollinations (Flux) рисует: "Stylized charts showing Bitcoin and Ethereum prices rising, with a subtle festive background hinting at a 'Santa Rally'."...
+2025-11-27 18:34:13,633 - WARNING - ⚠️ Fallback фото: "crypto coindesk market"
+2025-11-27 18:34:13,634 - INFO - 🎨 HF SDXL рисует: "crypto coindesk market"...
+2025-11-27 18:34:14,763 - ERROR - HF Error 410
+2025-11-27 18:34:14,764 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:34:14,766 - INFO - 🎨 Pollinations (Flux) рисует: "crypto coindesk market"...
+2025-11-27 18:34:40,766 - INFO - 📨 Отправлено (Попытка 5).
+2025-11-27 18:35:05,950 - INFO - 🔘 ACTION: [IMG] ID 3
+2025-11-27 18:35:06,204 - INFO - 🎨 HF SDXL рисует: "crypto coindesk tech"...
+2025-11-27 18:35:07,231 - ERROR - HF Error 410
+2025-11-27 18:35:07,232 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:35:07,233 - INFO - 🎨 Pollinations (Flux) рисует: "crypto coindesk tech"...
+2025-11-27 18:36:29,401 - INFO - 🔘 ACTION: [IMG] ID 3
+2025-11-27 18:36:29,626 - INFO - 🎨 HF SDXL рисует: "crypto coindesk money"...
+2025-11-27 18:36:30,531 - ERROR - HF Error 410
+2025-11-27 18:36:30,532 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-27 18:36:30,533 - INFO - 🎨 Pollinations (Flux) рисует: "crypto coindesk money"...
+2025-11-27 18:37:27,451 - INFO - 🔘 ACTION: [DEL] ID 3
+2025-11-27 18:37:28,463 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-27 18:37:28,477 - INFO - 🛑 Лимит попыток (5/5). Жду новый цикл...
+2025-11-28 14:09:40,229 - INFO - --- CRYPTONEWS AGENT v9.1 (CONSISTENT VISION) ---
+2025-11-28 14:09:40,256 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-28 14:09:43,491 - INFO - 🕵️ Шпион в сети.
+2025-11-28 14:09:43,491 - INFO - 🎨 ImageService: HUGGINGFACE (Multi-Style v9.1)
+2025-11-28 14:09:44,402 - INFO - 🤖 Бот-Редактор запущен (v9.1 Unified).
+2025-11-28 14:09:44,404 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-28 14:09:44,404 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-28 14:09:44,949 - INFO - ✅ coindesk: +2 (Subs: 100000)
+2025-11-28 14:09:49,853 - INFO - ✅ cointelegraph: +4 (Subs: 100000)
+2025-11-28 14:09:52,735 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-28 14:09:54,897 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-28 14:09:57,693 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-28 14:09:59,694 - INFO - 📊 Анализ 6 новостей. Чистка дублей...
+2025-11-28 14:10:16,922 - INFO - ✅ Сбор завершен.
+2025-11-28 14:10:16,922 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-28 14:10:16,943 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-28 14:10:28,427 - INFO - 🎨 Initial AI-Prompt: "Invisible crypto currents revealing true value of towering Wall Street financial icebergs."
+2025-11-28 14:10:28,427 - INFO - 🎨 HF SDXL рисует (ink illustration): "Invisible crypto currents revealing true value of towering Wall Street financial icebergs."...
+2025-11-28 14:10:29,478 - ERROR - HF Error 410
+2025-11-28 14:10:29,478 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:10:29,478 - INFO - 🎨 Pollinations рисует (ink illustration): "Invisible crypto currents revealing true value of towering Wall Street financial icebergs."...
+2025-11-28 14:10:55,187 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-28 14:11:43,419 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-28 14:11:51,768 - INFO - 🎨 Новый AI-запрос: Golden Wall Street bull statue reflecting in a glowing, futuristic perpetual futures screen.
+2025-11-28 14:11:51,770 - INFO - 🎨 HF SDXL рисует (oil painting): "Golden Wall Street bull statue reflecting in a glowing, futuristic perpetual futures screen."...
+2025-11-28 14:11:52,670 - ERROR - HF Error 410
+2025-11-28 14:11:52,672 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:11:52,673 - INFO - 🎨 Pollinations рисует (oil painting): "Golden Wall Street bull statue reflecting in a glowing, futuristic perpetual futures screen."...
+2025-11-28 14:13:13,700 - INFO - 🔘 ACTION: [PUB] ID 6
+2025-11-28 14:13:14,835 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 1/3)
+2025-11-28 14:13:14,845 - INFO - 📢 В работе ID 5 (Pub: 1/3)
+2025-11-28 14:13:26,286 - INFO - 🎨 Initial AI-Prompt: "Vast digital desert, with a few vibrant, flourishing blockchain oases glowing brightly."
+2025-11-28 14:13:26,288 - INFO - 🎨 HF SDXL рисует (cinematic 3d render): "Vast digital desert, with a few vibrant, flourishing blockchain oases glowing brightly."...
+2025-11-28 14:13:27,229 - ERROR - HF Error 410
+2025-11-28 14:13:27,231 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:13:27,232 - INFO - 🎨 Pollinations рисует (cinematic 3d render): "Vast digital desert, with a few vibrant, flourishing blockchain oases glowing brightly."...
+2025-11-28 14:13:50,105 - INFO - 📨 Отправлено (Попытка 2).
+2025-11-28 14:14:50,103 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-28 14:14:55,304 - INFO - 🎨 Новый AI-запрос: A desolate digital landscape, a few glowing monolithic structures stand tall, others crumble.
+2025-11-28 14:14:55,305 - INFO - 🎨 HF SDXL рисует (ink illustration): "A desolate digital landscape, a few glowing monolithic structures stand tall, others crumble."...
+2025-11-28 14:14:56,241 - ERROR - HF Error 410
+2025-11-28 14:14:56,243 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:14:56,244 - INFO - 🎨 Pollinations рисует (ink illustration): "A desolate digital landscape, a few glowing monolithic structures stand tall, others crumble."...
+2025-11-28 14:16:00,272 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-28 14:16:06,686 - INFO - 🎨 Новый AI-запрос: Spotlights illuminate a handful of vibrant blockchain towers; a vast digital city remains dark.
+2025-11-28 14:16:06,687 - INFO - 🎨 HF SDXL рисует (oil painting): "Spotlights illuminate a handful of vibrant blockchain towers; a vast digital city remains dark."...
+2025-11-28 14:16:07,607 - ERROR - HF Error 410
+2025-11-28 14:16:07,610 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:16:07,611 - INFO - 🎨 Pollinations рисует (oil painting): "Spotlights illuminate a handful of vibrant blockchain towers; a vast digital city remains dark."...
+2025-11-28 14:16:57,723 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-28 14:17:05,633 - INFO - 🎨 Новый AI-запрос: Digital gold rush: A vast, barren landscape, only a few luminous veins yield immense profit.
+2025-11-28 14:17:05,634 - INFO - 🎨 HF SDXL рисует (cinematic 3d render): "Digital gold rush: A vast, barren landscape, only a few luminous veins yield immense profit."...
+2025-11-28 14:17:06,920 - ERROR - HF Error 410
+2025-11-28 14:17:06,921 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:17:06,922 - INFO - 🎨 Pollinations рисует (cinematic 3d render): "Digital gold rush: A vast, barren landscape, only a few luminous veins yield immense profit."...
+2025-11-28 14:18:57,821 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-28 14:19:00,640 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 2/3)
+2025-11-28 14:19:00,657 - INFO - 📢 В работе ID 4 (Pub: 2/3)
+2025-11-28 14:19:09,456 - INFO - 🎨 Initial AI-Prompt: "A digital tsunami of glowing stablecoins crashes into an ornate, traditional bank vault."
+2025-11-28 14:19:09,457 - INFO - 🎨 HF SDXL рисует (isometric 3d vector art): "A digital tsunami of glowing stablecoins crashes into an ornate, traditional bank vault."...
+2025-11-28 14:19:10,413 - ERROR - HF Error 410
+2025-11-28 14:19:10,415 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:19:10,416 - INFO - 🎨 Pollinations рисует (isometric 3d vector art): "A digital tsunami of glowing stablecoins crashes into an ornate, traditional bank vault."...
+2025-11-28 14:19:33,599 - INFO - 📨 Отправлено (Попытка 3).
+2025-11-28 14:20:45,112 - INFO - 🔘 ACTION: [DEL] ID 4
+2025-11-28 14:20:46,006 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-28 14:20:46,023 - INFO - 📢 В работе ID 3 (Pub: 2/3)
+2025-11-28 14:20:59,431 - INFO - 🎨 Initial AI-Prompt: "A humbled CEO carefully mends a fractured digital blockchain with threads of glowing gold."
+2025-11-28 14:20:59,433 - INFO - 🎨 HF SDXL рисует (double exposure photography): "A humbled CEO carefully mends a fractured digital blockchain with threads of glowing gold."...
+2025-11-28 14:21:00,352 - ERROR - HF Error 410
+2025-11-28 14:21:00,353 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:21:00,354 - INFO - 🎨 Pollinations рисует (double exposure photography): "A humbled CEO carefully mends a fractured digital blockchain with threads of glowing gold."...
+2025-11-28 14:21:22,870 - INFO - 🎨 HF SDXL рисует (isometric 3d vector art): "crypto cointelegraph market"...
+2025-11-28 14:21:23,910 - ERROR - HF Error 410
+2025-11-28 14:21:23,911 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:21:23,911 - INFO - 🎨 Pollinations рисует (isometric 3d vector art): "crypto cointelegraph market"...
+2025-11-28 14:21:25,216 - INFO - 📨 Отправлено (Попытка 4).
+2025-11-28 14:21:53,481 - INFO - 🔘 ACTION: [IMG] ID 3
+2025-11-28 14:21:59,304 - INFO - 🎨 Новый AI-запрос: A broken digital safe door, repaired with shimmering gold circuits, overflowing with glowing cryptocurrency.
+2025-11-28 14:21:59,305 - INFO - 🎨 HF SDXL рисует (ink illustration): "A broken digital safe door, repaired with shimmering gold circuits, overflowing with glowing cryptocurrency."...
+2025-11-28 14:22:00,239 - ERROR - HF Error 410
+2025-11-28 14:22:00,241 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:22:00,242 - INFO - 🎨 Pollinations рисует (ink illustration): "A broken digital safe door, repaired with shimmering gold circuits, overflowing with glowing cryptocurrency."...
+2025-11-28 14:23:58,096 - INFO - 🔘 ACTION: [TXT] ID 3
+2025-11-28 14:24:07,515 - INFO - 📝 ID 3: Текст обновлен.
+2025-11-28 14:24:53,483 - INFO - 🔘 ACTION: [IMG] ID 3
+2025-11-28 14:24:57,911 - INFO - 🎨 Новый AI-запрос: A radiant phoenix rising from digital ashes, symbolizing recovery and renewed trust.
+2025-11-28 14:24:57,912 - INFO - 🎨 HF SDXL рисует (cyberpunk style): "A radiant phoenix rising from digital ashes, symbolizing recovery and renewed trust."...
+2025-11-28 14:24:58,917 - ERROR - HF Error 410
+2025-11-28 14:24:58,918 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:24:58,919 - INFO - 🎨 Pollinations рисует (cyberpunk style): "A radiant phoenix rising from digital ashes, symbolizing recovery and renewed trust."...
+2025-11-28 14:25:22,411 - INFO - 🔘 ACTION: [IMG] ID 3
+2025-11-28 14:25:26,936 - INFO - 🎨 Новый AI-запрос: A CEO rebuilds a shattered digital vault with glowing gold, restoring user trust.
+2025-11-28 14:25:26,937 - INFO - 🎨 HF SDXL рисует (cyberpunk style): "A CEO rebuilds a shattered digital vault with glowing gold, restoring user trust."...
+2025-11-28 14:25:27,939 - ERROR - HF Error 410
+2025-11-28 14:25:27,944 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 14:25:27,945 - INFO - 🎨 Pollinations рисует (cyberpunk style): "A CEO rebuilds a shattered digital vault with glowing gold, restoring user trust."...
+2025-11-28 14:26:16,936 - INFO - 🔘 ACTION: [IMG] ID 3
+2025-11-28 14:26:18,013 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 3/3)
+2025-11-28 14:26:18,020 - INFO - 🎉 План выполнен (3/3). Жду новый цикл...

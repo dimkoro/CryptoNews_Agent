@@ -49,9 +49,8 @@ class AIService:
 `💡 Контекст`
 Текст...
 
-В КОНЦЕ: ||| description of image in english'''
+В КОНЦЕ: ||| <запрос фото>'''
         
-        # ИСПРАВЛЕНИЕ: Добавляем лимит и в инструкцию редактирования
         limit_instruction = "\nОГРАНИЧЕНИЕ: СТРОГО ДО 800 СИМВОЛОВ!"
         
         if instruction:
@@ -66,3 +65,22 @@ class AIService:
         except Exception as e:
             logger.error(f'AI Error: {e}')
             return None
+
+    async def generate_image_prompt(self, text):
+        # МЕТОД v9.0: Умный промпт
+        prompt = f'''Прочитай новость и придумай описание картинки для генератора (Stable Diffusion).
+Задача: Визуальная метафора или сцена.
+Язык: Английский.
+Длина: 10-15 слов.
+
+НОВОСТЬ:
+{text[:500]}
+
+ОТВЕТ (Только описание):'''
+        
+        try:
+            response = await asyncio.to_thread(self.model.generate_content, prompt)
+            return response.text.strip()
+        except Exception as e:
+            logger.error(f'Img Prompt Error: {e}')
+            return "crypto technology abstract"

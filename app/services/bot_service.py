@@ -19,17 +19,17 @@ class BotManager:
 
     async def start(self):
         await self.bot.start(bot_token=self.bot_token)
-        logger.info('🤖 Бот-Редактор запущен (v7.3 UX Delay).')
+        logger.info('🤖 Бот-Редактор запущен (v9.1 Unified).')
 
-    async def send_moderation(self, text, image_url, post_id):
+    async def send_moderation(self, text, image_file, post_id):
         buttons = [
             [Button.inline('✅ Опубликовать', data=f'pub_{post_id}'), Button.inline('❌ Отклонить', data=f'del_{post_id}')],
             [Button.inline('📝 Текст', data=f'txt_{post_id}'), Button.inline('🖼 Картинка', data=f'img_{post_id}')]
         ]
         try:
             if len(text) > 1000: text = text[:990] + "..."
-            if image_url:
-                await self.bot.send_message(self.mod_channel, text, file=image_url, buttons=buttons)
+            if image_file:
+                await self.bot.send_message(self.mod_channel, text, file=image_file, buttons=buttons)
             else:
                 await self.bot.send_message(self.mod_channel, text, buttons=buttons)
             await self.db.set_status(post_id, 'moderation')
@@ -53,7 +53,7 @@ class BotManager:
             if action == 'del':
                 await event.delete()
                 await self.db.set_status(post_id, 'rejected')
-                await event.answer('❌ Отклонено')
+                await event.answer('❌ Удалено')
                 
             elif action == 'pub':
                 clean_text = msg.text.split('📊 Views')[0].strip()
@@ -74,10 +74,7 @@ class BotManager:
                     await event.answer('Лимит правок. Удалено.', alert=True)
                     return
                 
-                await event.edit(f"⏳ <b>Генерирую новый текст (Попытка {attempts+1}/3)...</b>", parse_mode='html', buttons=None)
-                # Пауза 2 секунды для текста (он и так долго генерируется)
-                await asyncio.sleep(2.0) 
-                
+                await event.edit(f"⏳ <b>Генерирую текст (Попытка {attempts+1}/3)...</b>", parse_mode='html', buttons=None)
                 new_text_raw = await self.ai.rewrite_news(post['text'], instruction="Перепиши короче и живее.")
                 if '|||' in new_text_raw: final_text, _ = new_text_raw.split('|||')
                 else: final_text = new_text_raw
@@ -89,37 +86,34 @@ class BotManager:
                 buttons = [[Button.inline('✅ Опубликовать', data=f'pub_{post_id}'), Button.inline('❌ Отклонить', data=f'del_{post_id}')], [Button.inline('📝 Текст', data=f'txt_{post_id}'), Button.inline('🖼 Картинка', data=f'img_{post_id}')]]
                 await event.edit(caption, buttons=buttons)
                 await self.db.increment_attempt(post_id, 'txt')
+                logger.info(f'📝 ID {post_id}: Текст обновлен.')
                 
             elif action == 'img':
                 attempts = post['img_attempts']
                 if attempts >= 3:
-                    await event.edit("🚫 <b>Лимит фото исчерпан. Публикую текст...</b>", parse_mode='html', buttons=None)
-                    await asyncio.sleep(3.0)
+                    await event.edit("🚫 <b>Лимит фото. Публикую...</b>", parse_mode='html', buttons=None)
                     clean_text = msg.text.split('📊 Views')[0].strip() + '\n\n🚀 @CryptoNews'
                     await self.bot.send_message(self.pub_channel, clean_text)
                     await event.delete()
                     await self.db.set_status(post_id, 'published')
                     return
                 
-                # UI: Показываем статус и ЖДЕМ 5 СЕКУНД
-                await event.edit("🖼 <b>Ищу новое фото...</b>", parse_mode='html', buttons=None)
-                await asyncio.sleep(5.0) 
+                await event.edit("🖼 <b>AI анализирует новость и рисует...</b>", parse_mode='html', buttons=None)
                 
-                base = 'crypto ' + post['channel']
-                suf = ['chart', 'tech', 'money', 'future', 'analysis']
-                query = f"{base} {random.choice(suf)}"
-                img_url = await self.img.get_image(query)
+                # v9.0 Logic: Умный промпт
+                ai_prompt = await self.ai.generate_image_prompt(post['text'])
+                logger.info(f"🎨 Новый AI-запрос: {ai_prompt}")
+                img_file = await self.img.get_image(ai_prompt)
                 
-                if img_url:
+                if img_file:
                     await event.delete()
                     buttons = [[Button.inline('✅ Опубликовать', data=f'pub_{post_id}'), Button.inline('❌ Отклонить', data=f'del_{post_id}')], [Button.inline('📝 Текст', data=f'txt_{post_id}'), Button.inline('🖼 Картинка', data=f'img_{post_id}')]]
                     text_content = msg.text if msg.text else msg.caption
-                    await self.bot.send_message(self.mod_channel, text_content, file=img_url, buttons=buttons)
-                    await self.db.increment_attempt(post_id, 'img', query)
-                    logger.info(f'🖼 ID {post_id}: Фото обновлено.')
+                    await self.bot.send_message(self.mod_channel, text_content, file=img_file, buttons=buttons)
+                    await self.db.increment_attempt(post_id, 'img', ai_prompt)
                 else:
                     await event.edit(msg.text, buttons=msg.buttons)
-                    await event.answer('Фото не найдено.', alert=True)
+                    await event.answer('Ошибка генерации.', alert=True)
                 
         except Exception as e:
             logger.error(f'Btn Err: {e}')

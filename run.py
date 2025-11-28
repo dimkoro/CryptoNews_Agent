@@ -11,12 +11,9 @@ from app.services.bot_service import BotManager
 
 logger = setup_logger()
 
-# ГЛОБАЛЬНЫЕ СЧЕТЧИКИ
 CYCLE_START_TIME = datetime.now(timezone.utc)
 CYCLE_PUBLISHED_COUNT = 0
 CYCLE_ATTEMPTS_COUNT = 0
-
-# СИНХРОНИЗАЦИЯ
 startup_event = asyncio.Event()
 
 def calculate_hype_score(post):
@@ -56,10 +53,8 @@ async def scheduler(spy, db, ai, channels):
                 if is_dupe:
                     await db.set_status(news["id"], 'rejected')
                 else:
-                    # ВОТ ЭТОЙ СТРОКИ НЕ ХВАТАЛО:
                     await db.set_status(news["id"], 'queued')
                     history.append(news['text'])
-                    logger.info(f'✅ ID {news["id"]} добавлен в очередь.')
         else:
             logger.info('💤 Свежих новостей нет.')
 
@@ -70,7 +65,7 @@ async def scheduler(spy, db, ai, channels):
 async def main_loop():
     global CYCLE_PUBLISHED_COUNT, CYCLE_ATTEMPTS_COUNT
     try:
-        logger.info('--- CRYPTONEWS AGENT v7.2 (CRITICAL FIX) ---')
+        logger.info('--- CRYPTONEWS AGENT v9.1 (CONSISTENT VISION) ---')
         config = load_config()
         db = Database()
         await db.init_db()
@@ -79,7 +74,12 @@ async def main_loop():
         await spy.start_spy()
         
         ai = AIService(config['gemini_key'], config['proxy'])
-        img = ImageService(config['unsplash_key'], config['proxy'])
+        img = ImageService(
+            provider=config['image_provider'], 
+            api_key=config['unsplash_key'],
+            hf_key=config['hf_key'],
+            proxy=config['proxy']
+        )
         
         bot_mgr = BotManager(config, db, spy.client, ai_service=ai, img_service=img)
         await bot_mgr.start()
@@ -127,18 +127,19 @@ async def main_loop():
                 else:
                     text, query = ai_response, 'crypto'
                 
-                query = query.strip()
-                logger.info(f'🔍 Фото (AI): "{query}"')
-                img_url = await img.get_image(query)
-                if not img_url:
+                # v9.1: ЕДИНАЯ ЛОГИКА - Генерируем умный промпт
+                ai_prompt = await ai.generate_image_prompt(target['text'])
+                logger.info(f'🎨 Initial AI-Prompt: "{ai_prompt}"')
+                
+                img_file = await img.get_image(ai_prompt)
+                if not img_file:
                     fallback = f"crypto {target['channel']} market"
-                    logger.warning(f'⚠️ Fallback фото: "{fallback}"')
-                    img_url = await img.get_image(fallback)
+                    img_file = await img.get_image(fallback)
                 
                 stats = f'📊 Views: {target["views"]}'
                 caption = f'{text.strip()}\n\n{stats}\n🤖 #Draft'
                 
-                await bot_mgr.send_moderation(caption, img_url, target['id'])
+                await bot_mgr.send_moderation(caption, img_file, target['id'])
                 CYCLE_ATTEMPTS_COUNT += 1
                 logger.info(f'📨 Отправлено (Попытка {CYCLE_ATTEMPTS_COUNT}).')
                 
