@@ -13,6 +13,22 @@ class AIService:
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('models/gemini-2.5-flash')
 
+    async def _safe_generate(self, prompt, retries=3):
+        """Метод с защитой от ошибки 429 (Лимиты)"""
+        for i in range(retries):
+            try:
+                response = await asyncio.to_thread(self.model.generate_content, prompt)
+                return response.text
+            except Exception as e:
+                if "429" in str(e):
+                    wait_time = 60 # Ждем минуту, если Google ругается
+                    logger.warning(f"⚠️ Лимит Google (429). Жду {wait_time} сек (Попытка {i+1}/{retries})...")
+                    await asyncio.sleep(wait_time)
+                else:
+                    logger.error(f'AI Ошибка: {e}')
+                    return None
+        return None
+
     async def check_duplicate(self, new_text, history_texts):
         if not history_texts:
             return False
@@ -27,10 +43,11 @@ class AIService:
 {history_block}
 
 ОТВЕТ (ДУБЛЬ или УНИКАЛЬНО):'''
-        try:
-            response = await asyncio.to_thread(self.model.generate_content, prompt)
-            return 'ДУБЛЬ' in response.text.strip().upper()
-        except Exception: return False
+        
+        response_text = await self._safe_generate(prompt)
+        if response_text:
+            return 'ДУБЛЬ' in response_text.strip().upper()
+        return False
 
     async def rewrite_news(self, text, instruction=None):
         base_prompt = '''Ты — редактор Telegram-канала.
@@ -49,7 +66,7 @@ class AIService:
 `💡 Контекст`
 Текст...
 
-В КОНЦЕ: ||| <запрос фото>'''
+В КОНЦЕ: ||| description of image in english'''
         
         limit_instruction = "\nОГРАНИЧЕНИЕ: СТРОГО ДО 800 СИМВОЛОВ!"
         
@@ -58,16 +75,13 @@ class AIService:
         else:
              prompt = f"{base_prompt}{limit_instruction}\n\nТЕКСТ:{text}"
 
-        try:
-            response = await asyncio.to_thread(self.model.generate_content, prompt)
-            clean = response.text.replace("<", "").replace(">", "").replace("**ЗАГОЛОВОК**", "").strip()
+        response_text = await self._safe_generate(prompt)
+        if response_text:
+            clean = response_text.replace("<", "").replace(">", "").replace("**ЗАГОЛОВОК**", "").strip()
             return clean
-        except Exception as e:
-            logger.error(f'AI Error: {e}')
-            return None
+        return None
 
     async def generate_image_prompt(self, text):
-        # МЕТОД v9.0: Умный промпт
         prompt = f'''Прочитай новость и придумай описание картинки для генератора (Stable Diffusion).
 Задача: Визуальная метафора или сцена.
 Язык: Английский.
@@ -78,9 +92,7 @@ class AIService:
 
 ОТВЕТ (Только описание):'''
         
-        try:
-            response = await asyncio.to_thread(self.model.generate_content, prompt)
-            return response.text.strip()
-        except Exception as e:
-            logger.error(f'Img Prompt Error: {e}')
-            return "crypto technology abstract"
+        response_text = await self._safe_generate(prompt)
+        if response_text:
+            return response_text.strip()
+        return "crypto technology abstract"

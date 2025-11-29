@@ -11,10 +11,19 @@ from app.services.bot_service import BotManager
 
 logger = setup_logger()
 
+# --- НАСТРОЙКИ ВРЕМЕНИ ---
+SEARCH_WINDOW_HOURS = 4 
+
 CYCLE_START_TIME = datetime.now(timezone.utc)
 CYCLE_PUBLISHED_COUNT = 0
 CYCLE_ATTEMPTS_COUNT = 0
 startup_event = asyncio.Event()
+
+def normalize_channel(line):
+    line = line.strip()
+    for prefix in ['https://', 'http://', 't.me/', '@']:
+        line = line.replace(prefix, '')
+    return line.rstrip('/')
 
 def calculate_hype_score(post):
     try:
@@ -34,27 +43,31 @@ def calculate_hype_score(post):
 async def scheduler(spy, db, ai, channels):
     global CYCLE_START_TIME, CYCLE_PUBLISHED_COUNT, CYCLE_ATTEMPTS_COUNT
     while True:
-        logger.info('🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...')
+        logger.info(f'🔄 ЦИКЛ: Сбор новостей за последние {SEARCH_WINDOW_HOURS} часа...')
         CYCLE_START_TIME = datetime.now(timezone.utc)
         CYCLE_PUBLISHED_COUNT = 0
         CYCLE_ATTEMPTS_COUNT = 0
         
         for ch in channels:
-            await spy.harvest_channel(ch, db, hours=4)
+            await spy.harvest_channel(ch, db, hours=SEARCH_WINDOW_HOURS)
             await asyncio.sleep(2)
             
         candidates = await db.get_raw_candidates()
         if candidates:
             ranked = sorted(candidates, key=calculate_hype_score, reverse=True)
-            logger.info(f'📊 Анализ {len(ranked)} новостей. Чистка дублей...')
+            logger.info(f'📊 Анализ {len(ranked)} новостей. Проверка дублей...')
             history = await db.get_recent_history(limit=25)
             for news in ranked:
+                # ПАУЗА 6 СЕК (Чтобы Google не забанил)
+                await asyncio.sleep(6)
+                
                 is_dupe = await ai.check_duplicate(news['text'], history)
                 if is_dupe:
                     await db.set_status(news["id"], 'rejected')
                 else:
                     await db.set_status(news["id"], 'queued')
                     history.append(news['text'])
+                    logger.info(f'✅ ID {news["id"]} добавлен в очередь.')
         else:
             logger.info('💤 Свежих новостей нет.')
 
@@ -65,7 +78,7 @@ async def scheduler(spy, db, ai, channels):
 async def main_loop():
     global CYCLE_PUBLISHED_COUNT, CYCLE_ATTEMPTS_COUNT
     try:
-        logger.info('--- CRYPTONEWS AGENT v9.1 (CONSISTENT VISION) ---')
+        logger.info('--- CRYPTONEWS AGENT v9.6 (RATE LIMIT FIX) ---')
         config = load_config()
         db = Database()
         await db.init_db()
@@ -85,7 +98,8 @@ async def main_loop():
         await bot_mgr.start()
         
         with open('channels.txt', 'r') as f:
-            channels = [l.strip() for l in f if l.strip()]
+            channels = [normalize_channel(l) for l in f if l.strip()]
+            
         asyncio.create_task(scheduler(spy, db, ai, channels))
         
         logger.info('⏳ Жду завершения первого сбора...')
@@ -117,6 +131,9 @@ async def main_loop():
                 target = candidates[0]
                 logger.info(f'📢 В работе ID {target["id"]} (Pub: {CYCLE_PUBLISHED_COUNT}/3)')
                 
+                # ПАУЗА ПЕРЕД РЕРАЙТОМ
+                await asyncio.sleep(6) 
+                
                 ai_response = await ai.rewrite_news(target['text'])
                 if not ai_response: 
                     await db.set_status(target['id'], 'rejected')
@@ -127,13 +144,15 @@ async def main_loop():
                 else:
                     text, query = ai_response, 'crypto'
                 
-                # v9.1: ЕДИНАЯ ЛОГИКА - Генерируем умный промпт
+                # ПАУЗА ПЕРЕД ПРОМПТОМ КАРТИНКИ
+                await asyncio.sleep(4)
                 ai_prompt = await ai.generate_image_prompt(target['text'])
-                logger.info(f'🎨 Initial AI-Prompt: "{ai_prompt}"')
+                logger.info(f'🎨 Промпт для фото: "{ai_prompt}"')
                 
                 img_file = await img.get_image(ai_prompt)
                 if not img_file:
                     fallback = f"crypto {target['channel']} market"
+                    logger.warning(f'⚠️ Fallback фото: "{fallback}"')
                     img_file = await img.get_image(fallback)
                 
                 stats = f'📊 Views: {target["views"]}'

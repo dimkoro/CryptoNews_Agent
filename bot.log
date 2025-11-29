@@ -1368,3 +1368,724 @@ Please retry in 23.263305914s. [links {
 2025-11-28 14:26:16,936 - INFO - 🔘 ACTION: [IMG] ID 3
 2025-11-28 14:26:18,013 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 3/3)
 2025-11-28 14:26:18,020 - INFO - 🎉 План выполнен (3/3). Жду новый цикл...
+2025-11-28 15:11:19,490 - INFO - --- CRYPTONEWS AGENT v9.2 (SMART LINKS) ---
+2025-11-28 15:11:19,519 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-28 15:11:20,805 - INFO - 🕵️ Шпион в сети.
+2025-11-28 15:11:20,808 - INFO - 🎨 ImageService: HUGGINGFACE (Multi-Style v9.1)
+2025-11-28 15:11:21,721 - INFO - 🤖 Бот-Редактор запущен (v9.1 Unified).
+2025-11-28 15:11:21,722 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-28 15:11:21,722 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-28 15:11:22,155 - INFO - ✅ coindesk: +3 (Subs: 100000)
+2025-11-28 15:11:24,525 - INFO - ✅ cointelegraph: +5 (Subs: 100000)
+2025-11-28 15:11:26,861 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-28 15:11:28,986 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-28 15:11:31,662 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-28 15:11:34,035 - INFO - 💤 activitylauncher_offical: Пусто.
+2025-11-28 15:11:36,044 - INFO - 📊 Анализ 8 новостей. Чистка дублей...
+2025-11-28 15:11:58,928 - INFO - ✅ Сбор завершен.
+2025-11-28 15:11:58,930 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-28 15:11:58,937 - INFO - 📢 В работе ID 8 (Pub: 0/3)
+2025-11-28 15:12:05,593 - INFO - 🎨 Генерация арта: "запрос фото"
+2025-11-28 15:12:05,596 - INFO - 🎨 HF SDXL рисует (double exposure photography): "запрос фото"...
+2025-11-28 15:12:06,711 - ERROR - HF Error 410
+2025-11-28 15:12:06,713 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:12:06,714 - INFO - 🎨 Pollinations рисует (double exposure photography): "запрос фото"...
+2025-11-28 15:12:32,648 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-28 15:38:43,813 - INFO - --- CRYPTONEWS AGENT v9.2 (SMART LINKS) ---
+2025-11-28 15:38:43,831 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-28 15:38:46,074 - INFO - 🕵️ Шпион в сети.
+2025-11-28 15:38:46,074 - INFO - 🎨 ImageService: HUGGINGFACE (Multi-Style v9.1)
+2025-11-28 15:38:48,243 - INFO - 🤖 Бот-Редактор запущен (v9.4 Source Logic).
+2025-11-28 15:38:48,247 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-28 15:38:48,250 - INFO - 🔄 ЦИКЛ (4 ЧАСА): Сброс счетчиков и сбор новостей...
+2025-11-28 15:38:49,050 - INFO - ✅ coindesk: +2 (Subs: 100000)
+2025-11-28 15:38:51,598 - INFO - ✅ cointelegraph: +1 (Subs: 100000)
+2025-11-28 15:38:54,832 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-28 15:38:57,059 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-28 15:38:59,290 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-28 15:39:01,698 - INFO - 💤 activitylauncher_offical: Пусто.
+2025-11-28 15:39:03,714 - INFO - 📊 Анализ 3 новостей. Чистка дублей...
+2025-11-28 15:39:15,129 - INFO - ✅ Сбор завершен.
+2025-11-28 15:39:15,131 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-28 15:39:15,148 - INFO - 📢 В работе ID 8 (Pub: 0/3)
+2025-11-28 15:39:24,163 - INFO - 🎨 Генерация арта: "запрос фото"
+2025-11-28 15:39:24,164 - INFO - 🎨 HF SDXL рисует (ink illustration): "запрос фото"...
+2025-11-28 15:39:25,285 - ERROR - HF Error 410
+2025-11-28 15:39:25,288 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:39:25,289 - INFO - 🎨 Pollinations рисует (ink illustration): "запрос фото"...
+2025-11-28 15:39:44,788 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-28 15:40:08,566 - INFO - 🔘 ACTION: [IMG] ID 8
+2025-11-28 15:40:12,892 - INFO - 🎨 HF SDXL рисует (ink illustration): "Few towering, radiant skyscrapers dominate a vast city of smaller, unlit buildings."...
+2025-11-28 15:40:13,901 - ERROR - HF Error 410
+2025-11-28 15:40:13,903 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:40:13,905 - INFO - 🎨 Pollinations рисует (ink illustration): "Few towering, radiant skyscrapers dominate a vast city of smaller, unlit buildings."...
+2025-11-28 15:40:39,906 - INFO - 🖼 ID 8: Фото обновлено (AI).
+2025-11-28 15:40:57,286 - INFO - 🔘 ACTION: [IMG] ID 8
+2025-11-28 15:41:02,936 - INFO - 🎨 HF SDXL рисует (double exposure photography): "Few sleek racing cars speed far ahead, leaving many blockchains struggling in the race."...
+2025-11-28 15:41:03,998 - ERROR - HF Error 410
+2025-11-28 15:41:03,999 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:41:04,000 - INFO - 🎨 Pollinations рисует (double exposure photography): "Few sleek racing cars speed far ahead, leaving many blockchains struggling in the race."...
+2025-11-28 15:41:28,646 - INFO - 🖼 ID 8: Фото обновлено (AI).
+2025-11-28 15:41:48,405 - INFO - 🔘 ACTION: [IMG] ID 8
+2025-11-28 15:41:58,285 - INFO - 🖼 ID 8: Заменено на ОРИГИНАЛ.
+2025-11-28 15:42:53,097 - INFO - 🔘 ACTION: [IMG] ID 8
+2025-11-28 15:42:56,367 - INFO - 🚫 ID 8: Опубликовано текстом (лимит).
+2025-11-28 15:42:56,699 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 1/3)
+2025-11-28 15:42:56,703 - INFO - 📢 В работе ID 7 (Pub: 1/3)
+2025-11-28 15:43:02,871 - INFO - 🎨 Генерация арта: "запрос фото"
+2025-11-28 15:43:02,872 - INFO - 🎨 HF SDXL рисует (cyberpunk style): "запрос фото"...
+2025-11-28 15:43:03,926 - ERROR - HF Error 410
+2025-11-28 15:43:03,928 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:43:03,929 - INFO - 🎨 Pollinations рисует (cyberpunk style): "запрос фото"...
+2025-11-28 15:43:30,377 - INFO - 📨 Отправлено (Попытка 2).
+2025-11-28 15:43:44,606 - INFO - 🔘 ACTION: [IMG] ID 7
+2025-11-28 15:43:50,552 - INFO - 🎨 HF SDXL рисует (cyberpunk style): "Traditional bank vaults sprout luminous digital tokens, adapting to an overwhelming, decentralized financial tide."...
+2025-11-28 15:43:51,480 - ERROR - HF Error 410
+2025-11-28 15:43:51,481 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:43:51,482 - INFO - 🎨 Pollinations рисует (cyberpunk style): "Traditional bank vaults sprout luminous digital tokens, adapting to an overwhelming, decentralized financial tide."...
+2025-11-28 15:44:09,813 - INFO - 🖼 ID 7: Фото обновлено (AI).
+2025-11-28 15:44:42,040 - INFO - 🔘 ACTION: [PUB] ID 7
+2025-11-28 15:44:44,877 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 2/3)
+2025-11-28 15:44:44,891 - INFO - 📢 В работе ID 6 (Pub: 2/3)
+2025-11-28 15:44:55,695 - INFO - 🎨 Генерация арта: "запрос фото"
+2025-11-28 15:44:55,696 - INFO - 🎨 HF SDXL рисует (isometric 3d vector art): "запрос фото"...
+2025-11-28 15:44:56,708 - ERROR - HF Error 410
+2025-11-28 15:44:56,712 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:44:56,713 - INFO - 🎨 Pollinations рисует (isometric 3d vector art): "запрос фото"...
+2025-11-28 15:45:23,492 - INFO - 📨 Отправлено (Попытка 3).
+2025-11-28 15:45:35,565 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-28 15:45:39,521 - INFO - 🎨 HF SDXL рисует (double exposure photography): "A CEO humbly bows before a holographic broken vault, returning golden data streams to relieved users."...
+2025-11-28 15:45:40,467 - ERROR - HF Error 410
+2025-11-28 15:45:40,469 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:45:40,471 - INFO - 🎨 Pollinations рисует (double exposure photography): "A CEO humbly bows before a holographic broken vault, returning golden data streams to relieved users."...
+2025-11-28 15:46:12,296 - INFO - 🖼 ID 6: Фото обновлено (AI).
+2025-11-28 15:46:32,148 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-28 15:46:36,709 - INFO - 🎨 HF SDXL рисует (ink illustration): "A CEO mends a fractured digital vault with golden light, symbolizing restored trust and full reimbursement."...
+2025-11-28 15:46:37,762 - ERROR - HF Error 410
+2025-11-28 15:46:37,763 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-28 15:46:37,763 - INFO - 🎨 Pollinations рисует (ink illustration): "A CEO mends a fractured digital vault with golden light, symbolizing restored trust and full reimbursement."...
+2025-11-28 15:47:07,862 - INFO - 🖼 ID 6: Фото обновлено (AI).
+2025-11-28 15:47:33,521 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-28 15:47:37,960 - INFO - 🖼 ID 6: Заменено на ОРИГИНАЛ.
+2025-11-28 15:47:53,977 - INFO - 🔘 ACTION: [PUB] ID 6
+2025-11-28 15:47:54,847 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 3/3)
+2025-11-28 15:47:54,851 - INFO - 🎉 План выполнен (3/3). Жду новый цикл...
+2025-11-28 16:47:59,412 - INFO - 🎉 План выполнен (3/3). Жду новый цикл...
+2025-11-28 17:48:05,578 - INFO - 🎉 План выполнен (3/3). Жду новый цикл...
+2025-11-29 19:42:15,412 - INFO - --- CRYPTONEWS AGENT v9.5 (INDESTRUCTIBLE) ---
+2025-11-29 19:42:15,438 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-29 19:42:52,018 - INFO - 🕵️ Шпион в сети.
+2025-11-29 19:42:52,019 - INFO - 🎨 ImageService: HUGGINGFACE (Multi-Style v9.1)
+2025-11-29 19:42:52,655 - INFO - 🤖 Бот-Редактор запущен (v9.4 Source Logic).
+2025-11-29 19:42:52,656 - INFO - ⏳ Жду данные...
+2025-11-29 19:42:52,659 - INFO - 🔄 ЦИКЛ: Сбор новостей (4 часа)...
+2025-11-29 19:42:53,137 - INFO - ✅ coindesk: +3 (Subs: 100000)
+2025-11-29 19:42:55,665 - INFO - ✅ cointelegraph: +2 (Subs: 100000)
+2025-11-29 19:42:58,002 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-29 19:43:00,119 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-29 19:43:02,408 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-29 19:43:04,853 - INFO - 💤 activitylauncher_offical: Пусто.
+2025-11-29 19:43:07,287 - INFO - ✅ just: +2 (Subs: 100000)
+2025-11-29 19:43:09,741 - INFO - ✅ popcorn_today: +3 (Subs: 100000)
+2025-11-29 19:43:12,108 - INFO - ✅ coinmarket: +1 (Subs: 100000)
+2025-11-29 19:43:14,441 - INFO - 💤 CRYPTO_jokker: Пусто.
+2025-11-29 19:43:17,213 - INFO - 💤 Alexnosleep: Пусто.
+2025-11-29 19:43:19,722 - INFO - 💤 cryp2day: Пусто.
+2025-11-29 19:43:22,871 - INFO - 💤 CRYPTO_insidderr: Пусто.
+2025-11-29 19:43:25,863 - INFO - 💤 roasted_crypto: Пусто.
+2025-11-29 19:43:28,656 - INFO - ✅ trading: +1 (Subs: 100000)
+2025-11-29 19:43:30,675 - INFO - 📊 Анализ 12 новостей...
+2025-11-29 19:44:14,439 - INFO - ✅ Сбор завершен.
+2025-11-29 19:44:14,441 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-29 19:44:14,458 - INFO - 📢 В работе ID 5 (Pub: 0/3)
+2025-11-29 19:44:14,780 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 41.742424542s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 41
+}
+]
+2025-11-29 19:44:14,814 - INFO - 📢 В работе ID 7 (Pub: 0/3)
+2025-11-29 19:44:15,075 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 41.393919359s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 41
+}
+]
+2025-11-29 19:44:15,094 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-29 19:44:15,371 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 41.107063397s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 41
+}
+]
+2025-11-29 19:44:15,403 - INFO - 📢 В работе ID 12 (Pub: 0/3)
+2025-11-29 19:44:15,668 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 40.809131851s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 40
+}
+]
+2025-11-29 19:44:15,705 - INFO - 📢 В работе ID 10 (Pub: 0/3)
+2025-11-29 19:44:15,960 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 40.509003164s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 40
+}
+]
+2025-11-29 19:44:15,991 - INFO - 📢 В работе ID 9 (Pub: 0/3)
+2025-11-29 19:44:16,260 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 40.216594384s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 40
+}
+]
+2025-11-29 19:44:16,292 - INFO - 📢 В работе ID 11 (Pub: 0/3)
+2025-11-29 19:44:16,549 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 39.918240775s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 39
+}
+]
+2025-11-29 19:44:16,578 - INFO - 📢 В работе ID 4 (Pub: 0/3)
+2025-11-29 19:44:16,834 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 39.635976264s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 39
+}
+]
+2025-11-29 19:44:16,867 - INFO - 📢 В работе ID 8 (Pub: 0/3)
+2025-11-29 19:44:17,124 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 39.344801771s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 39
+}
+]
+2025-11-29 19:44:17,156 - INFO - 📢 В работе ID 3 (Pub: 0/3)
+2025-11-29 19:44:17,418 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 39.05364048s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 39
+}
+]
+2025-11-29 19:44:17,449 - INFO - 📢 В работе ID 2 (Pub: 0/3)
+2025-11-29 19:44:17,716 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 38.751870989s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 38
+}
+]
+2025-11-29 19:44:17,745 - INFO - 📢 В работе ID 1 (Pub: 0/3)
+2025-11-29 19:44:18,003 - ERROR - AI Error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 10, model: gemini-2.5-flash
+Please retry in 38.465801621s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 10
+}
+, retry_delay {
+  seconds: 38
+}
+]
+2025-11-29 19:44:18,033 - INFO - 💤 Очередь пуста. Жду планировщик...
+2025-11-29 19:51:06,123 - INFO - --- CRYPTONEWS AGENT v9.6 (RATE LIMIT FIX) ---
+2025-11-29 19:51:06,139 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-29 19:51:07,284 - INFO - 🕵️ Шпион в сети.
+2025-11-29 19:51:07,284 - INFO - 🎨 ImageService: HUGGINGFACE (Multi-Style v9.1)
+2025-11-29 19:51:09,255 - INFO - 🤖 Бот-Редактор запущен (v9.4 Source Logic).
+2025-11-29 19:51:09,255 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-29 19:51:09,271 - INFO - 🔄 ЦИКЛ: Сбор новостей за последние 4 часа...
+2025-11-29 19:51:10,178 - INFO - ✅ coindesk: +3 (Subs: 100000)
+2025-11-29 19:51:12,780 - INFO - ✅ cointelegraph: +2 (Subs: 100000)
+2025-11-29 19:51:15,781 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-29 19:51:17,935 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-29 19:51:21,405 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-29 19:51:24,778 - INFO - 💤 activitylauncher_offical: Пусто.
+2025-11-29 19:51:27,269 - INFO - ✅ just: +1 (Subs: 100000)
+2025-11-29 19:51:29,721 - INFO - ✅ popcorn_today: +2 (Subs: 100000)
+2025-11-29 19:51:33,307 - INFO - ✅ coinmarket: +1 (Subs: 100000)
+2025-11-29 19:51:35,925 - INFO - 💤 CRYPTO_jokker: Пусто.
+2025-11-29 19:51:39,203 - INFO - 💤 Alexnosleep: Пусто.
+2025-11-29 19:51:41,631 - INFO - 💤 cryp2day: Пусто.
+2025-11-29 19:51:44,487 - INFO - 💤 CRYPTO_insidderr: Пусто.
+2025-11-29 19:52:02,793 - INFO - 💤 roasted_crypto: Пусто.
+2025-11-29 19:52:06,818 - INFO - ✅ trading: +1 (Subs: 100000)
+2025-11-29 19:52:08,833 - INFO - 📊 Анализ 10 новостей. Проверка дублей...
+2025-11-29 19:52:14,831 - INFO - ✅ ID 5 добавлен в очередь.
+2025-11-29 19:52:24,275 - INFO - ✅ ID 6 добавлен в очередь.
+2025-11-29 19:52:32,584 - INFO - ✅ ID 4 добавлен в очередь.
+2025-11-29 19:52:41,663 - INFO - ✅ ID 10 добавлен в очередь.
+2025-11-29 19:52:50,473 - INFO - ✅ ID 8 добавлен в очередь.
+2025-11-29 19:52:59,374 - INFO - ✅ ID 9 добавлен в очередь.
+2025-11-29 19:53:08,137 - INFO - ✅ ID 7 добавлен в очередь.
+2025-11-29 19:53:17,465 - INFO - ✅ ID 2 добавлен в очередь.
+2025-11-29 19:53:26,190 - INFO - ✅ ID 3 добавлен в очередь.
+2025-11-29 19:53:38,757 - INFO - ✅ ID 1 добавлен в очередь.
+2025-11-29 19:53:38,772 - INFO - ✅ Сбор завершен.
+2025-11-29 19:53:38,772 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-29 19:53:38,775 - INFO - 📢 В работе ID 5 (Pub: 0/3)
+2025-11-29 19:54:00,655 - INFO - 🎨 Промпт для фото: "A vibrant digital Monad token shattering into countless fragments, almost entirely gone."
+2025-11-29 19:54:00,656 - INFO - 🎨 HF SDXL рисует (ink illustration): "A vibrant digital Monad token shattering into countless fragments, almost entirely gone."...
+2025-11-29 19:54:01,742 - ERROR - HF Error 410
+2025-11-29 19:54:01,744 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 19:54:01,746 - INFO - 🎨 Pollinations рисует (ink illustration): "A vibrant digital Monad token shattering into countless fragments, almost entirely gone."...
+2025-11-29 19:54:33,093 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-29 19:55:36,639 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-29 19:55:42,422 - INFO - 🎨 HF SDXL рисует (cinematic 3d render): "A grand digital financial structure implodes, scattering code fragments into a dark void."...
+2025-11-29 19:55:43,359 - ERROR - HF Error 410
+2025-11-29 19:55:43,361 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 19:55:43,361 - INFO - 🎨 Pollinations рисует (cinematic 3d render): "A grand digital financial structure implodes, scattering code fragments into a dark void."...
+2025-11-29 19:56:05,664 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-29 19:56:10,765 - INFO - 🎨 HF SDXL рисует (oil painting): "A shimmering digital coin plummeting into a chasm, leaving a trail of broken pixels."...
+2025-11-29 19:56:12,015 - ERROR - HF Error 410
+2025-11-29 19:56:12,016 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 19:56:12,017 - INFO - 🎨 Pollinations рисует (oil painting): "A shimmering digital coin plummeting into a chasm, leaving a trail of broken pixels."...
+2025-11-29 19:56:47,014 - INFO - 🖼 ID 5: Фото обновлено (AI).
+2025-11-29 19:57:03,297 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-29 19:57:09,469 - INFO - 🎨 HF SDXL рисует (cyberpunk style): "A blockchain skyscraper cracking and collapsing into a chaotic digital abyss."...
+2025-11-29 19:57:10,829 - ERROR - HF Error 410
+2025-11-29 19:57:10,831 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 19:57:10,833 - INFO - 🎨 Pollinations рисует (cyberpunk style): "A blockchain skyscraper cracking and collapsing into a chaotic digital abyss."...
+2025-11-29 19:57:47,822 - INFO - 🖼 ID 5: Фото обновлено (AI).
+2025-11-29 19:58:01,224 - INFO - 🔘 ACTION: [IMG] ID 5
+2025-11-29 19:58:24,745 - INFO - 🖼 ID 5: Заменено на ОРИГИНАЛ.
+2025-11-29 20:00:09,139 - INFO - 🔘 ACTION: [TXT] ID 5
+2025-11-29 20:00:21,467 - INFO - 📝 ID 5: Текст обновлен.
+2025-11-29 20:00:31,573 - INFO - 🔘 ACTION: [TXT] ID 5
+2025-11-29 20:00:42,057 - INFO - 📝 ID 5: Текст обновлен.
+2025-11-29 20:01:20,564 - INFO - 🔘 ACTION: [PUB] ID 5
+2025-11-29 20:01:22,347 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 1/3)
+2025-11-29 20:01:22,355 - INFO - 📢 В работе ID 6 (Pub: 1/3)
+2025-11-29 20:01:45,224 - INFO - 🎨 Промпт для фото: "Precious XRP tokens flowing away from digital exchange platforms, tightening liquidity."
+2025-11-29 20:01:45,225 - INFO - 🎨 HF SDXL рисует (isometric 3d vector art): "Precious XRP tokens flowing away from digital exchange platforms, tightening liquidity."...
+2025-11-29 20:01:46,162 - ERROR - HF Error 410
+2025-11-29 20:01:46,163 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:01:46,164 - INFO - 🎨 Pollinations рисует (isometric 3d vector art): "Precious XRP tokens flowing away from digital exchange platforms, tightening liquidity."...
+2025-11-29 20:02:19,830 - INFO - 📨 Отправлено (Попытка 2).
+2025-11-29 20:03:55,663 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 20:04:01,499 - INFO - 🎨 HF SDXL рисует (double exposure photography): "Shimmering XRP tokens gracefully depart a bustling digital marketplace, leaving an increasingly empty void."...
+2025-11-29 20:04:02,727 - ERROR - HF Error 410
+2025-11-29 20:04:02,729 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:04:02,729 - INFO - 🎨 Pollinations рисует (double exposure photography): "Shimmering XRP tokens gracefully depart a bustling digital marketplace, leaving an increasingly empty void."...
+2025-11-29 20:04:26,254 - INFO - 🖼 ID 6: Фото обновлено (AI).
+2025-11-29 20:07:48,005 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 20:07:52,253 - INFO - 🎨 HF SDXL рисует (cinematic 3d render): "Shimmering digital coins, like precious jewels, vanishing from a vast, empty exchange vault."...
+2025-11-29 20:07:53,208 - ERROR - HF Error 410
+2025-11-29 20:07:53,210 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:07:53,211 - INFO - 🎨 Pollinations рисует (cinematic 3d render): "Shimmering digital coins, like precious jewels, vanishing from a vast, empty exchange vault."...
+2025-11-29 20:08:18,290 - INFO - 🖼 ID 6: Фото обновлено (AI).
+2025-11-29 20:08:54,899 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 20:09:04,351 - INFO - 🖼 ID 6: Заменено на ОРИГИНАЛ.
+2025-11-29 20:09:26,144 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 20:09:29,308 - INFO - 🚫 ID 6: Опубликовано текстом (лимит).
+2025-11-29 20:09:30,634 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 2/3)
+2025-11-29 20:09:30,642 - INFO - 📢 В работе ID 10 (Pub: 2/3)
+2025-11-29 20:09:52,965 - INFO - 🎨 Промпт для фото: "A person sculpting their ideal future self from glowing clay, each cut a conscious choice."
+2025-11-29 20:09:52,966 - INFO - 🎨 HF SDXL рисует (oil painting): "A person sculpting their ideal future self from glowing clay, each cut a conscious choice."...
+2025-11-29 20:09:54,210 - ERROR - HF Error 410
+2025-11-29 20:09:54,213 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:09:54,214 - INFO - 🎨 Pollinations рисует (oil painting): "A person sculpting their ideal future self from glowing clay, each cut a conscious choice."...
+2025-11-29 20:10:16,136 - INFO - 📨 Отправлено (Попытка 3).
+2025-11-29 20:10:54,347 - INFO - 🔘 ACTION: [IMG] ID 10
+2025-11-29 20:11:01,660 - INFO - 🎨 HF SDXL рисует (cinematic 3d render): "Person diligently building a radiant bridge connecting current self to their glowing future self."...
+2025-11-29 20:11:02,855 - ERROR - HF Error 410
+2025-11-29 20:11:02,856 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:11:02,857 - INFO - 🎨 Pollinations рисует (cinematic 3d render): "Person diligently building a radiant bridge connecting current self to their glowing future self."...
+2025-11-29 20:11:14,837 - INFO - 🔘 ACTION: [IMG] ID 10
+2025-11-29 20:11:21,016 - INFO - 🎨 HF SDXL рисует (cinematic 3d render): "Building a radiant future self piece by piece, each decision a glowing, deliberate brick."...
+2025-11-29 20:11:22,077 - ERROR - HF Error 410
+2025-11-29 20:11:22,078 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:11:22,080 - INFO - 🎨 Pollinations рисует (cinematic 3d render): "Building a radiant future self piece by piece, each decision a glowing, deliberate brick."...
+2025-11-29 20:11:44,460 - INFO - 🖼 ID 10: Фото обновлено (AI).
+2025-11-29 20:11:52,820 - INFO - 🔘 ACTION: [IMG] ID 10
+2025-11-29 20:11:57,889 - INFO - 🎨 HF SDXL рисует (oil painting): "A person carving their own illuminated path, stepping towards their magnificent future self."...
+2025-11-29 20:11:59,114 - ERROR - HF Error 410
+2025-11-29 20:11:59,115 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:11:59,116 - INFO - 🎨 Pollinations рисует (oil painting): "A person carving their own illuminated path, stepping towards their magnificent future self."...
+2025-11-29 20:12:29,008 - INFO - 🖼 ID 10: Фото обновлено (AI).
+2025-11-29 20:12:50,685 - INFO - 🔘 ACTION: [IMG] ID 10
+2025-11-29 20:38:29,672 - INFO - --- CRYPTONEWS AGENT v9.6 (RATE LIMIT FIX) ---
+2025-11-29 20:38:29,688 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-29 20:38:31,485 - INFO - 🕵️ Шпион в сети.
+2025-11-29 20:38:31,485 - INFO - 🎨 ImageService: HUGGINGFACE (SDXL Router Fix)
+2025-11-29 20:38:33,385 - INFO - 🤖 Бот-Редактор запущен (v10.0 Final).
+2025-11-29 20:38:33,385 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-29 20:38:33,385 - INFO - 🔄 ЦИКЛ: Сбор новостей за последние 4 часа...
+2025-11-29 20:38:34,937 - INFO - ✅ coindesk: +3 (Subs: 100000)
+2025-11-29 20:38:38,540 - INFO - ✅ cointelegraph: +3 (Subs: 100000)
+2025-11-29 20:38:41,188 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-29 20:38:43,305 - ERROR - Skip watcher_guru: Nobody is using this username, or the username is unacceptable. If the latter, it must match r"[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]" (caused by ResolveUsernameRequest)
+2025-11-29 20:38:47,123 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-29 20:38:50,045 - INFO - 💤 activitylauncher_offical: Пусто.
+2025-11-29 20:38:52,400 - INFO - ✅ just: +2 (Subs: 100000)
+2025-11-29 20:38:54,881 - INFO - ✅ popcorn_today: +2 (Subs: 100000)
+2025-11-29 20:38:58,935 - INFO - ✅ coinmarket: +1 (Subs: 100000)
+2025-11-29 20:39:02,671 - INFO - 💤 CRYPTO_jokker: Пусто.
+2025-11-29 20:39:05,431 - INFO - 💤 Alexnosleep: Пусто.
+2025-11-29 20:39:07,916 - INFO - 💤 cryp2day: Пусто.
+2025-11-29 20:39:10,332 - INFO - 💤 CRYPTO_insidderr: Пусто.
+2025-11-29 20:39:13,272 - INFO - 💤 roasted_crypto: Пусто.
+2025-11-29 20:39:20,731 - INFO - ✅ trading: +1 (Subs: 100000)
+2025-11-29 20:39:22,740 - INFO - 📊 Анализ 12 новостей. Проверка дублей...
+2025-11-29 20:39:28,748 - INFO - ✅ ID 6 добавлен в очередь.
+2025-11-29 20:39:37,987 - INFO - ✅ ID 5 добавлен в очередь.
+2025-11-29 20:39:46,294 - INFO - ✅ ID 8 добавлен в очередь.
+2025-11-29 20:39:54,758 - INFO - ✅ ID 7 добавлен в очередь.
+2025-11-29 20:40:03,144 - INFO - ✅ ID 12 добавлен в очередь.
+2025-11-29 20:40:12,564 - INFO - ✅ ID 4 добавлен в очередь.
+2025-11-29 20:40:21,885 - INFO - ✅ ID 10 добавлен в очередь.
+2025-11-29 20:40:31,835 - INFO - ✅ ID 9 добавлен в очередь.
+2025-11-29 20:40:43,215 - INFO - ✅ ID 11 добавлен в очередь.
+2025-11-29 20:40:54,205 - INFO - ✅ ID 3 добавлен в очередь.
+2025-11-29 20:41:06,211 - INFO - ✅ ID 2 добавлен в очередь.
+2025-11-29 20:41:17,621 - INFO - ✅ ID 1 добавлен в очередь.
+2025-11-29 20:41:17,638 - INFO - ✅ Сбор завершен.
+2025-11-29 20:41:17,640 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-29 20:41:17,640 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-29 20:41:36,620 - INFO - 🎨 Промпт для фото: "A digital coin shattering into countless fragments, plummeting from a great height."
+2025-11-29 20:41:36,629 - INFO - 🎨 HF SDXL рисует (double exposure photography): "A digital coin shattering into countless fragments, plummeting from a great height."...
+2025-11-29 20:41:38,153 - ERROR - HF Error 404
+2025-11-29 20:41:38,156 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:41:38,156 - INFO - 🎨 Pollinations рисует (double exposure photography): "A digital coin shattering into countless fragments, plummeting from a great height."...
+2025-11-29 20:41:52,284 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-29 20:42:57,158 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 20:43:04,275 - INFO - 🎨 HF SDXL рисует (ink illustration): "A fragile digital Monad coin shatters into fragments, cascading into a desolate digital abyss."...
+2025-11-29 20:43:05,659 - ERROR - HF Error 404
+2025-11-29 20:43:05,660 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:43:05,660 - INFO - 🎨 Pollinations рисует (ink illustration): "A fragile digital Monad coin shatters into fragments, cascading into a desolate digital abyss."...
+2025-11-29 20:45:23,064 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 20:45:29,491 - INFO - 🎨 HF SDXL рисует (double exposure photography): "A sleek digital coin shattering into countless fragments, symbolizing a catastrophic 99% crash."...
+2025-11-29 20:45:30,528 - ERROR - HF Error 404
+2025-11-29 20:45:30,532 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:45:30,533 - INFO - 🎨 Pollinations рисует (double exposure photography): "A sleek digital coin shattering into countless fragments, symbolizing a catastrophic 99% crash."...
+2025-11-29 20:47:29,506 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 20:49:24,305 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 20:49:27,935 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 1/3)
+2025-11-29 20:49:27,951 - INFO - 📢 В работе ID 8 (Pub: 1/3)
+2025-11-29 20:49:49,311 - INFO - 🎨 Промпт для фото: "Vast digital XRP reservoir rapidly shrinking, revealing barren, dry exchange floors."
+2025-11-29 20:49:49,313 - INFO - 🎨 HF SDXL рисует (isometric 3d vector art): "Vast digital XRP reservoir rapidly shrinking, revealing barren, dry exchange floors."...
+2025-11-29 20:49:50,705 - ERROR - HF Error 404
+2025-11-29 20:49:50,707 - WARNING - ⚠️ HF сбой. Переход на Pollinations Flux...
+2025-11-29 20:49:50,707 - INFO - 🎨 Pollinations рисует (isometric 3d vector art): "Vast digital XRP reservoir rapidly shrinking, revealing barren, dry exchange floors."...
+2025-11-29 20:50:24,059 - INFO - 📨 Отправлено (Попытка 2).
+2025-11-29 20:57:24,148 - INFO - --- CRYPTONEWS AGENT v9.6 (RATE LIMIT FIX) ---
+2025-11-29 20:57:24,167 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-29 20:57:27,161 - INFO - 🕵️ Шпион в сети.
+2025-11-29 20:57:27,161 - INFO - 🎨 ImageService: AI (SDXL Router Fix)
+2025-11-29 20:57:29,388 - INFO - 🤖 Бот-Редактор запущен (v10.0 Final).
+2025-11-29 20:57:29,388 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-29 20:57:29,396 - INFO - 🔄 ЦИКЛ: Сбор новостей за последние 4 часа...
+2025-11-29 20:57:30,065 - INFO - ✅ coindesk: +3 (Subs: 100000)
+2025-11-29 20:57:32,527 - INFO - ✅ cointelegraph: +3 (Subs: 100000)
+2025-11-29 20:57:34,863 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-29 20:57:37,062 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-29 20:57:39,500 - INFO - 💤 activitylauncher_offical: Пусто.
+2025-11-29 20:57:41,903 - INFO - ✅ just: +2 (Subs: 100000)
+2025-11-29 20:57:44,538 - INFO - ✅ popcorn_today: +2 (Subs: 100000)
+2025-11-29 20:57:47,821 - INFO - ✅ coinmarket: +1 (Subs: 100000)
+2025-11-29 20:57:50,417 - INFO - 💤 CRYPTO_jokker: Пусто.
+2025-11-29 20:57:53,002 - INFO - 💤 Alexnosleep: Пусто.
+2025-11-29 20:57:55,898 - INFO - 💤 cryp2day: Пусто.
+2025-11-29 20:57:58,272 - INFO - 💤 CRYPTO_insidderr: Пусто.
+2025-11-29 20:58:00,823 - INFO - 💤 roasted_crypto: Пусто.
+2025-11-29 20:58:03,696 - INFO - ✅ trading: +1 (Subs: 100000)
+2025-11-29 20:58:05,704 - INFO - 📊 Анализ 12 новостей. Проверка дублей...
+2025-11-29 20:58:11,710 - INFO - ✅ ID 6 добавлен в очередь.
+2025-11-29 20:58:21,050 - INFO - ✅ ID 5 добавлен в очередь.
+2025-11-29 20:58:30,342 - INFO - ✅ ID 8 добавлен в очередь.
+2025-11-29 20:58:39,226 - INFO - ✅ ID 4 добавлен в очередь.
+2025-11-29 20:58:47,983 - INFO - ✅ ID 7 добавлен в очередь.
+2025-11-29 20:58:56,138 - INFO - ✅ ID 12 добавлен в очередь.
+2025-11-29 20:59:05,431 - INFO - ✅ ID 10 добавлен в очередь.
+2025-11-29 20:59:17,034 - INFO - ✅ ID 9 добавлен в очередь.
+2025-11-29 20:59:27,930 - INFO - ✅ ID 11 добавлен в очередь.
+2025-11-29 20:59:39,325 - INFO - ✅ ID 3 добавлен в очередь.
+2025-11-29 20:59:48,824 - INFO - ✅ ID 2 добавлен в очередь.
+2025-11-29 20:59:58,612 - INFO - ✅ ID 1 добавлен в очередь.
+2025-11-29 20:59:58,612 - INFO - ✅ Сбор завершен.
+2025-11-29 20:59:58,628 - INFO - 🚀 МЕНЕДЖЕР АКТИВЕН.
+2025-11-29 20:59:58,628 - INFO - 📢 В работе ID 6 (Pub: 0/3)
+2025-11-29 21:00:21,565 - INFO - 🎨 Промпт для фото: "A vibrant digital coin crumbles to dust, nearly vanishing into a dark pixelated abyss."
+2025-11-29 21:00:21,565 - INFO - 🎨 Pollinations рисует (ink illustration): "A vibrant digital coin crumbles to dust, nearly vanishing into a dark pixelated abyss."...
+2025-11-29 21:00:44,169 - INFO - 📨 Отправлено (Попытка 1).
+2025-11-29 21:01:06,584 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 21:01:14,236 - INFO - 🎨 Pollinations рисует (cyberpunk style): "A polished Monad coin nosediving 99% from a peak, leaving a trail of digital dust."...
+2025-11-29 21:02:10,755 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 21:02:17,447 - INFO - 🎨 Pollinations рисует (oil painting): "A vibrant digital coin, labeled 'MONAD', dramatically plummeting and shattering into 99% dust."...
+2025-11-29 21:03:31,205 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 21:05:07,716 - INFO - 🔘 ACTION: [IMG] ID 6
+2025-11-29 21:05:11,859 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 1/3)
+2025-11-29 21:05:11,873 - INFO - 📢 В работе ID 5 (Pub: 1/3)
+2025-11-29 21:05:34,762 - INFO - 🎨 Промпт для фото: "A giant digital $SOL coin rapidly melting into a vast, empty void of data."
+2025-11-29 21:05:34,763 - INFO - 🎨 Pollinations рисует (ink illustration): "A giant digital $SOL coin rapidly melting into a vast, empty void of data."...
+2025-11-29 21:05:58,849 - INFO - 📨 Отправлено (Попытка 2).
+2025-11-29 21:09:21,970 - INFO - 🔘 ACTION: [TXT] ID 5
+2025-11-29 21:09:59,038 - INFO - 🔘 ACTION: [TXT] ID 5
+2025-11-29 21:10:18,144 - INFO - 🔘 ACTION: [TXT] ID 5
+2025-11-29 21:10:34,828 - INFO - 🔘 ACTION: [TXT] ID 5
+2025-11-29 21:10:36,745 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-29 21:10:36,759 - INFO - 📢 В работе ID 8 (Pub: 1/3)
+2025-11-29 21:10:57,598 - INFO - 🎨 Промпт для фото: "Glowing XRP coins draining from a bustling marketplace into a guarded, narrow vault."
+2025-11-29 21:10:57,599 - INFO - 🎨 Pollinations рисует (ink illustration): "Glowing XRP coins draining from a bustling marketplace into a guarded, narrow vault."...
+2025-11-29 21:11:35,210 - INFO - 📨 Отправлено (Попытка 3).
+2025-11-29 21:11:56,626 - INFO - 🔘 ACTION: [DEL] ID 8
+2025-11-29 21:11:57,354 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-29 21:11:57,369 - INFO - 📢 В работе ID 12 (Pub: 1/3)
+2025-11-29 21:12:19,286 - INFO - 🎨 Промпт для фото: "A person meticulously sculpting a perfect, envisioned version of their future self from clay."
+2025-11-29 21:12:19,287 - INFO - 🎨 Pollinations рисует (isometric 3d vector art): "A person meticulously sculpting a perfect, envisioned version of their future self from clay."...
+2025-11-29 21:12:33,025 - INFO - 📨 Отправлено (Попытка 4).
+2025-11-29 21:12:50,357 - INFO - 🔘 ACTION: [IMG] ID 12
+2025-11-29 21:12:56,246 - INFO - 🎨 Pollinations рисует (double exposure photography): "A person stepping through a shimmering mirror, transforming into their ideal future self."...
+2025-11-29 21:13:42,330 - INFO - 🔘 ACTION: [PUB] ID 12
+2025-11-29 21:13:43,473 - INFO - ✅ ОПУБЛИКОВАНО. (Всего: 2/3)
+2025-11-29 21:13:43,482 - INFO - 📢 В работе ID 7 (Pub: 2/3)
+2025-11-29 21:14:05,623 - INFO - 🎨 Промпт для фото: "An ancient stone calendar, cracked and overgrown, Bitcoin's four-year cycle now broken history."
+2025-11-29 21:14:05,624 - INFO - 🎨 Pollinations рисует (ink illustration): "An ancient stone calendar, cracked and overgrown, Bitcoin's four-year cycle now broken history."...
+2025-11-29 21:14:36,072 - INFO - 📨 Отправлено (Попытка 5).
+2025-11-29 21:14:53,715 - INFO - 🔘 ACTION: [DEL] ID 7
+2025-11-29 21:14:54,193 - INFO - ❌ ОТКЛОНЕНО. Ищу замену...
+2025-11-29 21:14:54,197 - INFO - 🛑 Лимит попыток (5/5). Жду новый цикл...
+2025-11-29 21:22:41,185 - INFO - --- CRYPTONEWS AGENT v9.6 (RATE LIMIT FIX) ---
+2025-11-29 21:22:41,201 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-29 21:22:42,458 - INFO - 🕵️ Шпион в сети.
+2025-11-29 21:22:42,458 - INFO - 🎨 ImageService: AI (SDXL Router Fix)
+2025-11-29 21:22:43,337 - INFO - 🤖 Бот-Редактор запущен (v10.0 Final).
+2025-11-29 21:22:43,339 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-29 21:22:43,353 - INFO - 🔄 ЦИКЛ: Сбор новостей за последние 4 часа...
+2025-11-29 21:22:44,913 - INFO - ✅ coindesk: +3 (Subs: 100000)
+2025-11-29 21:22:49,983 - INFO - ✅ cointelegraph: +3 (Subs: 100000)
+2025-11-29 21:22:52,794 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-29 21:22:55,382 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-29 21:22:58,729 - INFO - 💤 activitylauncher_offical: Пусто.
+2025-11-29 21:23:01,953 - INFO - ✅ just: +2 (Subs: 100000)
+2025-11-29 21:23:05,112 - INFO - ✅ popcorn_today: +1 (Subs: 100000)
+2025-11-29 21:23:08,035 - INFO - ✅ coinmarket: +1 (Subs: 100000)
+2025-11-29 21:23:10,543 - INFO - 💤 CRYPTO_jokker: Пусто.
+2025-11-29 21:23:13,547 - INFO - 💤 Alexnosleep: Пусто.
+2025-11-29 21:23:16,601 - INFO - 💤 cryp2day: Пусто.
+2025-11-29 21:23:19,072 - INFO - 💤 CRYPTO_insidderr: Пусто.
+2025-11-29 21:23:22,206 - INFO - 💤 roasted_crypto: Пусто.
+2025-11-29 21:23:24,798 - INFO - 💤 trading: Пусто.
+2025-11-29 21:23:26,808 - INFO - 📊 Анализ 10 новостей. Проверка дублей...
+2025-11-29 21:24:57,116 - INFO - --- CRYPTONEWS AGENT v9.6 (RATE LIMIT FIX) ---
+2025-11-29 21:24:57,132 - INFO - 📂 База данных: Полная версия (All Methods).
+2025-11-29 21:24:59,510 - INFO - 🕵️ Шпион в сети.
+2025-11-29 21:24:59,510 - INFO - 🎨 ImageService: AI (SDXL Router Fix)
+2025-11-29 21:25:00,868 - INFO - 🤖 Бот-Редактор запущен (v10.0 Final).
+2025-11-29 21:25:00,868 - INFO - ⏳ Жду завершения первого сбора...
+2025-11-29 21:25:00,868 - INFO - 🔄 ЦИКЛ: Сбор новостей за последние 4 часа...
+2025-11-29 21:25:01,917 - INFO - 💤 coindesk: Пусто.
+2025-11-29 21:25:04,636 - INFO - 💤 cointelegraph: Пусто.
+2025-11-29 21:25:07,083 - INFO - 💤 bloombergcrypto: Пусто.
+2025-11-29 21:25:09,359 - INFO - 💤 bitcoinmagazine: Пусто.
+2025-11-29 21:25:12,112 - INFO - 💤 activitylauncher_offical: Пусто.
+2025-11-29 21:25:14,631 - INFO - 💤 just: Пусто.
+2025-11-29 21:25:16,949 - INFO - 💤 popcorn_today: Пусто.
+2025-11-29 21:25:19,997 - INFO - 💤 coinmarket: Пусто.
+2025-11-29 21:25:22,697 - INFO - 💤 CRYPTO_jokker: Пусто.
+2025-11-29 21:25:25,391 - INFO - 💤 Alexnosleep: Пусто.
+2025-11-29 21:25:30,153 - INFO - 💤 cryp2day: Пусто.
+2025-11-29 21:25:33,080 - INFO - 💤 CRYPTO_insidderr: Пусто.
+2025-11-29 21:25:35,954 - INFO - 💤 roasted_crypto: Пусто.
+2025-11-29 21:25:39,031 - INFO - 💤 trading: Пусто.
+2025-11-29 21:25:41,043 - INFO - 📊 Анализ 10 новостей. Проверка дублей...
+2025-11-29 21:25:47,205 - INFO - ✅ ID 6 добавлен в очередь.
+2025-11-29 21:25:56,043 - INFO - ✅ ID 5 добавлен в очередь.

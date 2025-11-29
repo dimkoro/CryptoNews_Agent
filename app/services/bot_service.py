@@ -2,6 +2,7 @@ from telethon import TelegramClient, events, Button
 import logging
 import random
 import asyncio
+import io
 
 logger = logging.getLogger('CryptoBot')
 
@@ -19,7 +20,7 @@ class BotManager:
 
     async def start(self):
         await self.bot.start(bot_token=self.bot_token)
-        logger.info('🤖 Бот-Редактор запущен (v9.1 Unified).')
+        logger.info('🤖 Бот-Редактор запущен (v10.0 Final).')
 
     async def send_moderation(self, text, image_file, post_id):
         buttons = [
@@ -53,7 +54,7 @@ class BotManager:
             if action == 'del':
                 await event.delete()
                 await self.db.set_status(post_id, 'rejected')
-                await event.answer('❌ Удалено')
+                await event.answer('❌ Отклонено')
                 
             elif action == 'pub':
                 clean_text = msg.text.split('📊 Views')[0].strip()
@@ -75,6 +76,8 @@ class BotManager:
                     return
                 
                 await event.edit(f"⏳ <b>Генерирую текст (Попытка {attempts+1}/3)...</b>", parse_mode='html', buttons=None)
+                await asyncio.sleep(2.0)
+                
                 new_text_raw = await self.ai.rewrite_news(post['text'], instruction="Перепиши короче и живее.")
                 if '|||' in new_text_raw: final_text, _ = new_text_raw.split('|||')
                 else: final_text = new_text_raw
@@ -86,23 +89,62 @@ class BotManager:
                 buttons = [[Button.inline('✅ Опубликовать', data=f'pub_{post_id}'), Button.inline('❌ Отклонить', data=f'del_{post_id}')], [Button.inline('📝 Текст', data=f'txt_{post_id}'), Button.inline('🖼 Картинка', data=f'img_{post_id}')]]
                 await event.edit(caption, buttons=buttons)
                 await self.db.increment_attempt(post_id, 'txt')
-                logger.info(f'📝 ID {post_id}: Текст обновлен.')
                 
             elif action == 'img':
                 attempts = post['img_attempts']
+                
+                # СЦЕНАРИЙ 4: ПУБЛИКАЦИЯ БЕЗ ФОТО
                 if attempts >= 3:
-                    await event.edit("🚫 <b>Лимит фото. Публикую...</b>", parse_mode='html', buttons=None)
-                    clean_text = msg.text.split('📊 Views')[0].strip() + '\n\n🚀 @CryptoNews'
-                    await self.bot.send_message(self.pub_channel, clean_text)
-                    await event.delete()
-                    await self.db.set_status(post_id, 'published')
+                    await event.edit("🚫 <b>Лимит фото. Публикую текст...</b>", parse_mode='html', buttons=None)
+                    await asyncio.sleep(2.0)
+                    
+                    raw_text = msg.text if msg.text else msg.caption
+                    clean_text = raw_text.split('📊 Views')[0].strip() + '\n\n🚀 @CryptoNews'
+                    
+                    # Safe send
+                    try:
+                        await self.bot.send_message(self.pub_channel, clean_text)
+                        await event.delete()
+                        await self.db.set_status(post_id, 'published')
+                    except Exception as e:
+                        logger.error(f'Pub Error: {e}')
+                        await event.answer('Ошибка публикации.', alert=True)
                     return
+
+                # СЦЕНАРИЙ 3: ОРИГИНАЛ
+                if attempts == 2:
+                    await event.edit("📥 <b>Загружаю оригинал из источника...</b>", parse_mode='html', buttons=None)
+                    await asyncio.sleep(1.0) # Пауза для UI
+                    try:
+                        source_msgs = await self.spy.get_messages(post['channel'], ids=post['msg_id'])
+                        if source_msgs and source_msgs.media:
+                            media_blob = await self.spy.download_media(source_msgs, file=bytes)
+                            file_obj = io.BytesIO(media_blob)
+                            file_obj.name = 'original.jpg'
+                            
+                            await event.delete()
+                            buttons = [[Button.inline('✅ Опубликовать', data=f'pub_{post_id}'), Button.inline('❌ Отклонить', data=f'del_{post_id}')], [Button.inline('📝 Текст', data=f'txt_{post_id}'), Button.inline('🖼 Картинка', data=f'img_{post_id}')]]
+                            text_content = msg.text if msg.text else msg.caption
+                            await self.bot.send_message(self.mod_channel, text_content, file=file_obj, buttons=buttons)
+                            await self.db.increment_attempt(post_id, 'img', 'ORIGINAL_SOURCE')
+                            return
+                        else:
+                            # Если нет фото - пропускаем ход, идем к текстовой публикации в след раз
+                            await event.edit(msg.text, buttons=msg.buttons)
+                            await event.answer('В оригинале нет фото! (След. клик - текст)', alert=True)
+                            await self.db.increment_attempt(post_id, 'img', 'NO_SOURCE_IMG')
+                            return
+                    except Exception as e:
+                        logger.error(f"Ошибка оригинала: {e}")
+                        await event.edit(msg.text, buttons=msg.buttons)
+                        await event.answer('Ошибка скачивания оригинала.', alert=True)
+                        return
+
+                # СЦЕНАРИЙ 1 и 2: ГЕНЕРАЦИЯ AI
+                await event.edit("🖼 <b>Рисую новый арт...</b>", parse_mode='html', buttons=None)
+                await asyncio.sleep(2.0) # Пауза для UI
                 
-                await event.edit("🖼 <b>AI анализирует новость и рисует...</b>", parse_mode='html', buttons=None)
-                
-                # v9.0 Logic: Умный промпт
                 ai_prompt = await self.ai.generate_image_prompt(post['text'])
-                logger.info(f"🎨 Новый AI-запрос: {ai_prompt}")
                 img_file = await self.img.get_image(ai_prompt)
                 
                 if img_file:
