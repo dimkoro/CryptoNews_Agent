@@ -1,5 +1,6 @@
 import asyncio
 import sys
+import io
 from datetime import datetime, timezone
 from app.core.logger import setup_logger
 from app.core.config import load_config
@@ -11,13 +12,14 @@ from app.services.bot_service import BotManager
 
 logger = setup_logger()
 
-# --- НАСТРОЙКИ ВРЕМЕНИ ---
-SEARCH_WINDOW_HOURS = 4 
-
+# ГЛОБАЛЬНЫЕ СЧЕТЧИКИ
 CYCLE_START_TIME = datetime.now(timezone.utc)
 CYCLE_PUBLISHED_COUNT = 0
 CYCLE_ATTEMPTS_COUNT = 0
 startup_event = asyncio.Event()
+
+# НАСТРОЙКИ
+SEARCH_WINDOW_HOURS = 4 
 
 def normalize_channel(line):
     line = line.strip()
@@ -43,7 +45,7 @@ def calculate_hype_score(post):
 async def scheduler(spy, db, ai, channels):
     global CYCLE_START_TIME, CYCLE_PUBLISHED_COUNT, CYCLE_ATTEMPTS_COUNT
     while True:
-        logger.info(f'🔄 ЦИКЛ: Сбор новостей за последние {SEARCH_WINDOW_HOURS} часа...')
+        logger.info(f'🔄 ЦИКЛ: Сбор новостей (4 часа)...')
         CYCLE_START_TIME = datetime.now(timezone.utc)
         CYCLE_PUBLISHED_COUNT = 0
         CYCLE_ATTEMPTS_COUNT = 0
@@ -55,18 +57,16 @@ async def scheduler(spy, db, ai, channels):
         candidates = await db.get_raw_candidates()
         if candidates:
             ranked = sorted(candidates, key=calculate_hype_score, reverse=True)
-            logger.info(f'📊 Анализ {len(ranked)} новостей. Проверка дублей...')
+            logger.info(f'📊 Анализ {len(ranked)} новостей...')
             history = await db.get_recent_history(limit=25)
             for news in ranked:
-                # ПАУЗА 6 СЕК (Чтобы Google не забанил)
                 await asyncio.sleep(6)
-                
-                is_dupe = await ai.check_duplicate(news['text'], history)
+                is_dupe = await ai.check_duplicate(news['text_1'], history)
                 if is_dupe:
                     await db.set_status(news["id"], 'rejected')
                 else:
                     await db.set_status(news["id"], 'queued')
-                    history.append(news['text'])
+                    history.append(news['text_1'])
                     logger.info(f'✅ ID {news["id"]} добавлен в очередь.')
         else:
             logger.info('💤 Свежих новостей нет.')
@@ -78,7 +78,7 @@ async def scheduler(spy, db, ai, channels):
 async def main_loop():
     global CYCLE_PUBLISHED_COUNT, CYCLE_ATTEMPTS_COUNT
     try:
-        logger.info('--- CRYPTONEWS AGENT v9.6 (RATE LIMIT FIX) ---')
+        logger.info('--- CRYPTONEWS AGENT v13.2 (STABLE STUDIO) ---')
         config = load_config()
         db = Database()
         await db.init_db()
@@ -90,7 +90,7 @@ async def main_loop():
         img = ImageService(
             provider=config['image_provider'], 
             api_key=config['unsplash_key'],
-            hf_key=config['hf_key'],
+            hf_key=config['hf_key'], 
             proxy=config['proxy']
         )
         
@@ -102,7 +102,7 @@ async def main_loop():
             
         asyncio.create_task(scheduler(spy, db, ai, channels))
         
-        logger.info('⏳ Жду завершения первого сбора...')
+        logger.info('⏳ Жду данные...')
         await startup_event.wait()
         logger.info('🚀 МЕНЕДЖЕР АКТИВЕН.')
         
@@ -131,34 +131,46 @@ async def main_loop():
                 target = candidates[0]
                 logger.info(f'📢 В работе ID {target["id"]} (Pub: {CYCLE_PUBLISHED_COUNT}/3)')
                 
-                # ПАУЗА ПЕРЕД РЕРАЙТОМ
-                await asyncio.sleep(6) 
-                
-                ai_response = await ai.rewrite_news(target['text'])
-                if not ai_response: 
-                    await db.set_status(target['id'], 'rejected')
-                    continue
+                # 1. ТЕКСТЫ
+                await asyncio.sleep(6)
+                t1, t2 = await ai.generate_variants(target['text_1'])
+                if not t1: 
+                    await db.set_status(target['id'], 'rejected'); continue
 
-                if '|||' in ai_response:
-                    text, query = ai_response.split('|||')
-                else:
-                    text, query = ai_response, 'crypto'
-                
-                # ПАУЗА ПЕРЕД ПРОМПТОМ КАРТИНКИ
+                # 2. КАРТИНКИ
+                logger.info('🎨 Рисуем ассеты...')
                 await asyncio.sleep(4)
-                ai_prompt = await ai.generate_image_prompt(target['text'])
-                logger.info(f'🎨 Промпт для фото: "{ai_prompt}"')
+                prompt = await ai.generate_image_prompt(target['text_1'])
                 
-                img_file = await img.get_image(ai_prompt)
-                if not img_file:
-                    fallback = f"crypto {target['channel']} market"
-                    logger.warning(f'⚠️ Fallback фото: "{fallback}"')
-                    img_file = await img.get_image(fallback)
+                # Gen 1 & 2
+                i1 = None
+                res = await img.get_image(prompt)
+                if res: i1 = res.getvalue()
                 
-                stats = f'📊 Views: {target["views"]}'
-                caption = f'{text.strip()}\n\n{stats}\n🤖 #Draft'
+                i2 = None
+                res = await img.get_image(prompt)
+                if res: i2 = res.getvalue()
                 
-                await bot_mgr.send_moderation(caption, img_file, target['id'])
+                # Orig 3
+                i3 = None
+                try:
+                    m = await spy.client.get_messages(target['channel'], ids=target['msg_id'])
+                    if m and m.media: 
+                        i3 = await spy.client.download_media(m, file=bytes)
+                        logger.info('📥 Оригинал скачан.')
+                except: pass
+                
+                # Remake 4
+                i4 = None
+                if i3:
+                    desc = await ai.describe_image_for_remake(i3)
+                    if desc:
+                        res = await img.get_image(desc)
+                        if res: i4 = res.getvalue()
+                
+                await db.update_assets(target['id'], t1, t2, i1, i2, i3, i4)
+                await bot_mgr.send_studio(await db.get_post(target['id']))
+                
                 CYCLE_ATTEMPTS_COUNT += 1
                 logger.info(f'📨 Отправлено (Попытка {CYCLE_ATTEMPTS_COUNT}).')
                 
@@ -166,7 +178,7 @@ async def main_loop():
                     post_status = (await db.get_post(target['id']))['status']
                     if post_status == 'published':
                         CYCLE_PUBLISHED_COUNT += 1
-                        logger.info(f'✅ ОПУБЛИКОВАНО. (Всего: {CYCLE_PUBLISHED_COUNT}/3)')
+                        logger.info(f'✅ ОПУБЛИКОВАНО! (Итого: {CYCLE_PUBLISHED_COUNT}/3)')
                         break
                     elif post_status == 'rejected':
                         logger.info('❌ ОТКЛОНЕНО. Ищу замену...')
