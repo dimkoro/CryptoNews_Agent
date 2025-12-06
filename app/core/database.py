@@ -10,7 +10,8 @@ class Database:
 
     async def init_db(self):
         async with aiosqlite.connect(self.db_path) as db:
-            # Полная пересборка для чистоты v13
+            # 1. ТАБЛИЦА НОВОСТЕЙ (СТУДИЯ)
+            # Мы используем DROP, чтобы гарантировать создание правильной структуры с нуля
             await db.execute('DROP TABLE IF EXISTS news_posts')
             await db.execute('''
                 CREATE TABLE IF NOT EXISTS news_posts (
@@ -35,9 +36,36 @@ class Database:
                     last_query TEXT
                 )
             ''')
+            
+            # 2. ТАБЛИЦА СОСТОЯНИЯ (ЖИВУЧЕСТЬ)
+            # Хранит время старта цикла и счетчики
+            await db.execute('''
+                CREATE TABLE IF NOT EXISTS system_state (
+                    id INTEGER PRIMARY KEY CHECK (id = 1),
+                    cycle_start_time TEXT,
+                    published_count INTEGER DEFAULT 0,
+                    attempts_count INTEGER DEFAULT 0
+                )
+            ''')
             await db.commit()
-            logger.info('📂 БД v13.2: Полная структура.')
+            logger.info('📂 БД v14.1: Студия + Живучесть готовы.')
 
+    # --- МЕТОДЫ ЖИВУЧЕСТИ (PERSISTENCE) ---
+    async def save_state(self, start_time, pub_count, attempt_count):
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute('''
+                INSERT OR REPLACE INTO system_state (id, cycle_start_time, published_count, attempts_count)
+                VALUES (1, ?, ?, ?)
+            ''', (str(start_time), pub_count, attempt_count))
+            await db.commit()
+
+    async def get_state(self):
+        async with aiosqlite.connect(self.db_path) as db:
+            db.row_factory = aiosqlite.Row
+            cursor = await db.execute("SELECT * FROM system_state WHERE id=1")
+            return await cursor.fetchone()
+
+    # --- МЕТОДЫ НОВОСТЕЙ (STUDIO) ---
     async def add_post(self, channel, msg_id, text, views, comments, subscribers, date_posted):
         try:
             async with aiosqlite.connect(self.db_path) as db:
@@ -81,7 +109,6 @@ class Database:
             cursor = await db.execute("SELECT * FROM news_posts WHERE status='raw'")
             return await cursor.fetchall()
             
-    # ВОТ ЭТОТ МЕТОД БЫЛ ПОТЕРЯН - ВОЗВРАЩАЕМ ЕГО
     async def get_queued_news(self):
         async with aiosqlite.connect(self.db_path) as db:
             db.row_factory = aiosqlite.Row
