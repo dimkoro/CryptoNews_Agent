@@ -20,7 +20,7 @@ class CycleState:
         self.attempts = 0
         self.start_time = datetime.now(timezone.utc)
         self.is_resumed = False
-        self.active = False # ВОТ ЭТО ПОЛЕ МЫ ЗАБЫЛИ!
+        self.active = False
 
 STATE = CycleState()
 
@@ -56,7 +56,7 @@ async def scheduler(spy, db, ai, channels):
             STATE.start_time = datetime.now(timezone.utc)
             await db.save_state(STATE.start_time, 0, 0)
         else:
-             STATE.is_resumed = False # Сбрасываем флаг после первого прохода
+             STATE.is_resumed = False
         
         STATE.active = True
         cycle_ready.clear()
@@ -84,10 +84,10 @@ async def scheduler(spy, db, ai, channels):
         if fresh_candidates:
             ranked = sorted(fresh_candidates, key=calculate_hype_score, reverse=True)
             logger.info(f'📊 Анализ {len(ranked)} свежих новостей...')
-            # Увеличили историю до 50, чтобы точно ловить дубли при перезапуске
             history = await db.get_recent_history(limit=50)
             for news in ranked:
-                await asyncio.sleep(6)
+                # ИЗМЕНЕНИЕ: Увеличили задержку с 6 до 15 секунд
+                await asyncio.sleep(15)
                 try: is_dupe = await ai.check_duplicate(news['text_1'], history)
                 except: is_dupe = False
                 
@@ -130,11 +130,13 @@ async def production(db, ai, img, spy, bot_mgr):
         t1, t2 = await ai.generate_variants(target['text_1'])
         if not t1: await db.set_status(target['id'], 'rejected'); continue
             
-        logger.info('🎨 Рисуем...')
+        logger.info('🎨 Рисуем... (Пауза 20с для защиты от лимитов)')
         prompt = await ai.generate_image_prompt(target['text_1'])
         
         i1_obj = await img.get_image(prompt)
         i1 = i1_obj.getvalue() if i1_obj else None
+        
+        await asyncio.sleep(20)
         
         i2_obj = await img.get_image(prompt)
         i2 = i2_obj.getvalue() if i2_obj else None
@@ -151,6 +153,7 @@ async def production(db, ai, img, spy, bot_mgr):
         if i3:
             desc = await ai.describe_image_for_remake(i3)
             if desc:
+                await asyncio.sleep(20)
                 i4_obj = await img.get_image(desc)
                 if i4_obj: i4 = i4_obj.getvalue()
             
@@ -174,7 +177,7 @@ async def production(db, ai, img, spy, bot_mgr):
             await asyncio.sleep(2)
 
 async def main_loop():
-    logger.info('--- CRYPTONEWS AGENT v15.2 (STATE FIX) ---')
+    logger.info('--- CRYPTONEWS AGENT v15.4 (MODEL FIX) ---')
     config = load_config()
     db = Database(); await db.init_db()
     spy = TelegramSpy(config); await spy.start_spy()

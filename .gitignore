@@ -1,0 +1,28 @@
+# Секреты и ключи
+.env
+config.json
+
+# Базы данных
+crypto_agent.db
+*.db-journal
+
+# Логи
+*.log
+bot.log
+
+# Сессии Telegram
+*.session
+*.session-journal
+
+# Виртуальное окружение (ВАЖНО)
+.venv/
+.pyenv/
+
+# Python мусор
+__pycache__/
+*.py[cod]
+.vscode/
+
+# Временные папки
+temp/
+outputs/

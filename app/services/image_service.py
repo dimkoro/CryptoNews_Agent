@@ -22,7 +22,7 @@ class ImageService:
             "double exposure photography, artistic, minimalistic",
             "isometric 3d vector art, clean lines, vibrant colors"
         ]
-        logger.info(f'🎨 ImageService v13.0: {self.provider.upper()}')
+        logger.info(f'🎨 ImageService v13.1 (Retries): {self.provider.upper()}')
 
     async def get_image(self, query):
         current_style = random.choice(self.styles)
@@ -72,15 +72,24 @@ class ImageService:
         return None
 
     async def _download_image(self, url):
-        try:
-            headers = {'User-Agent': 'Mozilla/5.0'}
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, headers=headers, proxy=self.proxy, timeout=60) as resp:
-                    if resp.status == 200:
-                        data = await resp.read()
-                        return io.BytesIO(data)
-                    else:
-                        logger.error(f'DL Fail: {resp.status}')
-        except Exception as e:
-            logger.error(f'DL Err: {e}')
+        # ИСПРАВЛЕНИЕ: 3 попытки скачивания с паузами
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        for i in range(3):
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(url, headers=headers, proxy=self.proxy, timeout=60) as resp:
+                        if resp.status == 200:
+                            data = await resp.read()
+                            if len(data) < 1000: # Защита от битых файлов (меньше 1кб)
+                                logger.warning(f'⚠️ Image too small ({len(data)}b). Retrying...')
+                                await asyncio.sleep(2)
+                                continue
+                            return io.BytesIO(data)
+                        else:
+                            logger.warning(f'⚠️ DL Fail ({resp.status}). Try {i+1}/3')
+            except Exception as e:
+                logger.warning(f'⚠️ DL Err ({e}). Try {i+1}/3')
+            await asyncio.sleep(3) # Пауза перед следующей попыткой
+        
+        logger.error("❌ Failed to download image after 3 attempts.")
         return None
