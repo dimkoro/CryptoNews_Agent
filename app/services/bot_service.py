@@ -2,6 +2,7 @@ from telethon import TelegramClient, events, Button
 import logging
 import io
 import asyncio
+from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger('CryptoBot')
 
@@ -19,7 +20,6 @@ class BotManager:
     async def start(self): await self.bot.start(bot_token=self.bot_token)
 
     async def send_studio(self, post):
-        # ИСПРАВЛЕНИЕ: Заголовки жестко привязаны к стилям
         captions = ['1️⃣ Cyberpunk', '2️⃣ Sketch', '3️⃣ Оригинал', '4️⃣ Remake']
         a_ids = []
         for i, key in enumerate(['img_1', 'img_2', 'img_3', 'img_4']):
@@ -33,13 +33,29 @@ class BotManager:
         await self.update_interface(post, is_new=True)
 
     async def update_interface(self, post, is_new=False, event=None):
-        t1_s = (post['text_1'][:60] + '...') if post['text_1'] else '❌'
-        t2_s = (post['text_2'][:60] + '...') if post['text_2'] else '❌'
+        # --- ЛОГИКА ВРЕМЕНИ (МСК) ---
+        try:
+            dt_val = post['date_posted']
+            if isinstance(dt_val, str):
+                dt = datetime.fromisoformat(str(dt_val))
+            else: dt = dt_val
+            
+            if not dt.tzinfo: dt = dt.replace(tzinfo=timezone.utc)
+            # Конвертируем в МСК (UTC+3)
+            msk_tz = timezone(timedelta(hours=3))
+            dt_msk = dt.astimezone(msk_tz)
+            time_str = dt_msk.strftime("%d.%m %H:%M")
+        except: 
+            time_str = "??:??"
+        # ----------------------------
+
+        t1_s = (post['text_1'][:40] + '...') if post['text_1'] else '❌'
+        t2_s = (post['text_2'][:40] + '...') if post['text_2'] else '❌'
         
         control_msg = (
-            f"🎛 **ПУЛЬТ РЕДАКТОРА (ID {post['id']})**\n\n"
+            f"🎛 **ПУЛЬТ (ID {post['id']} | 🕒 {time_str} МСК)**\n\n"
             f"1️⃣ _Hype:_ {t1_s}\n"
-            f"2️⃣ _Strict:_ {t2_s}\n\n"
+            f"2️⃣ _RBC:_ {t2_s}\n\n"
             f"👇 **ВЫБРАНО ДЛЯ ПРЕВЬЮ:**\n"
             f"Картинка: **#{post['selected_img']}** | Текст: **#{post['selected_txt']}**"
         )
@@ -55,8 +71,8 @@ class BotManager:
                 Button.inline(f"{'✅' if si==4 else ''} Remake", f's_img_4_{pid}')
             ],
             [
-                Button.inline(f"{'✅' if st==1 else ''} Текст 1", f's_txt_1_{pid}'),
-                Button.inline(f"{'✅' if st==2 else ''} Текст 2", f's_txt_2_{pid}')
+                Button.inline(f"{'✅' if st==1 else ''} Hype", f's_txt_1_{pid}'),
+                Button.inline(f"{'✅' if st==2 else ''} RBC", f's_txt_2_{pid}')
             ]
         ]
         
