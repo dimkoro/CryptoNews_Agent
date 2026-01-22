@@ -35,11 +35,14 @@ def calculate_hype_score(post):
         views = post['views'] or 0
         comments = post['comments'] or 0
         subs = post['subscribers'] or 100000
+        # ИСПРАВЛЕНИЕ ВРЕМЕНИ: Парсим корректно
         dt_val = post['date_posted']
         if isinstance(dt_val, str): 
-            dt_val = dt_val.split('+')[0]
-            dt = datetime.fromisoformat(dt_val).replace(tzinfo=timezone.utc)
+            dt = datetime.fromisoformat(str(dt_val))
+            # Если нет таймзоны, считаем UTC, иначе Python сам сравнит правильно
+            if not dt.tzinfo: dt = dt.replace(tzinfo=timezone.utc)
         else: dt = dt_val
+        
         age = (datetime.now(timezone.utc) - dt).total_seconds() / 3600
         if age < 0: age = 0
         score = ((views + comments * 10) / (subs if subs>0 else 100000)) / (age + 2)
@@ -68,26 +71,33 @@ async def scheduler(spy, db, ai, channels):
         candidates = await db.get_raw_candidates()
         fresh_candidates = []
         now = datetime.now(timezone.utc)
+        
         for c in candidates:
             try:
+                # ИСПРАВЛЕНИЕ: Точный расчет возраста новости
                 dt_val = c['date_posted']
                 if isinstance(dt_val, str): 
-                     dt_val = dt_val.split('+')[0]
-                     dt = datetime.fromisoformat(dt_val).replace(tzinfo=timezone.utc)
+                     dt = datetime.fromisoformat(str(dt_val))
+                     if not dt.tzinfo: dt = dt.replace(tzinfo=timezone.utc)
                 else: dt = dt_val
-                if (now - dt).total_seconds() > SEARCH_WINDOW_HOURS * 3600:
+                
+                age_hours = (now - dt).total_seconds() / 3600
+                
+                if age_hours > SEARCH_WINDOW_HOURS:
                     await db.set_status(c['id'], 'expired')
+                    # logger.info(f"🗑 Expired: ID {c['id']} (Age: {age_hours:.1f}h)")
                     continue
                 fresh_candidates.append(c)
-            except: pass
+            except Exception as e:
+                logger.error(f"Date parse err: {e}")
+                pass
             
         if fresh_candidates:
             ranked = sorted(fresh_candidates, key=calculate_hype_score, reverse=True)
             logger.info(f'📊 Анализ {len(ranked)} свежих новостей...')
             history = await db.get_recent_history(limit=50)
             for news in ranked:
-                # ИЗМЕНЕНИЕ: Увеличили задержку с 6 до 15 секунд
-                await asyncio.sleep(15)
+                await asyncio.sleep(6)
                 try: is_dupe = await ai.check_duplicate(news['text_1'], history)
                 except: is_dupe = False
                 
@@ -133,12 +143,15 @@ async def production(db, ai, img, spy, bot_mgr):
         logger.info('🎨 Рисуем... (Пауза 20с для защиты от лимитов)')
         prompt = await ai.generate_image_prompt(target['text_1'])
         
-        i1_obj = await img.get_image(prompt)
+        # ИСПРАВЛЕНИЕ: Жесткое указание стилей
+        # 1-я картинка: ВСЕГДА Cyberpunk
+        i1_obj = await img.get_image(prompt, style_type='cyberpunk')
         i1 = i1_obj.getvalue() if i1_obj else None
         
         await asyncio.sleep(20)
         
-        i2_obj = await img.get_image(prompt)
+        # 2-я картинка: ВСЕГДА Sketch
+        i2_obj = await img.get_image(prompt, style_type='sketch')
         i2 = i2_obj.getvalue() if i2_obj else None
         
         i3 = None
@@ -154,7 +167,7 @@ async def production(db, ai, img, spy, bot_mgr):
             desc = await ai.describe_image_for_remake(i3)
             if desc:
                 await asyncio.sleep(20)
-                i4_obj = await img.get_image(desc)
+                i4_obj = await img.get_image(desc, style_type='cyberpunk') # Ремейк тоже можно зафиксировать или оставить рандом
                 if i4_obj: i4 = i4_obj.getvalue()
             
         await db.update_assets(target['id'], t1, t2, i1, i2, i3, i4)
@@ -177,7 +190,7 @@ async def production(db, ai, img, spy, bot_mgr):
             await asyncio.sleep(2)
 
 async def main_loop():
-    logger.info('--- CRYPTONEWS AGENT v15.4 (MODEL FIX) ---')
+    logger.info('--- CRYPTONEWS AGENT v15.8 (FIX TIME & STYLE) ---')
     config = load_config()
     db = Database(); await db.init_db()
     spy = TelegramSpy(config); await spy.start_spy()

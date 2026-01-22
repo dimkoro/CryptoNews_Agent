@@ -19,7 +19,8 @@ class BotManager:
     async def start(self): await self.bot.start(bot_token=self.bot_token)
 
     async def send_studio(self, post):
-        captions = ['1️⃣ Cyberpunk', '2️⃣ Art', '3️⃣ Оригинал', '4️⃣ Remake']
+        # ИСПРАВЛЕНИЕ: Заголовки жестко привязаны к стилям
+        captions = ['1️⃣ Cyberpunk', '2️⃣ Sketch', '3️⃣ Оригинал', '4️⃣ Remake']
         a_ids = []
         for i, key in enumerate(['img_1', 'img_2', 'img_3', 'img_4']):
             if post[key]:
@@ -48,8 +49,8 @@ class BotManager:
         
         control_btns = [
             [
-                Button.inline(f"{'✅' if si==1 else ''} 1", f's_img_1_{pid}'),
-                Button.inline(f"{'✅' if si==2 else ''} 2", f's_img_2_{pid}'),
+                Button.inline(f"{'✅' if si==1 else ''} Cyber", f's_img_1_{pid}'),
+                Button.inline(f"{'✅' if si==2 else ''} Sketch", f's_img_2_{pid}'),
                 Button.inline(f"{'✅' if si==3 else ''} Orig", f's_img_3_{pid}'),
                 Button.inline(f"{'✅' if si==4 else ''} Remake", f's_img_4_{pid}')
             ],
@@ -62,9 +63,14 @@ class BotManager:
         final_txt = post[f'text_{st}']
         final_img = post[f'img_{si}']
         
-        # ИСПРАВЛЕНИЕ: Обрезаем до 900 символов, чтобы точно влезло
-        preview_caption = final_txt.strip() + f'\n\n👀 {post["views"]}\n🤖 #Draft'
-        if len(preview_caption) > 950: preview_caption = preview_caption[:900]+"...(обрезано)..."
+        footer = f'\n\n👀 {post["views"]}\n🤖 #Draft'
+        max_body_len = 1024 - len(footer) - 50
+        
+        body_txt = final_txt.strip()
+        if len(body_txt) > max_body_len:
+             body_txt = body_txt[:max_body_len] + "..."
+             
+        preview_caption = body_txt + footer
         
         action_btns = [
             [Button.inline('🚀 В КАНАЛ', f'f_pub_{pid}')],
@@ -112,7 +118,7 @@ class BotManager:
                 val = int(d[2])
                 post = await self.db.get_post(pid)
                 if type_sel == 'img' and not post[f'img_{val}']:
-                    await event.answer('Картинка недоступна (попробуй обновить)', alert=True)
+                    await event.answer('Картинка недоступна', alert=True)
                     return
                 await self.db.update_selection(pid, type_sel, val)
                 post = await self.db.get_post(pid)
@@ -123,23 +129,15 @@ class BotManager:
                 sub, pid = d[1], int(d[2])
                 post = await self.db.get_post(pid)
                 
-                # ИСПРАВЛЕНИЕ: Безопасное удаление по частям
-                try:
-                    if post['control_msg_id']: 
-                        await self.bot.delete_messages(self.mod, post['control_msg_id'])
-                        await asyncio.sleep(0.5)
-                except Exception as e: logger.warning(f"Del Ctrl Err: {e}")
-
-                try:
-                    if post['preview_msg_id']: 
-                        await self.bot.delete_messages(self.mod, post['preview_msg_id'])
-                        await asyncio.sleep(0.5)
-                except Exception as e: logger.warning(f"Del Prev Err: {e}")
+                for msg_id in [post['control_msg_id'], post['preview_msg_id']]:
+                    try: 
+                        if msg_id: await self.bot.delete_messages(self.mod, msg_id)
+                    except: pass
                 
                 try:
                     if pid in self.album_map: 
                         await self.bot.delete_messages(self.mod, self.album_map[pid])
-                except Exception as e: logger.warning(f"Del Album Err: {e}")
+                except: pass
                 
                 if sub == 'del':
                     await self.db.set_status(pid, 'rejected')
