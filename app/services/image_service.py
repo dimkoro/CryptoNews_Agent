@@ -10,18 +10,14 @@ class ImageService:
     def __init__(self, provider, api_key=None, proxy=None, hf_key=None):
         self.provider = provider
         self.proxy = proxy
-        # СЛОВАРЬ СТИЛЕЙ: Теперь мы обращаемся к ним по ключу, а не случайно
         self.styles = {
             'cyberpunk': ", cyberpunk style, neon lights, high tech, futuristic city background, cinematic lighting, 8k",
             'sketch': ", pencil sketch style, hand-drawn graphite, detailed cross-hatching, rough paper texture, black and white artistic"
         }
-        logger.info(f'🎨 ImageService v15.8 (Strict Modes): {self.provider.upper()}')
+        logger.info(f'🎨 ImageService v15.9 (Strict Modes): {self.provider.upper()}')
 
     async def get_image(self, query, style_type='cyberpunk'):
-        # Выбираем конкретный стиль. Если ошиблись в названии — берем киберпанк по умолчанию
         style_prompt = self.styles.get(style_type, self.styles['cyberpunk'])
-        
-        # Формула: Сюжет + Стиль
         final_prompt = f"{query}{style_prompt}, high quality, no text"
         return await self._generate_pollinations(final_prompt)
 
@@ -29,7 +25,6 @@ class ImageService:
         try:
             encoded = prompt.replace(" ", "%20").replace("\n", "")
             seed = random.randint(1, 99999)
-            # Используем модель Flux для лучшего качества
             url = f"https://image.pollinations.ai/prompt/{encoded}?model=flux&width=1280&height=720&seed={seed}&nologo=true"
             return await self._download_image(url)
         except: return None

@@ -14,7 +14,7 @@ bot.log
 *.session
 *.session-journal
 
-# Виртуальное окружение (ВАЖНО)
+# Виртуальное окружение
 .venv/
 .pyenv/
 

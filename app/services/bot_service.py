@@ -33,7 +33,6 @@ class BotManager:
         await self.update_interface(post, is_new=True)
 
     async def update_interface(self, post, is_new=False, event=None):
-        # --- ЛОГИКА ВРЕМЕНИ (МСК) ---
         try:
             dt_val = post['date_posted']
             if isinstance(dt_val, str):
@@ -41,13 +40,11 @@ class BotManager:
             else: dt = dt_val
             
             if not dt.tzinfo: dt = dt.replace(tzinfo=timezone.utc)
-            # Конвертируем в МСК (UTC+3)
             msk_tz = timezone(timedelta(hours=3))
             dt_msk = dt.astimezone(msk_tz)
             time_str = dt_msk.strftime("%d.%m %H:%M")
         except: 
             time_str = "??:??"
-        # ----------------------------
 
         t1_s = (post['text_1'][:40] + '...') if post['text_1'] else '❌'
         t2_s = (post['text_2'][:40] + '...') if post['text_2'] else '❌'
