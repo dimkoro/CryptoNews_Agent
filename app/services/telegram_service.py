@@ -1,5 +1,6 @@
 from telethon import TelegramClient
 from telethon.tl.functions.messages import GetHistoryRequest
+from telethon.tl.functions.channels import GetFullChannelRequest
 import logging
 from datetime import datetime, timezone
 
@@ -12,11 +13,18 @@ class TelegramSpy:
         
     async def start_spy(self):
         await self.client.start()
-        logger.info("🕵️ Шпион v15.9: В сети и готов к работе.")
+        logger.info("🕵️ Шпион v16.3.1: В сети и готов к работе.")
 
     async def harvest_channel(self, channel_username, db, hours=4):
         try:
             entity = await self.client.get_entity(channel_username)
+            
+            subs = 100000
+            try:
+                full_channel = await self.client(GetFullChannelRequest(entity))
+                subs = full_channel.full_chat.participants_count
+            except: pass
+
             posts = await self.client(GetHistoryRequest(
                 peer=entity,
                 limit=10,
@@ -39,14 +47,6 @@ class TelegramSpy:
                 if age > hours: continue
                 if await db.post_exists(channel_username, msg.id): continue
                 
-                # Собираем данные
-                subs = 100000 # Заглушка, если API не отдает
-                try:
-                    full = await self.client.get_entity(channel_username)
-                    if hasattr(full, 'participants_count') and full.participants_count:
-                        subs = full.participants_count
-                except: pass
-
                 data = {
                     'channel': channel_username,
                     'msg_id': msg.id,
@@ -59,7 +59,7 @@ class TelegramSpy:
                 await db.save_post(data)
                 count += 1
             
-            if count > 0: logger.info(f"✅ {channel_username}: +{count} (Subs: {data['subs']})")
+            if count > 0: logger.info(f"✅ {channel_username}: +{count} (Subs: {subs})")
             else: logger.info(f"💤 {channel_username}: Пусто.")
                 
         except Exception as e:

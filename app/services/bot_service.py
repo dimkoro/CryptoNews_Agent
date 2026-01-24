@@ -16,11 +16,14 @@ class BotManager:
         self.mod = int(config['mod_channel'])
         self.bot.add_event_handler(self.handler, events.CallbackQuery)
         self.album_map = {}
+        self.s1_name = config['style_1'].capitalize()
+        self.s2_name = config['style_2'].capitalize()
+        self.sr_name = config['style_remake'].capitalize()
 
     async def start(self): await self.bot.start(bot_token=self.bot_token)
 
     async def send_studio(self, post):
-        captions = ['1️⃣ Cyberpunk', '2️⃣ Sketch', '3️⃣ Оригинал', '4️⃣ Remake']
+        captions = [f'1️⃣ {self.s1_name}', f'2️⃣ {self.s2_name}', '3️⃣ Оригинал', f'4️⃣ Remake ({self.sr_name})']
         a_ids = []
         for i, key in enumerate(['img_1', 'img_2', 'img_3', 'img_4']):
             if post[key]:
@@ -62,8 +65,8 @@ class BotManager:
         
         control_btns = [
             [
-                Button.inline(f"{'✅' if si==1 else ''} Cyber", f's_img_1_{pid}'),
-                Button.inline(f"{'✅' if si==2 else ''} Sketch", f's_img_2_{pid}'),
+                Button.inline(f"{'✅' if si==1 else ''} {self.s1_name}", f's_img_1_{pid}'),
+                Button.inline(f"{'✅' if si==2 else ''} {self.s2_name}", f's_img_2_{pid}'),
                 Button.inline(f"{'✅' if si==3 else ''} Orig", f's_img_3_{pid}'),
                 Button.inline(f"{'✅' if si==4 else ''} Remake", f's_img_4_{pid}')
             ],

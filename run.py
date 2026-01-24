@@ -11,7 +11,7 @@ from app.services.image_service import ImageService
 from app.services.bot_service import BotManager
 
 # --- ВЕРСИЯ ЯДРА ---
-VERSION = "v15.9 (FINAL STABLE)"
+VERSION = "v16.3.1 (STABLE)"
 
 logger = setup_logger()
 SEARCH_WINDOW_HOURS = 4
@@ -53,6 +53,8 @@ def calculate_hype_score(post):
 
 async def scheduler(spy, db, ai, channels):
     while True:
+        await db.cleanup_old_records(days=3)
+        
         logger.info(f'🔄 СБОРЩИК: Ищу новости за {SEARCH_WINDOW_HOURS}ч...')
         
         if not STATE.is_resumed:
@@ -95,14 +97,18 @@ async def scheduler(spy, db, ai, channels):
         if fresh_candidates:
             ranked = sorted(fresh_candidates, key=calculate_hype_score, reverse=True)
             logger.info(f'📊 Анализ {len(ranked)} свежих новостей...')
-            history = await db.get_recent_history(limit=50)
+            
+            history = await db.get_recent_history(days=3)
+            
             for news in ranked:
                 await asyncio.sleep(6)
-                try: is_dupe = await ai.check_duplicate(news['text_1'], history)
+                try: 
+                    is_dupe = await ai.check_duplicate(news['text_1'], history)
                 except: is_dupe = False
                 
                 if is_dupe:
                     await db.set_status(news["id"], 'rejected')
+                    logger.info(f'⏩ ID {news["id"]} - Дубликат (Пропуск).')
                 else:
                     await db.set_status(news["id"], 'queued')
                     history.append(news['text_1'])
@@ -114,7 +120,7 @@ async def scheduler(spy, db, ai, channels):
         cycle_ready.set()
         await asyncio.sleep(4 * 3600)
 
-async def production(db, ai, img, spy, bot_mgr):
+async def production(db, ai, img, spy, bot_mgr, config):
     logger.info('🏭 Цех готов.')
     while True:
         await cycle_ready.wait()
@@ -159,12 +165,12 @@ async def production(db, ai, img, spy, bot_mgr):
         logger.info('🎨 Рисуем... (Пауза 20с)')
         prompt = await ai.generate_image_prompt(target['text_1'])
         
-        i1_obj = await img.get_image(prompt, style_type='cyberpunk')
+        i1_obj = await img.get_image(prompt, style_type=config['style_1'])
         i1 = i1_obj.getvalue() if i1_obj else None
         
         await asyncio.sleep(20)
         
-        i2_obj = await img.get_image(prompt, style_type='sketch')
+        i2_obj = await img.get_image(prompt, style_type=config['style_2'])
         i2 = i2_obj.getvalue() if i2_obj else None
         
         i3 = None
@@ -180,7 +186,7 @@ async def production(db, ai, img, spy, bot_mgr):
             desc = await ai.describe_image_for_remake(i3)
             if desc:
                 await asyncio.sleep(20)
-                i4_obj = await img.get_image(desc, style_type='cyberpunk')
+                i4_obj = await img.get_image(desc, style_type=config['style_remake'])
                 if i4_obj: i4 = i4_obj.getvalue()
             
         await db.update_assets(target['id'], t1, t2, i1, i2, i3, i4)
@@ -227,7 +233,7 @@ async def main_loop():
     with open('channels.txt', 'r') as f: ch = [norm(l.strip()) for l in f if l.strip()]
         
     asyncio.create_task(scheduler(spy, db, ai, ch))
-    await production(db, ai, img, spy, bot)
+    await production(db, ai, img, spy, bot, config)
 
 if __name__ == '__main__':
     if sys.platform == 'win32': asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())

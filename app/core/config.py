@@ -14,5 +14,8 @@ def load_config():
         'pub_channel': int(os.getenv('PUB_CHANNEL_ID')),
         'mod_channel': int(os.getenv('MOD_CHANNEL_ID')),
         'image_provider': os.getenv('IMAGE_PROVIDER', 'pollinations'),
-        'proxy': os.getenv('PROXY_URL', None)
+        'proxy': os.getenv('PROXY_URL', None),
+        'style_1': os.getenv('STYLE_IMG_1', 'cyberpunk'),
+        'style_2': os.getenv('STYLE_IMG_2', 'sketch'),
+        'style_remake': os.getenv('STYLE_REMAKE', 'realism')
     }

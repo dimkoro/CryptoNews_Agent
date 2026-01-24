@@ -12,9 +12,12 @@ class ImageService:
         self.proxy = proxy
         self.styles = {
             'cyberpunk': ", cyberpunk style, neon lights, high tech, futuristic city background, cinematic lighting, 8k",
-            'sketch': ", pencil sketch style, hand-drawn graphite, detailed cross-hatching, rough paper texture, black and white artistic"
+            'sketch': ", pencil sketch style, hand-drawn graphite, detailed cross-hatching, rough paper texture, black and white artistic",
+            'realism': ", cinematic photography, hyperrealistic, 8k, ray tracing, unreal engine 5, dramatic lighting, highly detailed",
+            'popart': ", pop art style, vibrant bold colors, comic book aesthetic, halftone dots, thick outlines, artistic masterpiece",
+            'oil': ", oil painting style, textured brushstrokes, classical composition, dramatic light and shadow, artistic masterpiece"
         }
-        logger.info(f'🎨 ImageService v15.9 (Strict Modes): {self.provider.upper()}')
+        logger.info(f'🎨 ImageService v16.3.1 (Custom Styles): {self.provider.upper()}')
 
     async def get_image(self, query, style_type='cyberpunk'):
         style_prompt = self.styles.get(style_type, self.styles['cyberpunk'])

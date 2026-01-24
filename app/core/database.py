@@ -1,6 +1,6 @@
 import aiosqlite
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger('CryptoBot')
 
@@ -37,7 +37,24 @@ class Database:
                 attempts_count INTEGER
             )''')
             await db.commit()
-            logger.info('📂 БД v15.9: Структура синхронизирована.')
+            logger.info('📂 БД v16.3.1: Умная дедупликация готова.')
+
+    async def cleanup_old_records(self, days=3):
+        try:
+            limit_date = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("DELETE FROM posts WHERE date_posted < ?", (limit_date,))
+                await db.commit()
+        except Exception as e: logger.error(f"Cleanup error: {e}")
+
+    async def get_recent_history(self, days=3):
+        limit_date = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+        async with aiosqlite.connect(self.db_path) as db:
+            async with db.execute(
+                "SELECT text_1 FROM posts WHERE date_posted > ? AND status IN ('published', 'queued') ORDER BY id DESC", 
+                (limit_date,)
+            ) as cursor:
+                return [row[0] for row in await cursor.fetchall() if row[0]]
 
     async def post_exists(self, channel, msg_id):
         async with aiosqlite.connect(self.db_path) as db:
@@ -58,11 +75,6 @@ class Database:
             db.row_factory = aiosqlite.Row
             async with db.execute("SELECT * FROM posts WHERE status = 'new'") as cursor:
                 return [dict(row) for row in await cursor.fetchall()]
-
-    async def get_recent_history(self, limit=50):
-        async with aiosqlite.connect(self.db_path) as db:
-            async with db.execute("SELECT text_1 FROM posts ORDER BY id DESC LIMIT ?", (limit,)) as cursor:
-                return [row[0] for row in await cursor.fetchall() if row[0]]
 
     async def set_status(self, pid, status):
         async with aiosqlite.connect(self.db_path) as db:
