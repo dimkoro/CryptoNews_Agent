@@ -2,6 +2,7 @@ from telethon import TelegramClient, events, Button
 import logging
 import io
 import asyncio
+import re
 from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger('CryptoBot')
@@ -19,6 +20,8 @@ class BotManager:
         self.s1_name = config['style_1'].capitalize()
         self.s2_name = config['style_2'].capitalize()
         self.sr_name = config['style_remake'].capitalize()
+        self.sig_txt = config['channel_signature']
+        self.sig_url = config['channel_url']
 
     async def start(self): await self.bot.start(bot_token=self.bot_token)
 
@@ -79,7 +82,7 @@ class BotManager:
         final_txt = post[f'text_{st}']
         final_img = post[f'img_{si}']
         
-        footer = f'\n\n👀 {post["views"]}\n🤖 #Draft'
+        footer = f'\n\n🤖 #Draft'
         max_body_len = 1024 - len(footer) - 50
         
         body_txt = final_txt.strip()
@@ -145,31 +148,51 @@ class BotManager:
                 sub, pid = d[1], int(d[2])
                 post = await self.db.get_post(pid)
                 
-                for msg_id in [post['control_msg_id'], post['preview_msg_id']]:
-                    try: 
-                        if msg_id: await self.bot.delete_messages(self.mod, msg_id)
-                    except: pass
-                
                 try:
-                    if pid in self.album_map: 
-                        await self.bot.delete_messages(self.mod, self.album_map[pid])
-                except: pass
-                
-                if sub == 'del':
-                    await self.db.set_status(pid, 'rejected')
-                    await event.answer('Удалено')
-                
-                elif sub == 'pub' or sub == 'txt':
-                    txt = post[f'text_{post["selected_txt"]}']
-                    img = post[f'img_{post["selected_img"]}']
-                    clean = txt.split('📊 Views')[0].strip() + '\n\n🚀 @CryptoNews'
+                    if sub == 'del':
+                        await self.db.set_status(pid, 'rejected')
+                        await event.answer('Удалено')
                     
-                    if sub == 'pub' and img:
-                        f = io.BytesIO(img); f.name='post.jpg'
-                        await self.bot.send_message(self.pub, clean, file=f)
-                    else:
-                        await self.bot.send_message(self.pub, clean)
+                    elif sub == 'pub' or sub == 'txt':
+                        final_txt = post[f'text_{post["selected_txt"]}']
+                        # LIVE EDIT FETCH
+                        try:
+                            msgs = await self.bot.get_messages(self.mod, ids=[event.message_id])
+                            if msgs and msgs[0] and msgs[0].text:
+                                raw = msgs[0].text
+                                clean = re.sub(r'(\s*\n\s*)?(🤖|👀).*$', '', raw, flags=re.DOTALL)
+                                final_txt = clean.strip()
+                        except Exception as e: logger.error(f"Fetch Error: {e}")
+
+                        img = post[f'img_{post["selected_img"]}']
                         
-                    await self.db.set_status(pid, 'published')
-                    await event.answer('Опубликовано!')
+                        # DYNAMIC SIGNATURE
+                        footer_link = self.sig_txt
+                        if self.sig_url:
+                            footer_link = f"[{self.sig_txt}]({self.sig_url})"
+                        content = final_txt + f'\n\n🚀 {footer_link}'
+                        
+                        if sub == 'pub' and img:
+                            f = io.BytesIO(img); f.name='post.jpg'
+                            await self.bot.send_message(self.pub, content, file=f)
+                        else:
+                            await self.bot.send_message(self.pub, content)
+                            
+                        await self.db.set_status(pid, 'published')
+                        await event.answer('Опубликовано!')
+                        
+                finally:
+                    # Точечная очистка (БЕЗ AUTO-PURGE)
+                    to_delete = []
+                    if post['control_msg_id']: to_delete.append(post['control_msg_id'])
+                    if post['preview_msg_id']: to_delete.append(post['preview_msg_id'])
+                    if pid in self.album_map: to_delete.extend(self.album_map[pid])
+                    
+                    if to_delete:
+                        try: 
+                            await self.bot.delete_messages(self.mod, to_delete)
+                            logger.info(f"🗑 Удалены сообщения: {to_delete}")
+                        except Exception as e:
+                            logger.error(f"❌ Ошибка удаления: {e}")
+                        
         except Exception as e: logger.error(f'Btn: {e}')

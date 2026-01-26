@@ -17,5 +17,7 @@ def load_config():
         'proxy': os.getenv('PROXY_URL', None),
         'style_1': os.getenv('STYLE_IMG_1', 'cyberpunk'),
         'style_2': os.getenv('STYLE_IMG_2', 'sketch'),
-        'style_remake': os.getenv('STYLE_REMAKE', 'realism')
+        'style_remake': os.getenv('STYLE_REMAKE', 'realism'),
+        'channel_signature': os.getenv('CHANNEL_SIGNATURE', '@CryptoNews'),
+        'channel_url': os.getenv('CHANNEL_URL', None)
     }

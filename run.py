@@ -11,7 +11,7 @@ from app.services.image_service import ImageService
 from app.services.bot_service import BotManager
 
 # --- ВЕРСИЯ ЯДРА ---
-VERSION = "v16.3.1 (STABLE)"
+VERSION = "v16.14 (STRICT DEDUPE)"
 
 logger = setup_logger()
 SEARCH_WINDOW_HOURS = 4
@@ -57,11 +57,18 @@ async def scheduler(spy, db, ai, channels):
         
         logger.info(f'🔄 СБОРЩИК: Ищу новости за {SEARCH_WINDOW_HOURS}ч...')
         
+        if not STATE.active:
+            real_pub = await db.count_recent_published(hours=4)
+            if real_pub > STATE.published:
+                STATE.published = real_pub
+                logger.info(f"♻️ Синхронизация: Реально опубликовано {STATE.published}/3")
+
         if not STATE.is_resumed:
-            STATE.published = 0
-            STATE.attempts = 0
-            STATE.start_time = datetime.now(timezone.utc)
-            await db.save_state(STATE.start_time, 0, 0)
+            if (datetime.now(timezone.utc) - STATE.start_time).total_seconds() > 4 * 3600:
+                 STATE.published = 0
+                 STATE.attempts = 0
+                 STATE.start_time = datetime.now(timezone.utc)
+                 await db.save_state(STATE.start_time, 0, 0)
         else:
              STATE.is_resumed = False
         
@@ -103,6 +110,7 @@ async def scheduler(spy, db, ai, channels):
             for news in ranked:
                 await asyncio.sleep(6)
                 try: 
+                    # Усиленная проверка дубликатов (v16.14)
                     is_dupe = await ai.check_duplicate(news['text_1'], history)
                 except: is_dupe = False
                 
@@ -122,22 +130,31 @@ async def scheduler(spy, db, ai, channels):
 
 async def production(db, ai, img, spy, bot_mgr, config):
     logger.info('🏭 Цех готов.')
+    was_busy_log = False
+    
     while True:
         await cycle_ready.wait()
         
+        STATE.published = await db.count_recent_published(hours=4)
+        
         if STATE.published >= 3:
-            if STATE.active: logger.info('🎉 ПЛАН ВЫПОЛНЕН (3/3). Жду цикл.'); STATE.active = False
+            if STATE.active: logger.info(f'🎉 ПЛАН ВЫПОЛНЕН ({STATE.published}/3). Жду цикл.'); STATE.active = False
             await asyncio.sleep(10); continue
         if STATE.attempts >= 5:
             if STATE.active: logger.info('🛑 ЛИМИТ ПОПЫТОК (5/5). Жду цикл.'); STATE.active = False
             await asyncio.sleep(10); continue
 
         if await db.is_busy():
+            if not was_busy_log:
+                logger.info("⏳ Цех: Жду решения модератора (тихий режим)...")
+                was_busy_log = True
             await asyncio.sleep(5); continue
+        else:
+            was_busy_log = False
             
         candidates = await db.get_queued_news()
         if not candidates:
-            if STATE.active: logger.info('💤 Новостей нет.'); STATE.active = False
+            if STATE.active: logger.info("💤 Цех: Очередь пуста. Жду поступлений."); STATE.active = False
             await asyncio.sleep(10); continue
             
         target = candidates[0]
@@ -199,7 +216,7 @@ async def production(db, ai, img, spy, bot_mgr, config):
         while True:
             s = (await db.get_post(target['id']))['status']
             if s == 'published': 
-                STATE.published += 1
+                STATE.published = await db.count_recent_published(hours=4)
                 await db.save_state(STATE.start_time, STATE.published, STATE.attempts)
                 logger.info(f'✅ ОПУБЛИКОВАНО. ({STATE.published}/3)')
                 break
@@ -223,10 +240,8 @@ async def main_loop():
             st = datetime.fromisoformat(saved['cycle_start_time'])
             if (datetime.now(timezone.utc) - st).total_seconds() < 4 * 3600:
                 STATE.start_time = st
-                STATE.published = saved['published_count']
                 STATE.attempts = saved['attempts_count']
                 STATE.is_resumed = True
-                logger.info(f'♻️ ВОССТАНОВЛЕНО: Pub {STATE.published}/3')
         except: pass
     
     def norm(l): return l.replace('https://', '').replace('t.me/', '').strip('/')

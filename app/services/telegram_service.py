@@ -13,7 +13,7 @@ class TelegramSpy:
         
     async def start_spy(self):
         await self.client.start()
-        logger.info("🕵️ Шпион v16.3.1: В сети и готов к работе.")
+        logger.info("🕵️ Шпион v16.14: В сети и готов к работе.")
 
     async def harvest_channel(self, channel_username, db, hours=4):
         try:

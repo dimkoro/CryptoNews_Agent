@@ -37,7 +37,19 @@ class Database:
                 attempts_count INTEGER
             )''')
             await db.commit()
-            logger.info('📂 БД v16.3.1: Умная дедупликация готова.')
+            logger.info('📂 БД v16.14: Все системы в норме.')
+
+    async def count_recent_published(self, hours=4):
+        """Считает реальное количество опубликованных постов за N часов"""
+        try:
+            limit_date = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
+            async with aiosqlite.connect(self.db_path) as db:
+                async with db.execute("SELECT COUNT(*) FROM posts WHERE status = 'published' AND date_posted > ?", (limit_date,)) as cursor:
+                    result = await cursor.fetchone()
+                    return result[0] if result else 0
+        except Exception as e:
+            logger.error(f"Count Error: {e}")
+            return 0
 
     async def cleanup_old_records(self, days=3):
         try:

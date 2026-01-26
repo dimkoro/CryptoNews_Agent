@@ -75,16 +75,20 @@ class AIService:
    - 📊 Суть: (1-2 предложения)
    - 💡 Контекст: (Почему это важно)
 
+ВАЖНО: В конце каждого варианта добавь 2-3 релевантных хештега (например: #Bitcoin #Crypto).
+
 ФОРМАТ ОТВЕТА:
 ===VAR1===
 ЗАГОЛОВОК
 
 Текст...
+#Hashtag1 #Hashtag2
 ===VAR2===
 ЗАГОЛОВОК
 
 📊 Суть: ...
 💡 Контекст: ...
+#Hashtag1 #Hashtag2
 """
         res = await self._safe_generate(prompt)
         
@@ -105,7 +109,24 @@ class AIService:
         return res.strip() if res else "crypto concept art"
         
     async def check_duplicate(self, text, history): 
+        # v16.14: Строгий фильтр дубликатов
         if not history: return False
-        block = "\n---\n".join(history[:10])
-        res = await self._safe_generate(f"Reply UNIQUE or DUPLICATE. New: {text[:500]}. History: {block}", tokens=10)
+        block = "\n---\n".join(history[:15]) # Берем последние 15, чтобы влезло в контекст
+        
+        prompt = f"""
+TASK: Check for duplicates.
+
+NEW NEWS:
+{text[:600]}
+
+HISTORY OF PUBLISHED NEWS:
+{block}
+
+INSTRUCTIONS:
+1. Compare the core EVENT/TOPIC of the NEW NEWS against the HISTORY.
+2. If the NEW NEWS is about the EXACT SAME event (e.g. "EVAA Protocol Airdrop" vs "EVAA token giveaway"), it is a DUPLICATE.
+3. Ignore different wording, emojis, or length. Look at the MEANING.
+4. If it is the same event, reply 'DUPLICATE'. If it is new, reply 'UNIQUE'.
+"""
+        res = await self._safe_generate(prompt, tokens=10)
         return res and 'DUPLICATE' in res.upper()
