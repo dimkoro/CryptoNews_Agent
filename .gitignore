@@ -4,6 +4,7 @@ config.json
 
 # Базы данных
 crypto_agent.db
+bot_database.db
 *.db-journal
 
 # Логи
