@@ -1,6 +1,9 @@
 import asyncio
 import sys
 import io
+import os
+import time
+import ctypes
 from datetime import datetime, timezone, timedelta
 from app.core.logger import setup_logger
 from app.core.config import load_config
@@ -10,13 +13,25 @@ from app.services.ai_service import AIService
 from app.services.image_service import ImageService
 from app.services.bot_service import BotManager
 
-# --- ВЕРСИЯ ЯДРА ---
-VERSION = "v16.14 (STRICT DEDUPE)"
+VERSION = "v17.0 (Stable)"
 
 logger = setup_logger()
 SEARCH_WINDOW_HOURS = 4
 MAX_QUEUE_AGE_HOURS = 6
 cycle_ready = asyncio.Event()
+
+def disable_quickedit():
+    if sys.platform != 'win32': return
+    try:
+        kernel32 = ctypes.windll.kernel32
+        handle = kernel32.GetStdHandle(-10)
+        mode = ctypes.c_uint32()
+        kernel32.GetConsoleMode(handle, ctypes.byref(mode))
+        mode.value &= ~0x0040
+        kernel32.SetConsoleMode(handle, mode)
+        logger.info("🛡 Windows QuickEdit Mode отключен.")
+    except Exception as e:
+        logger.warning(f"Не удалось отключить QuickEdit: {e}")
 
 class CycleState:
     def __init__(self):
@@ -51,9 +66,30 @@ def calculate_hype_score(post):
         return score * 10000
     except: return 0
 
+def cleanup_temp_files():
+    try:
+        now = time.time()
+        deleted = 0
+        folder = 'temp'
+        if os.path.exists(folder):
+            for f in os.listdir(folder):
+                path = os.path.join(folder, f)
+                if os.path.isfile(path):
+                    if now - os.path.getmtime(path) > 86400:
+                        try:
+                            os.remove(path)
+                            deleted += 1
+                        except: pass
+        if deleted > 0:
+            logger.info(f"🧹 Уборщик: Удалено {deleted} старых файлов из temp.")
+    except Exception as e:
+        logger.error(f"Cleanup error: {e}")
+
 async def scheduler(spy, db, ai, channels):
     while True:
         await db.cleanup_old_records(days=3)
+        cleanup_temp_files()
+        await ai.pick_best_model()
         
         logger.info(f'🔄 СБОРЩИК: Ищу новости за {SEARCH_WINDOW_HOURS}ч...')
         
@@ -76,7 +112,15 @@ async def scheduler(spy, db, ai, channels):
         cycle_ready.clear()
         
         for ch in channels:
-            await spy.harvest_channel(ch, db, hours=SEARCH_WINDOW_HOURS)
+            try:
+                await spy.harvest_channel(ch, db, hours=SEARCH_WINDOW_HOURS)
+            except Exception as e:
+                if "Security error" in str(e) or "Connection" in str(e):
+                    logger.error(f"🚨 КРИТИЧЕСКИЙ СБОЙ TELEGRAM: {e}. Перезапуск клиента...")
+                    await spy.restart()
+                    await asyncio.sleep(10)
+                else:
+                    logger.error(f"Ошибка сбора {ch}: {e}")
             await asyncio.sleep(2)
         
         candidates = await db.get_raw_candidates()
@@ -98,7 +142,6 @@ async def scheduler(spy, db, ai, channels):
                     continue
                 fresh_candidates.append(c)
             except Exception as e:
-                logger.error(f"Date parse err: {e}")
                 pass
             
         if fresh_candidates:
@@ -108,9 +151,8 @@ async def scheduler(spy, db, ai, channels):
             history = await db.get_recent_history(days=3)
             
             for news in ranked:
-                await asyncio.sleep(6)
+                await asyncio.sleep(7)
                 try: 
-                    # Усиленная проверка дубликатов (v16.14)
                     is_dupe = await ai.check_duplicate(news['text_1'], history)
                 except: is_dupe = False
                 
@@ -179,16 +221,15 @@ async def production(db, ai, img, spy, bot_mgr, config):
         t1, t2 = await ai.generate_variants(target['text_1'])
         if not t1: await db.set_status(target['id'], 'rejected'); continue
             
-        logger.info('🎨 Рисуем... (Пауза 20с)')
+        logger.info('🎨 Рисуем (Формат 4:5)... (Пауза 30с)')
         prompt = await ai.generate_image_prompt(target['text_1'])
         
-        i1_obj = await img.get_image(prompt, style_type=config['style_1'])
-        i1 = i1_obj.getvalue() if i1_obj else None
+        i1_path = await img.get_image(prompt, style_type=config['style_1'])
         
-        await asyncio.sleep(20)
+        await asyncio.sleep(30)
+        i2_path = await img.get_image(prompt, style_type=config['style_2'])
         
-        i2_obj = await img.get_image(prompt, style_type=config['style_2'])
-        i2 = i2_obj.getvalue() if i2_obj else None
+        if not i2_path: logger.warning("⚠️ Картинка 2 (Popart) не сгенерировалась.")
         
         i3 = None
         try:
@@ -196,17 +237,39 @@ async def production(db, ai, img, spy, bot_mgr, config):
             if m and m.media: 
                 i3 = await spy.client.download_media(m, file=bytes)
                 logger.info('📥 Оригинал скачан.')
-        except: pass
+        except Exception as e:
+             logger.error(f"Ошибка загрузки медиа: {e}")
+             if "WinError" in str(e) or "Security" in str(e):
+                 await spy.restart()
         
-        i4 = None
+        i4_path = None
         if i3:
             desc = await ai.describe_image_for_remake(i3)
-            if desc:
-                await asyncio.sleep(20)
-                i4_obj = await img.get_image(desc, style_type=config['style_remake'])
-                if i4_obj: i4 = i4_obj.getvalue()
+            if desc and desc != "crypto art":
+                await asyncio.sleep(7)
+                i4_path = await img.get_image(desc, style_type=config['style_remake'])
+            else:
+                logger.warning("⚠️ Описание оригинала не удалось, ремейк пропущен.")
+        
+        if i3 and not i4_path:
+             logger.warning("⚠️ Ремейк не сгенерировался (сбой Pollinations).")
             
-        await db.update_assets(target['id'], t1, t2, i1, i2, i3, i4)
+        def read_file_safe(path):
+            if path and os.path.exists(path):
+                try:
+                    with open(path, 'rb') as f: return f.read()
+                except: return None
+            return None
+            
+        await db.update_assets(
+            target['id'], 
+            t1, t2, 
+            read_file_safe(i1_path), 
+            read_file_safe(i2_path), 
+            i3, 
+            read_file_safe(i4_path if i3 else None)
+        )
+        
         await bot_mgr.send_studio(await db.get_post(target['id']))
         
         STATE.attempts += 1
@@ -226,6 +289,7 @@ async def production(db, ai, img, spy, bot_mgr, config):
             await asyncio.sleep(2)
 
 async def main_loop():
+    disable_quickedit()
     logger.info(f'--- CRYPTONEWS AGENT {VERSION} ---')
     config = load_config()
     db = Database(); await db.init_db()
@@ -245,11 +309,18 @@ async def main_loop():
         except: pass
     
     def norm(l): return l.replace('https://', '').replace('t.me/', '').strip('/')
-    with open('channels.txt', 'r') as f: ch = [norm(l.strip()) for l in f if l.strip()]
+    try:
+        with open('channels.txt', 'r') as f: ch = [norm(l.strip()) for l in f if l.strip()]
+    except: ch = []
         
     asyncio.create_task(scheduler(spy, db, ai, ch))
     await production(db, ai, img, spy, bot, config)
 
 if __name__ == '__main__':
     if sys.platform == 'win32': asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(main_loop())
+    try:
+        asyncio.run(main_loop())
+    except KeyboardInterrupt:
+        logger.info("🛑 Остановка бота пользователем.")
+    except Exception as e:
+        logger.critical(f"🔥 КРИТИЧЕСКАЯ ОШИБКА: {e}")

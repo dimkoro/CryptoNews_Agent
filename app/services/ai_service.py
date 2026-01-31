@@ -1,17 +1,20 @@
-import google.generativeai as genai
+import os
 import logging
 import asyncio
-import os
 import re
+from google import genai
+from google.genai import types
 from PIL import Image
 import io
 
 logger = logging.getLogger('CryptoBot')
 
-CANDIDATE_MODELS = [
-    'models/gemini-2.0-flash-exp',
-    'models/gemini-2.0-flash',
-    'models/gemini-flash-latest'
+PRIORITY_MODELS = [
+    'gemini-2.0-flash',
+    'gemini-2.0-flash-lite',
+    'gemini-2.0-flash-exp',
+    'gemini-1.5-flash',
+    'gemini-flash-latest'
 ]
 
 class AIService:
@@ -19,28 +22,92 @@ class AIService:
         if proxy:
             os.environ['http_proxy'] = proxy
             os.environ['https_proxy'] = proxy
-        genai.configure(api_key=api_key)
-        self.model = None
+        
+        self.client = genai.Client(api_key=api_key)
+        self.current_model = None
+
+    async def check_model_health(self, model_name):
+        try:
+            await asyncio.to_thread(
+                self.client.models.generate_content,
+                model=model_name,
+                contents="Hi",
+                config=types.GenerateContentConfig(max_output_tokens=1)
+            )
+            return True
+        except Exception:
+            return False
 
     async def pick_best_model(self):
-        logger.info("🧠 Подбор оптимальной AI модели...")
-        for model_name in CANDIDATE_MODELS:
-            try:
-                test_model = genai.GenerativeModel(model_name)
-                res = await asyncio.to_thread(test_model.generate_content, "Hi", generation_config={'max_output_tokens': 1})
-                if res: self.model = test_model; return
-            except: continue
-        self.model = genai.GenerativeModel('models/gemini-1.5-flash')
+        logger.info("🧠 AI: Диагностика моделей...")
+        for model in PRIORITY_MODELS:
+            if await self.check_model_health(model):
+                self.current_model = model
+                logger.info(f"✅ AI: Выбрана модель {self.current_model}")
+                return
 
-    async def _safe_generate(self, prompt, tokens=1000):
-        if not self.model: await self.pick_best_model()
         try:
-            res = await asyncio.wait_for(
-                asyncio.to_thread(self.model.generate_content, prompt, generation_config={'max_output_tokens': tokens}),
-                timeout=40
+            all_models = await asyncio.to_thread(self.client.models.list)
+            for m in all_models:
+                name = m.name.replace('models/', '')
+                if 'generateContent' in (m.supported_actions or []) and 'gemini' in name:
+                    if await self.check_model_health(name):
+                        self.current_model = name
+                        logger.info(f"⚠️ AI: Резерв {name}")
+                        return
+        except Exception as e: logger.error(f"List Err: {e}")
+        self.current_model = 'gemini-1.5-flash'
+        logger.warning(f"❌ AI: Дефолт {self.current_model}")
+
+    async def _safe_generate(self, prompt, tokens=1000, attempt=1):
+        if not self.current_model: await self.pick_best_model()
+        
+        try:
+            config = types.GenerateContentConfig(
+                max_output_tokens=tokens,
+                temperature=0.7,
+                safety_settings=[
+                    types.SafetySetting(category='HARM_CATEGORY_HATE_SPEECH', threshold='BLOCK_NONE'),
+                    types.SafetySetting(category='HARM_CATEGORY_DANGEROUS_CONTENT', threshold='BLOCK_NONE'),
+                    types.SafetySetting(category='HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold='BLOCK_NONE'),
+                    types.SafetySetting(category='HARM_CATEGORY_HARASSMENT', threshold='BLOCK_NONE')
+                ]
             )
-            return res.text
-        except: return None
+
+            response = await asyncio.to_thread(
+                self.client.models.generate_content,
+                model=self.current_model,
+                contents=prompt,
+                config=config
+            )
+            
+            if response.text:
+                return response.text
+            else:
+                if response.candidates and response.candidates[0].content.parts:
+                     text_part = response.candidates[0].content.parts[0].text
+                     if text_part: return text_part
+                logger.warning(f"⚠️ AI вернул пустоту. Response: {response}")
+                return None
+
+        except Exception as e:
+            err = str(e)
+            # ЛОВИМ И СБРАСЫВАЕМ МОДЕЛЬ ПРИ ПОВТОРНЫХ ОШИБКАХ
+            if "429" in err or "Resource exhausted" in err or "10054" in err or "ConnectionReset" in err or "reset by peer" in err or "disconnected" in err:
+                if attempt < 5:
+                    wait_time = 10 * attempt
+                    logger.warning(f"🔄 Сбой ({self.current_model}). Жду {wait_time}с...")
+                    
+                    # ЕСЛИ ОШИБКА ПОВТОРЯЕТСЯ - МЕНЯЕМ МОДЕЛЬ
+                    if attempt >= 2:
+                         logger.info("♻️ Принудительная смена модели...")
+                         self.current_model = None
+                    
+                    await asyncio.sleep(wait_time)
+                    return await self._safe_generate(prompt, tokens, attempt + 1)
+                else: logger.error("❌ AI: Все попытки исчерпаны.")
+            else: logger.error(f"AI Error: {e}")
+            return None
 
     async def describe_image_for_remake(self, image_bytes):
         if not image_bytes: return "digital crypto art"
@@ -48,85 +115,67 @@ class AIService:
             if hasattr(image_bytes, 'seek'): image_bytes.seek(0)
             data = image_bytes.read() if hasattr(image_bytes, 'read') else image_bytes
             img = Image.open(io.BytesIO(data))
-            prompt = "Describe the visual content of this image in detail. Focus on people, lighting, and composition. 40 words max."
-            res = await self._safe_generate([prompt, img], tokens=150)
-            if res: logger.info(f"👁 AI УВИДЕЛ: {res[:60]}...")
-            return res if res else "crypto scene"
+            prompt = ["Describe the visual content of this image in English. Focus on main subjects, colors, lighting and composition. Be descriptive but concise.", img]
+            res = await self._safe_generate(prompt, tokens=500)
+            if res: 
+                logger.info(f"👁 AI: {res[:40]}...")
+                return res.strip()
+            return "crypto scene"
         except Exception as e: 
-            logger.warning(f"AI Vision Error: {e}")
+            logger.warning(f"Vision Err: {e}")
             return "crypto art"
 
     async def generate_variants(self, text):
         prompt = f"""
-Ты — главный редактор крипто-СМИ. Твоя задача — переписать новость в 2 форматах.
+РОЛЬ: Ты профессиональный редактор русскоязычного крипто-СМИ.
+ЗАДАЧА: Переведи новость на русский язык и адаптируй её в 2 стиля, строго следуя примерам.
 
-ИСХОДНЫЙ ТЕКСТ:
+ПРИМЕР 1 (СТИЛЬ ХАЙП):
+ПОЧЕМУ БИТКОИН ПАДАЕТ? ВИНОВАТ КЕВИН ВАРШ! 😱
+
+Биткоин рухнул почти до $81 000! 📉 Все из-за того, что шансы Кевина Варша стать главой ФРС резко возросли! 🐻 Инвесторы в панике? Продаем все? 
+
+#Биткоин #Криптопаника #Bitcoin #CryptoCrash
+
+ПРИМЕР 2 (СТИЛЬ РБК):
+BINANCE ПЕРЕВЕДЕТ $1 МЛРД ИЗ SAFU В БИТКОИН
+
+📊 Суть: Binance объявила о конвертации резервов своего фонда SAFU в размере около 1 миллиарда долларов США в BTC в течение следующих 30 дней. Компания планирует пополнить фонд до 1 миллиарда долларов, если Bitcoin упадет ниже 80 000 долларов США.
+💡 Контекст: Это решение может оказать значительное влияние на рынок Bitcoin, потенциально увеличив его цену и ликвидность.
+
+#Криптовалюта #Бинанс #Crypto #Binance
+
+---
+ТВОЕ ЗАДАНИЕ:
+ИСХОДНАЯ НОВОСТЬ (EN): 
 {text[:2000]}
 
-=== ФОРМАТ 1: ХАЙП (Для Telegram) ===
-1. ЗАГОЛОВОК: Кликбейтный, КРИЧАЩИЙ, ВЕСЬ КАПСОМ.
-2. СТРУКТУРА: Заголовок -> Пустая строка -> Эмоциональный текст с эмодзи. Сленг разрешен.
-
-=== ФОРМАТ 2: СТРОГИЙ (Стиль РБК) ===
-1. ЗАГОЛОВОК: Деловой, ВЕСЬ КАПСОМ. Без эмодзи.
-2. СТРУКТУРА:
-   - ЗАГОЛОВОК
-   - (Пустая строка)
-   - 📊 Суть: (1-2 предложения)
-   - 💡 Контекст: (Почему это важно)
-
-ВАЖНО: В конце каждого варианта добавь 2-3 релевантных хештега (например: #Bitcoin #Crypto).
+ТРЕБОВАНИЯ:
+1. Язык: ТОЛЬКО РУССКИЙ.
+2. Тэги: 2 на русском, 2 на английском.
+3. Формат: Строго соблюдай разметку ===VAR1=== и ===VAR2===.
 
 ФОРМАТ ОТВЕТА:
 ===VAR1===
-ЗАГОЛОВОК
-
-Текст...
-#Hashtag1 #Hashtag2
+(Твой вариант ХАЙП на русском)
 ===VAR2===
-ЗАГОЛОВОК
-
-📊 Суть: ...
-💡 Контекст: ...
-#Hashtag1 #Hashtag2
+(Твой вариант РБК на русском)
 """
-        res = await self._safe_generate(prompt)
-        
+        res = await self._safe_generate(prompt, tokens=2000)
         if res and '===VAR1===' in res:
             try:
-                content = res.split('===VAR1===')[1]
-                parts = content.split('===VAR2===')
-                v1 = re.sub(r'http\S+', '', parts[0].strip())
-                v2 = re.sub(r'http\S+', '', parts[1].strip())
-                return v1, v2
+                c = res.split('===VAR1===')[1]
+                p = c.split('===VAR2===')
+                return re.sub(r'http\S+', '', p[0].strip()), re.sub(r'http\S+', '', p[1].strip())
             except: pass
-                
         return text[:800], text[:800]
 
     async def generate_image_prompt(self, text):
-        prompt = f"Visual scene description for: {text[:400]}. Focus on main subject. 15 words max. No text."
-        res = await self._safe_generate(prompt, tokens=50)
+        res = await self._safe_generate(f"Create a visual prompt for an AI image generator based on this news: '{text[:400]}'. Write in English. Describe the scene, lighting, and style. Max 30 words. No text inside image.", tokens=200)
         return res.strip() if res else "crypto concept art"
         
     async def check_duplicate(self, text, history): 
-        # v16.14: Строгий фильтр дубликатов
         if not history: return False
-        block = "\n---\n".join(history[:15]) # Берем последние 15, чтобы влезло в контекст
-        
-        prompt = f"""
-TASK: Check for duplicates.
-
-NEW NEWS:
-{text[:600]}
-
-HISTORY OF PUBLISHED NEWS:
-{block}
-
-INSTRUCTIONS:
-1. Compare the core EVENT/TOPIC of the NEW NEWS against the HISTORY.
-2. If the NEW NEWS is about the EXACT SAME event (e.g. "EVAA Protocol Airdrop" vs "EVAA token giveaway"), it is a DUPLICATE.
-3. Ignore different wording, emojis, or length. Look at the MEANING.
-4. If it is the same event, reply 'DUPLICATE'. If it is new, reply 'UNIQUE'.
-"""
-        res = await self._safe_generate(prompt, tokens=10)
+        block = "\n---\n".join(history[:15])
+        res = await self._safe_generate(f"TASK: Check for duplicates.\nNEW NEWS: {text[:600]}\nHISTORY: {block}\nCompare events. Reply 'DUPLICATE' if same event, 'UNIQUE' if new.", tokens=20)
         return res and 'DUPLICATE' in res.upper()

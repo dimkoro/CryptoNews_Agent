@@ -3,16 +3,17 @@ chcp 65001 >nul
 TITLE Update Libraries
 color 0B
 echo ====================================================
-echo    UPDATING LIBRARIES (Safe Mode)
+echo    UPDATING LIBRARIES (Sync with requirements.txt)
 echo ====================================================
 echo.
-echo [1] Updating core tools...
+echo [1] Updating pip...
 ".venv\Scripts\python.exe" -m pip install --upgrade pip
 echo.
-echo [2] Updating AI and Telegram libs...
-".venv\Scripts\pip" install --upgrade google-genai google-generativeai telethon aiogram aiohttp
+echo [2] Installing dependencies...
+".venv\Scripts\pip" install -r requirements.txt
 echo.
 echo [3] Cleaning up...
+".venv\Scripts\pip" uninstall -y aiogram
 echo.
-echo DONE! You can close this window.
+echo DONE!
 pause

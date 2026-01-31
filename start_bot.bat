@@ -1,9 +1,9 @@
 @echo off
 chcp 65001 >nul
-TITLE CryptoNews Agent v16.14
+TITLE CryptoNews Agent v17.0
 color 0A
 echo ====================================================
-echo    CRYPTONEWS AGENT v16.14 (Global Sync)
+echo    CRYPTONEWS AGENT v17.0 (Stable)
 echo ====================================================
 echo.
 echo [1] Checking environment...
