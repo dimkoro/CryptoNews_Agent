@@ -32,4 +32,6 @@ outputs/
 check_ai.py
 check_gemini.py
 check_models.py
-debug_channel.py
+debug_channel.pymedia/
+screenshot.png
+test_image.py
