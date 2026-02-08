@@ -15,7 +15,7 @@ from app.services.runtime_service import (
     STATE
 )
 
-VERSION = "v17.3 (Stable)"
+VERSION = "v17.4 (Stable)"
 
 logger = setup_logger()
 

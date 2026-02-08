@@ -3,6 +3,7 @@ import os
 import time
 import ctypes
 import random
+import math
 import logging
 from datetime import datetime, timezone
 
@@ -45,16 +46,34 @@ STATE = CycleState()
 
 def calculate_hype_score(post):
     try:
-        views = post['views'] or 0
-        comments = post['comments'] or 0
-        subs = post['subscribers'] or 100000
-        dt_val = post['date_posted']
+        views = post.get('views') or 0
+        comments = post.get('comments') or 0
+        forwards = post.get('forwards') or 0
+        reactions = post.get('reactions') or 0
+        subs = post.get('subscribers') or 100000
+        dt_val = post.get('date_posted')
         if isinstance(dt_val, str):
             dt = datetime.fromisoformat(str(dt_val))
             if not dt.tzinfo:
                 dt = dt.replace(tzinfo=timezone.utc)
         else:
             dt = dt_val
+
+        age = (datetime.now(timezone.utc) - dt).total_seconds() / 3600
+        if age < 0:
+            age = 0
+
+        v = math.log1p(views)
+        c = math.log1p(comments)
+        f = math.log1p(forwards)
+        r = math.log1p(reactions)
+        size = math.log1p(subs if subs > 0 else 100000)
+
+        base = (v * 0.6) + (c * 1.2) + (f * 1.0) + (r * 0.8)
+        score = (base / size) / (age + 1.5)
+        return score * 1000
+    except Exception:
+        return 0
 
         age = (datetime.now(timezone.utc) - dt).total_seconds() / 3600
         if age < 0:
@@ -146,6 +165,16 @@ async def scheduler(spy, db, ai, channels):
 
         if fresh_candidates:
             ranked = sorted(fresh_candidates, key=calculate_hype_score, reverse=True)
+            # Detailed ranking log (top 5)
+            try:
+                top = ranked[:5]
+                for p in top:
+                    score = calculate_hype_score(p)
+                    logger.info("RANK id=%s score=%.2f views=%s comments=%s forwards=%s reactions=%s subs=%s" % (
+                        p.get('id'), score, p.get('views'), p.get('comments'), p.get('forwards'), p.get('reactions'), p.get('subscribers')
+                    ))
+            except Exception:
+                pass
             logger.info(f'📊 Анализ {len(ranked)} свежих новостей...')
             history = await db.get_recent_history(days=3)
 

@@ -1,37 +1,41 @@
-# Секреты и ключи
+# Secrets
 .env
 config.json
 
-# Базы данных
+# Databases
 crypto_agent.db
 bot_database.db
 *.db-journal
 
-# Логи
+# Logs
 *.log
 bot.log
 
-# Сессии Telegram
+# Telegram sessions
 *.session
 *.session-journal
 
-# Виртуальное окружение
+# Virtual env
 .venv/
 .pyenv/
 
-# Python мусор
+# Python cache
 __pycache__/
 *.py[cod]
 .vscode/
 
-# Временные папки
+# Temp folders
 temp/
 outputs/
+media/
 
-# Вспомогательные скрипты
+# Utility scripts
 check_ai.py
 check_gemini.py
 check_models.py
-debug_channel.pymedia/
+debug_channel.py
+
+# Local artifacts
 screenshot.png
+screenshot.jpg
 test_image.py

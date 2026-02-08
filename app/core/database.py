@@ -29,6 +29,8 @@ class Database:
                 date_posted TEXT,
                 views INTEGER DEFAULT 0,
                 comments INTEGER DEFAULT 0,
+                forwards INTEGER DEFAULT 0,
+                reactions INTEGER DEFAULT 0,
                 subscribers INTEGER DEFAULT 0,
                 control_msg_id INTEGER,
                 preview_msg_id INTEGER,
@@ -46,16 +48,21 @@ class Database:
                     await db.execute(f"ALTER TABLE candidates ADD COLUMN {col} TEXT")
                 except Exception:
                     pass
+            for col in ['forwards', 'reactions']:
+                try:
+                    await db.execute(f"ALTER TABLE candidates ADD COLUMN {col} INTEGER DEFAULT 0")
+                except Exception:
+                    pass
             await db.commit()
-        logger.info(f'📂 БД v17.3: Все системы в норме.')
+        logger.info(f'📂 БД v17.4: Все системы в норме.')
 
-    async def add_candidate(self, channel, msg_id, text, views, comments, date_posted, subs):
+    async def add_candidate(self, channel, msg_id, text, views, comments, forwards, reactions, date_posted, subs):
         async with aiosqlite.connect(self.db_path) as db:
             try:
                 await db.execute('''INSERT OR IGNORE INTO candidates 
-                    (channel, msg_id, text_1, views, comments, date_posted, subscribers) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                    (channel, msg_id, text, views, comments, date_posted, subs))
+                    (channel, msg_id, text_1, views, comments, forwards, reactions, date_posted, subscribers) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                    (channel, msg_id, text, views, comments, forwards, reactions, date_posted, subs))
                 await db.commit()
             except Exception as e:
                 logger.error(f"DB Error add_candidate: {e}")

@@ -2,6 +2,7 @@ from telethon import TelegramClient, functions
 import logging
 import os
 import asyncio
+import random
 from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger('CryptoBot')
@@ -25,7 +26,7 @@ class TelegramSpy:
     async def start_spy(self):
         logger.info('🕵️ Шпион: Подключение к Telegram...')
         await self.client.start()
-        logger.info('🕵️ Шпион v17.3: В сети.')
+        logger.info('🕵️ Шпион v17.4: В сети.')
 
     async def restart(self):
         logger.warning("🔄 Перезапуск клиента Telegram...")
@@ -63,13 +64,22 @@ class TelegramSpy:
                         break
 
                     if not msg.message:
+                        await asyncio.sleep(random.uniform(1, 3))
                         continue
                         
                     if len(msg.message) < 50:
+                        await asyncio.sleep(random.uniform(1, 3))
                         continue
                     
                     dt = msg.date
                     views = msg.views if msg.views else 0
+                    forwards = msg.forwards if msg.forwards else 0
+                    reactions = 0
+                    if msg.reactions and getattr(msg.reactions, 'results', None):
+                        try:
+                            reactions = sum(r.count for r in msg.reactions.results if getattr(r, 'count', None))
+                        except Exception:
+                            reactions = 0
                     comments = 0
                     if msg.replies and getattr(msg.replies, 'replies', None):
                         comments = msg.replies.replies or 0
@@ -80,10 +90,14 @@ class TelegramSpy:
                         text=msg.message,
                         views=views,
                         comments=comments,
+                        forwards=forwards,
+                        reactions=reactions,
                         date_posted=dt.isoformat(),
                         subs=subs 
                     )
                     count += 1
+                    logger.info("Saved msg %s | views=%s comments=%s forwards=%s reactions=%s" % (msg.id, views, comments, forwards, reactions))
+                    await asyncio.sleep(random.uniform(1, 3))
                 except Exception as e:
                     if "UNIQUE" not in str(e).upper():
                         errors += 1

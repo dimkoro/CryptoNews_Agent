@@ -1,8 +1,8 @@
-# CryptoNews Agent 🤖 v17.3 (Stable)
+# CryptoNews Agent 🤖 v17.4 (Stable)
 
 Автономная AI-редакция для Telegram.
 
-## 🚀 Текущая версия: v17.3 (Stable Release)
+## 🚀 Текущая версия: v17.4 (Stable Release)
 
 ### 🔧 Ключевые особенности:
 * **Windows Anti-Freeze:** Защита от зависания консоли (QuickEdit Disable).
