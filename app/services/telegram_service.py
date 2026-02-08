@@ -2,6 +2,7 @@ from telethon import TelegramClient, functions
 import logging
 import os
 import asyncio
+from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger('CryptoBot')
 
@@ -24,12 +25,14 @@ class TelegramSpy:
     async def start_spy(self):
         logger.info('🕵️ Шпион: Подключение к Telegram...')
         await self.client.start()
-        logger.info('🕵️ Шпион v17.0: В сети.')
+        logger.info('🕵️ Шпион v17.3: В сети.')
 
     async def restart(self):
         logger.warning("🔄 Перезапуск клиента Telegram...")
         try:
-            await self.client.disconnect()
+            if self.client:
+                await self.client.disconnect()
+                await asyncio.sleep(1)
         except: pass
         self.client = self._create_client()
         await self.client.start()
@@ -53,8 +56,12 @@ class TelegramSpy:
             
             count = 0
             errors = 0
+            cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
             async for msg in self.client.iter_messages(entity, limit=60):
                 try:
+                    if msg.date and msg.date < cutoff:
+                        break
+
                     if not msg.message:
                         continue
                         
@@ -63,7 +70,9 @@ class TelegramSpy:
                     
                     dt = msg.date
                     views = msg.views if msg.views else 0
-                    comments = msg.forwards if msg.forwards else 0
+                    comments = 0
+                    if msg.replies and getattr(msg.replies, 'replies', None):
+                        comments = msg.replies.replies or 0
                     
                     await db.add_candidate(
                         channel=channel_username,

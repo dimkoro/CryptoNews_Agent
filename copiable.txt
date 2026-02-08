@@ -1,0 +1,6 @@
+﻿# Copiable Commands
+
+# Fix terminal encoding for this session
+chcp 65001
+$env:PYTHONUTF8 = "1"
+python run.py

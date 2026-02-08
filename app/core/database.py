@@ -1,7 +1,7 @@
 import aiosqlite
 import logging
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger('CryptoBot')
 
@@ -21,6 +21,10 @@ class Database:
                 img_2 BLOB,
                 img_3 BLOB,
                 img_4 BLOB,
+                img_1_path TEXT,
+                img_2_path TEXT,
+                img_3_path TEXT,
+                img_4_path TEXT,
                 status TEXT DEFAULT 'new',
                 date_posted TEXT,
                 views INTEGER DEFAULT 0,
@@ -37,8 +41,13 @@ class Database:
                 key TEXT PRIMARY KEY,
                 value TEXT
             )''')
+            for col in ['img_1_path', 'img_2_path', 'img_3_path', 'img_4_path']:
+                try:
+                    await db.execute(f"ALTER TABLE candidates ADD COLUMN {col} TEXT")
+                except Exception:
+                    pass
             await db.commit()
-        logger.info(f'📂 БД v17.0: Все системы в норме.')
+        logger.info(f'📂 БД v17.3: Все системы в норме.')
 
     async def add_candidate(self, channel, msg_id, text, views, comments, date_posted, subs):
         async with aiosqlite.connect(self.db_path) as db:
@@ -70,12 +79,13 @@ class Database:
             row = await cursor.fetchone()
             return dict(row) if row else None
 
-    async def update_assets(self, pid, t1, t2, i1, i2, i3, i4):
+    async def update_assets(self, pid, t1, t2, i1, i2, i3, i4, p1=None, p2=None, p3=None, p4=None):
         async with aiosqlite.connect(self.db_path) as db:
             await db.execute('''UPDATE candidates SET 
                 text_1 = ?, text_2 = ?, 
-                img_1 = ?, img_2 = ?, img_3 = ?, img_4 = ? 
-                WHERE id = ?''', (t1, t2, i1, i2, i3, i4, pid))
+                img_1 = ?, img_2 = ?, img_3 = ?, img_4 = ?,
+                img_1_path = ?, img_2_path = ?, img_3_path = ?, img_4_path = ?
+                WHERE id = ?''', (t1, t2, i1, i2, i3, i4, p1, p2, p3, p4, pid))
             await db.commit()
 
     async def set_status(self, pid, status):
@@ -97,7 +107,12 @@ class Database:
 
     async def cleanup_old_records(self, days=3):
         async with aiosqlite.connect(self.db_path) as db:
-            pass
+            cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+            await db.execute(
+                "DELETE FROM candidates WHERE date_posted < ? AND status IN ('expired', 'rejected', 'published')",
+                (cutoff,)
+            )
+            await db.commit()
 
     async def get_recent_history(self, days=3):
         async with aiosqlite.connect(self.db_path) as db:
@@ -123,7 +138,11 @@ class Database:
             
     async def count_recent_published(self, hours=4):
         async with aiosqlite.connect(self.db_path) as db:
-            cursor = await db.execute("SELECT count(*) FROM candidates WHERE status = 'published'")
+            cutoff = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
+            cursor = await db.execute(
+                "SELECT count(*) FROM candidates WHERE status = 'published' AND date_posted >= ?",
+                (cutoff,)
+            )
             row = await cursor.fetchone()
             return row[0] if row else 0
             

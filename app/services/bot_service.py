@@ -1,8 +1,9 @@
-from telethon import TelegramClient, events, Button
+﻿from telethon import TelegramClient, events, Button
 import logging
 import io
 import asyncio
 import re
+import os
 from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger('CryptoBot')
@@ -25,13 +26,26 @@ class BotManager:
 
     async def start(self): await self.bot.start(bot_token=self.bot_token)
 
+    def _get_image_bytes(self, post, idx):
+        path_key = f'img_{idx}_path'
+        blob_key = f'img_{idx}'
+        path = post.get(path_key)
+        if path and os.path.exists(path):
+            try:
+                with open(path, 'rb') as f:
+                    return f.read()
+            except Exception:
+                pass
+        return post.get(blob_key)
+
     async def send_studio(self, post):
         captions = [f'1️⃣ {self.s1_name}', f'2️⃣ {self.s2_name}', '3️⃣ Оригинал', f'4️⃣ Remake ({self.sr_name})']
         a_ids = []
-        for i, key in enumerate(['img_1', 'img_2', 'img_3', 'img_4']):
-            if post[key]:
+        for i in range(4):
+            img_bytes = self._get_image_bytes(post, i + 1)
+            if img_bytes:
                 try:
-                    f = io.BytesIO(post[key]); f.name=f'{i+1}.jpg'
+                    f = io.BytesIO(img_bytes); f.name=f'{i+1}.jpg'
                     msg = await self.bot.send_message(self.mod, captions[i], file=f)
                     a_ids.append(msg.id)
                 except Exception as e: logger.error(f"Album send err: {e}")
@@ -80,7 +94,7 @@ class BotManager:
         ]
         
         final_txt = post[f'text_{st}']
-        final_img = post[f'img_{si}']
+        final_img = self._get_image_bytes(post, si)
         
         footer = f'\n\n🤖 #Draft'
         max_body_len = 1024 - len(footer) - 50
@@ -136,7 +150,7 @@ class BotManager:
                 type_sel = d[1]
                 val = int(d[2])
                 post = await self.db.get_post(pid)
-                if type_sel == 'img' and not post[f'img_{val}']:
+                if type_sel == 'img' and not self._get_image_bytes(post, val):
                     await event.answer('Картинка недоступна', alert=True)
                     return
                 await self.db.update_selection(pid, type_sel, val)
@@ -164,7 +178,7 @@ class BotManager:
                                 final_txt = clean.strip()
                         except Exception as e: logger.error(f"Fetch Error: {e}")
 
-                        img = post[f'img_{post["selected_img"]}']
+                        img = self._get_image_bytes(post, post["selected_img"])
                         
                         # DYNAMIC SIGNATURE
                         footer_link = self.sig_txt

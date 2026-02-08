@@ -1,6 +1,21 @@
 # Секреты и ключи
 .env
 config.json
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.keystore
+*.crt
+*.cer
+*.der
+*.csr
+*.token
+*.secrets
+secrets/
+.secret/
 
 # Базы данных
 crypto_agent.db
@@ -14,6 +29,7 @@ bot.log
 # Сессии Telegram
 *.session
 *.session-journal
+*.session*
 
 # Виртуальное окружение
 .venv/
